@@ -1,10 +1,13 @@
 name: CI
 
+# 质量门禁：PR 与 push 均可；develop 只检查、不部署。
+# 部署见 deploy-pages.yml（仅 main / 手动）。
 on:
-  push:
-    branches: [develop, main]
   pull_request:
-    branches: [develop, main]
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -19,20 +22,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: "package.json"
-
+      # 官方推荐：统一安装 Vite+ / Node / 包管理，避免全局 npm i -g 与本地 vitest 双份冲突
       - name: Setup Vite+
-        run: |
-          npm install -g vite-plus@0.2.4
-          vp --version
-
-      - name: Install
-        run: vp install
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version-file: package.json
+          cache: true
+          run-install: true
 
       - name: Check
         run: vp check

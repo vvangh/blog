@@ -42,10 +42,10 @@
 
 ## Q4. CI 应从何处读取 Node 版本？
 
-| 项         | 内容                                                                                                                                                                        |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **问题**   | GitHub Actions 的 `actions/setup-node` 是否仍可用 `node-version-file: .node-version`？                                                                                      |
-| **背景**   | 前次落地误把 CI 指到 `.node-version`；与「真相源在 package.json」冲突。                                                                                                     |
-| **拟验证** | [setup-node 文档](https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md)：`package.json` 解析顺序为 `volta.node` → `devEngines.runtime` → `engines.node`。 |
-| **状态**   | **resolved**                                                                                                                                                                |
-| **结论**   | CI 使用 `node-version-file: "package.json"`，优先读 `devEngines.runtime`（现 `24.18.0`），再回退 `engines.node`。**禁止** `node-version-file: .node-version`。              |
+| 项         | 内容                                                                                                                                                                                                                                                                                                                      |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **问题**   | GitHub Actions 的 `actions/setup-node` 是否仍可用 `node-version-file: .node-version`？                                                                                                                                                                                                                                    |
+| **背景**   | 前次落地误把 CI 指到 `.node-version`；与「真相源在 package.json」冲突。                                                                                                                                                                                                                                                   |
+| **拟验证** | [setup-node 文档](https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md)：`package.json` 解析顺序为 `volta.node` → `devEngines.runtime` → `engines.node`。                                                                                                                                               |
+| **状态**   | **resolved**                                                                                                                                                                                                                                                                                                              |
+| **结论**   | CI / Deploy 使用官方 `voidzero-dev/setup-vp@v1`，并以 `node-version-file: package.json` 读取 `devEngines.runtime`（现 `24.18.0`），再回退 `engines.node`。**禁止** `.node-version`；**禁止** `npm i -g vite-plus`（易与项目内 Vitest runner 双份冲突，表现为 `Cannot read properties of undefined (reading 'config')`）。 |

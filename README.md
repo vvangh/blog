@@ -39,6 +39,15 @@ Astro 业务命令一律用 `vp run <script>`，不要对 Astro 使用裸 `vp de
 
 预提交：`vp staged`（经 `.vite-hooks/pre-commit`）；提交信息：`commitlint`（经 `.vite-hooks/commit-msg`）。
 
+## CI 与部署触发
+
+| 场景                                              | 何时跑                                                                                       | 说明                                                 |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| **CI**（`vp check` / `vp test` / `vp run build`） | 向 `main` / `develop` 的 **PR**；**push** 到 `main` 或 `develop`；或手动 `workflow_dispatch` | 只做质量门禁，**不**发 GitHub Pages                  |
+| **Deploy Pages**                                  | **push** 到 `main`，或手动 `workflow_dispatch`                                               | 构建 `dist`（`base: '/blog/'`）并发布到 GitHub Pages |
+
+约定：`develop` 日常提交只跑 CI；合入 / 推到 `main` 才部署。仓库 Settings → Pages → Source 需选 **GitHub Actions**。
+
 ## 分支与里程碑
 
 - `main`：可部署、与生产一致
