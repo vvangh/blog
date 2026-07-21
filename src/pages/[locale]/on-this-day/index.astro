@@ -1,0 +1,69 @@
+---
+/**
+ * 今夕何夕：聚合往年同月日的日记 / 文章。
+ */
+import { getCollection } from "astro:content";
+import SiteLayout from "@/layouts/SiteLayout";
+import { publishedSorted } from "@/content/_helpers";
+import { formatDate } from "@/lib/date";
+import { filterOnThisDay } from "@/lib/on-this-day";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
+
+export async function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+
+const today = new Date();
+const life = publishedSorted(await getCollection("life")).map((e) => ({
+  id: e.id,
+  title: e.data.title,
+  pubDate: e.data.pubDate,
+  href: localePath(locale, `life/${e.id}`),
+  section: translate(locale, "nav.life"),
+}));
+const blog = publishedSorted(await getCollection("blog")).map((e) => ({
+  id: e.id,
+  title: e.data.title,
+  pubDate: e.data.pubDate,
+  href: localePath(locale, `blog/${e.id}`),
+  section: translate(locale, "nav.blog"),
+}));
+const items = filterOnThisDay([...life, ...blog], today);
+const md = String(today.getUTCMonth() + 1).padStart(2, "0");
+const dd = String(today.getUTCDate()).padStart(2, "0");
+---
+
+<SiteLayout title={translate(locale, "onThisDay.title")} locale={locale} ogSlug="life">
+  <header class="mb-8 space-y-2">
+    <h1 class="text-3xl font-semibold">{translate(locale, "onThisDay.title")}</h1>
+    <p class="text-hl-muted">
+      {translate(locale, "onThisDay.hint", { date: `${md}-${dd}` })}
+    </p>
+  </header>
+  {
+    items.length === 0 ? (
+      <p class="text-hl-muted">{translate(locale, "onThisDay.empty")}</p>
+    ) : (
+      <ol class="space-y-3">
+        {items.map((item) => (
+          <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-hl-border py-3">
+            <time
+              class="shrink-0 font-mono text-sm text-hl-muted"
+              datetime={item.pubDate.toISOString()}
+            >
+              {formatDate(item.pubDate, locale)}
+            </time>
+            <span class="text-xs text-hl-muted">{item.section}</span>
+            <a class="text-hl-accent no-underline hover:underline" href={item.href}>
+              {item.title}
+            </a>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</SiteLayout>

@@ -1,7 +1,12 @@
 ---
-/** 生活分区占位（二期）。 */
+/**
+ * 生活分区：日记列表 + 胶片/地图入口。
+ */
+import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
-import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+import { publishedSorted } from "@/content/_helpers";
+import { formatDate } from "@/lib/date";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -10,9 +15,44 @@ export function getStaticPaths() {
 const raw = Astro.params.locale ?? "zh-Hans";
 if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
+
+const entries = publishedSorted(await getCollection("life"));
 ---
 
 <SiteLayout title={translate(locale, "life.title")} locale={locale} ogSlug="life">
-  <h1 class="text-3xl font-semibold">{translate(locale, "life.title")}</h1>
-  <p class="mt-4 text-hl-muted">{translate(locale, "life.empty")}</p>
+  <header class="mb-8 space-y-3">
+    <h1 class="text-3xl font-semibold">{translate(locale, "life.title")}</h1>
+    <p class="text-hl-muted">{translate(locale, "life.intro")}</p>
+    <div class="flex flex-wrap gap-3 text-sm">
+      <a class="text-hl-accent no-underline hover:underline" href={localePath(locale, "on-this-day")}>
+        {translate(locale, "onThisDay.title")}
+      </a>
+      <a class="text-hl-accent no-underline hover:underline" href={localePath(locale, "life/film")}>
+        {translate(locale, "film.title")}
+      </a>
+      <a class="text-hl-accent no-underline hover:underline" href={localePath(locale, "life/map")}>
+        {translate(locale, "travel.title")}
+      </a>
+    </div>
+  </header>
+  {
+    entries.length === 0 ? (
+      <p class="text-hl-muted">{translate(locale, "life.empty")}</p>
+    ) : (
+      <ul class="space-y-3">
+        {entries.map((entry) => (
+          <li class="border-b border-hl-border py-3">
+            <a class="font-medium text-hl-accent no-underline hover:underline" href={localePath(locale, `life/${entry.id}`)}>
+              {entry.data.title}
+            </a>
+            <p class="mt-1 text-sm text-hl-muted">
+              <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate, locale)}</time>
+              <span aria-hidden="true"> · </span>
+              <span>{entry.data.kind === "photo" ? translate(locale, "life.kindPhoto") : translate(locale, "life.kindDiary")}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </SiteLayout>

@@ -211,3 +211,39 @@
     text-underline-offset: 3px;
   }
 }
+
+/* 舒适阅读密度 */
+html[data-density="comfortable"] {
+  font-size: 112.5%;
+}
+
+html[data-density="comfortable"] .content-body {
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+}
+
+/* 高对比预设：加强前景/背景差，接近 AAA */
+html[data-contrast="high"][data-theme="light"],
+html[data-contrast="high"]:not([data-theme="dark"]) {
+  --hl-fg: #000000;
+  --hl-bg: #ffffff;
+  --hl-muted: #222222;
+  --hl-accent: #0a5c55;
+  --hl-accent-2: #024e8c;
+  --hl-soft: #d0ebe7;
+  --hl-border: #000000;
+  --hl-focus: #000000;
+  --hl-panel: #ffffff;
+}
+
+html[data-contrast="high"][data-theme="dark"] {
+  --hl-fg: #ffffff;
+  --hl-bg: #000000;
+  --hl-muted: #e0e0e0;
+  --hl-accent: #5eead4;
+  --hl-accent-2: #7dd3fc;
+  --hl-soft: #0f2a28;
+  --hl-border: #ffffff;
+  --hl-focus: #ffffff;
+  --hl-panel: #0a0a0a;
+}

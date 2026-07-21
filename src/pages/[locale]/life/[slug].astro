@@ -1,0 +1,72 @@
+---
+/**
+ * 生活条目详情（日记 / 照片）。
+ */
+import { getCollection, render } from "astro:content";
+import SiteLayout from "@/layouts/SiteLayout";
+import { publishedSorted } from "@/content/_helpers";
+import { formatDate } from "@/lib/date";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
+
+export async function getStaticPaths() {
+  const entries = publishedSorted(await getCollection("life"));
+  return LOCALES.flatMap((locale) =>
+    entries.map((entry) => ({
+      params: { locale, slug: entry.id },
+      props: { entry },
+    })),
+  );
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<SiteLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  locale={locale}
+  ogSlug="life"
+>
+  <article>
+    <p class="mb-4 text-sm">
+      <a class="text-hl-accent" href={localePath(locale, "life")}>← {translate(locale, "nav.life")}</a>
+    </p>
+    <header class="mb-8 space-y-3">
+      <h1 class="text-3xl font-semibold tracking-tight">{entry.data.title}</h1>
+      <p class="text-sm text-hl-muted">
+        <time datetime={entry.data.pubDate.toISOString()}>
+          {formatDate(entry.data.pubDate, locale)}
+        </time>
+        {
+          entry.data.location ? (
+            <>
+              <span aria-hidden="true"> · </span>
+              <span>{entry.data.location}</span>
+            </>
+          ) : null
+        }
+      </p>
+    </header>
+    {
+      entry.data.kind === "photo" && entry.data.image ? (
+        <figure class="mb-8">
+          <img
+            class="w-full rounded-lg border border-hl-border"
+            src={entry.data.image}
+            alt={entry.data.caption ?? entry.data.title}
+          />
+          {entry.data.caption ? (
+            <figcaption class="mt-2 text-sm text-hl-muted">{entry.data.caption}</figcaption>
+          ) : null}
+        </figure>
+      ) : null
+    }
+    <div class="content-body space-y-4 leading-relaxed" data-read-aloud-root>
+      <Content />
+    </div>
+  </article>
+</SiteLayout>

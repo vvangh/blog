@@ -29,8 +29,34 @@
 | plug-about-archive | 关于 / 归档 / 标签云              | 博客标配导航                         | P1     | done |
 | plug-i18n-expand   | 扩语种 + 地区/手动切换            | ko/ru/fr… 壳 + 回退 zh-Hans          | P1     | done |
 
+## 内容与生活扩展（M7）
+
+| id                   | 能力           | 状态                             |
+| -------------------- | -------------- | -------------------------------- |
+| idea-on-this-day     | 今夕何夕页     | done                             |
+| idea-writing-heatmap | 写作热力图     | done                             |
+| idea-post-revisions  | 修订时间线     | done                             |
+| idea-read-aloud      | 读完估计+听读  | done                             |
+| idea-series-nav      | 系列导航       | done                             |
+| idea-cite-copy       | 可复制引用     | done                             |
+| idea-film-gallery    | 胶片相册       | done                             |
+| idea-travel-map      | 旅行地图       | done                             |
+| idea-now-playing     | 在听/在看      | done（静态配置）                 |
+| idea-repo-dashboard  | 仓库仪表盘     | done                             |
+| idea-lighthouse-wall | Lighthouse 墙  | done（静态录入）                 |
+| idea-stack-badge     | 今日栈         | done                             |
+| idea-adr-graph       | ADR 图         | done                             |
+| idea-reading-density | 舒适阅读密度   | done                             |
+| idea-high-contrast   | 高对比预设     | done                             |
+| idea-a11y-cheatsheet | 快捷键帮助     | done                             |
+| idea-og-sticker      | OG 贴纸角标    | done                             |
+| idea-webmentions     | Webmentions    | skeleton（需外部账号，见文档）   |
+| idea-newsletter      | Newsletter     | skeleton（需表单端点，见文档）   |
+| idea-custom-domains  | 多语言独立域名 | skeleton（需 DNS/Pages，见文档） |
+
 ## 视觉
 
-| 项                          | 状态 |
-| --------------------------- | ---- |
-| Signal 现代简约（取代墨衡） | done |
+| 项                           | 状态                                     |
+| ---------------------------- | ---------------------------------------- |
+| Signal 现代简约（取代墨衡）  | done                                     |
+| Figma 出图 / Signal 换皮冲刺 | **排除**（非本轮；不做纯装饰性设计大改） |

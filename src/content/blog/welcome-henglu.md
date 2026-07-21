@@ -3,6 +3,13 @@ title: 欢迎来到衡录
 description: 第一篇技术笔记：这里写什么、怎么读、工程约定一览。
 pubDate: 2026-07-21
 tags: [介绍, 衡录]
+series: 衡录入门
+seriesOrder: 1
+revisions:
+  - date: 2026-03-01
+    summary: 曾以为个人站不必公开工程过程。
+  - date: 2026-07-21
+    summary: 改为「从零到一」公开搭建，与技术笔记并列。
 ---
 
 ## 这是什么站

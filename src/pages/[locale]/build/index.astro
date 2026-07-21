@@ -5,8 +5,10 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
 import { PostCard } from "@/components/PostCard";
+import { AdrGraph } from "@/components/AdrGraph";
 import { publishedSorted } from "@/content/_helpers";
 import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
+import { LIGHTHOUSE_SCORES } from "@/lib/lighthouse";
 
 export async function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -42,4 +44,23 @@ const entries = publishedSorted(await getCollection("build-log"));
       </div>
     )
   }
+
+  <section class="mt-12" aria-labelledby="lh-build-heading">
+    <h2 id="lh-build-heading" class="text-lg font-semibold">{translate(locale, "lighthouse.title")}</h2>
+    <p class="mt-1 text-sm text-hl-muted">{translate(locale, "lighthouse.hint")}</p>
+    <ul class="mt-4 space-y-2 font-mono text-sm">
+      {
+        LIGHTHOUSE_SCORES.map((row) => (
+          <li>
+            {row.milestone} · a11y {row.accessibility} · perf {row.performance}
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-3 text-sm">
+      <a class="text-hl-accent" href={localePath(locale, "lab")}>{translate(locale, "nav.lab")} →</a>
+    </p>
+  </section>
+
+  <AdrGraph locale={locale} />
 </SiteLayout>

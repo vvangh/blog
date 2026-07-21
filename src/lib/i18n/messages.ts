@@ -50,7 +50,65 @@ export type MessageKey =
   | "splash.brand"
   | "toc.title"
   | "progress.label"
-  | "comments.title";
+  | "comments.title"
+  | "onThisDay.title"
+  | "onThisDay.hint"
+  | "onThisDay.empty"
+  | "heatmap.title"
+  | "heatmap.hint"
+  | "heatmap.less"
+  | "heatmap.more"
+  | "revisions.title"
+  | "readAloud.minutes"
+  | "readAloud.start"
+  | "readAloud.stop"
+  | "readAloud.unsupported"
+  | "series.label"
+  | "series.prev"
+  | "series.next"
+  | "life.intro"
+  | "life.kindDiary"
+  | "life.kindPhoto"
+  | "film.title"
+  | "film.hint"
+  | "film.prev"
+  | "film.next"
+  | "travel.title"
+  | "travel.hint"
+  | "cite.label"
+  | "cite.copy"
+  | "cite.copied"
+  | "webmentions.title"
+  | "webmentions.empty"
+  | "webmentions.disabled"
+  | "nowPlaying.listening"
+  | "nowPlaying.watching"
+  | "nowPlaying.empty"
+  | "lab.title"
+  | "lab.hint"
+  | "nav.lab"
+  | "lighthouse.title"
+  | "lighthouse.hint"
+  | "stack.title"
+  | "adr.title"
+  | "adr.hint"
+  | "a11y.density"
+  | "a11y.densityHint"
+  | "a11y.comfortable"
+  | "a11y.default"
+  | "a11y.contrast"
+  | "a11y.contrastOn"
+  | "a11y.contrastOff"
+  | "a11y.helpTitle"
+  | "a11y.helpOpen"
+  | "a11y.helpClose"
+  | "a11y.helpBody"
+  | "newsletter.title"
+  | "newsletter.hint"
+  | "newsletter.email"
+  | "newsletter.submit"
+  | "newsletter.privacy"
+  | "newsletter.disabled";
 
 type Catalog = Record<MessageKey, string>;
 
@@ -101,6 +159,64 @@ const zhHans: Catalog = {
   "toc.title": "本页目录",
   "progress.label": "阅读进度",
   "comments.title": "评论",
+  "onThisDay.title": "今夕何夕",
+  "onThisDay.hint": "今天是 {date}：往年同日写下的记录。",
+  "onThisDay.empty": "往年今日暂无记录。",
+  "heatmap.title": "写作热力图",
+  "heatmap.hint": "近一年发文天数（技术 + 从零到一）。",
+  "heatmap.less": "少",
+  "heatmap.more": "多",
+  "revisions.title": "修订时间线",
+  "readAloud.minutes": "约 {n} 分钟读完",
+  "readAloud.start": "朗读",
+  "readAloud.stop": "停止朗读",
+  "readAloud.unsupported": "当前浏览器不支持朗读。",
+  "series.label": "系列",
+  "series.prev": "上一篇",
+  "series.next": "下一篇",
+  "life.intro": "日记、胶片与足迹。",
+  "life.kindDiary": "日记",
+  "life.kindPhoto": "胶片",
+  "film.title": "胶片相册",
+  "film.hint": "左右方向键切换；读屏会读出说明。",
+  "film.prev": "上一帧",
+  "film.next": "下一帧",
+  "travel.title": "旅行地图",
+  "travel.hint": "城市级足迹（隐私模糊到城市）。",
+  "cite.label": "引用本文",
+  "cite.copy": "复制引用",
+  "cite.copied": "已复制",
+  "webmentions.title": "被提及",
+  "webmentions.empty": "暂无 Webmention。",
+  "webmentions.disabled": "未配置 Webmention 端点（见文档）。",
+  "nowPlaying.listening": "在听",
+  "nowPlaying.watching": "在看",
+  "nowPlaying.empty": "暂无在听/在看。",
+  "lab.title": "仓库仪表盘",
+  "lab.hint": "工程健康度一览（静态数据，构建时写入）。",
+  "nav.lab": "实验室",
+  "lighthouse.title": "Lighthouse 分数墙",
+  "lighthouse.hint": "性能与无障碍分数随里程碑变化。",
+  "stack.title": "今日栈",
+  "adr.title": "ADR 关系",
+  "adr.hint": "决策谁取代谁（静态图）。",
+  "a11y.density": "阅读密度",
+  "a11y.densityHint": "舒适阅读会放大字号并增加行距。",
+  "a11y.comfortable": "舒适",
+  "a11y.default": "默认",
+  "a11y.contrast": "高对比",
+  "a11y.contrastOn": "开启高对比",
+  "a11y.contrastOff": "关闭高对比",
+  "a11y.helpTitle": "键盘与读屏提示",
+  "a11y.helpOpen": "打开快捷键帮助",
+  "a11y.helpClose": "关闭",
+  "a11y.helpBody": "按 ? 打开本面板。Ctrl/Cmd+K 搜索。跳过链接可直达正文。主题与语言在首页设置区。",
+  "newsletter.title": "邮件订阅",
+  "newsletter.hint": "RSS 之外的邮件触达（需配置表单端点）。",
+  "newsletter.email": "邮箱",
+  "newsletter.submit": "订阅",
+  "newsletter.privacy": "仅用于发送更新，可随时退订。",
+  "newsletter.disabled": "订阅端点未配置，请先看 docs/newsletter.md。",
 };
 
 const zhHant: Catalog = {
@@ -151,6 +267,64 @@ const zhHant: Catalog = {
   "toc.title": "本頁目錄",
   "progress.label": "閱讀進度",
   "comments.title": "留言",
+  "onThisDay.title": "今夕何夕",
+  "onThisDay.hint": "今天是 {date}：往年同日寫下的記錄。",
+  "onThisDay.empty": "往年今日暫無記錄。",
+  "heatmap.title": "寫作熱力圖",
+  "heatmap.hint": "近一年發文天數（技術 + 從零到一）。",
+  "heatmap.less": "少",
+  "heatmap.more": "多",
+  "revisions.title": "修訂時間線",
+  "readAloud.minutes": "約 {n} 分鐘讀完",
+  "readAloud.start": "朗讀",
+  "readAloud.stop": "停止朗讀",
+  "readAloud.unsupported": "目前瀏覽器不支援朗讀。",
+  "series.label": "系列",
+  "series.prev": "上一篇",
+  "series.next": "下一篇",
+  "life.intro": "日記、膠片與足跡。",
+  "life.kindDiary": "日記",
+  "life.kindPhoto": "膠片",
+  "film.title": "膠片相簿",
+  "film.hint": "左右方向鍵切換；讀屏會讀出說明。",
+  "film.prev": "上一幀",
+  "film.next": "下一幀",
+  "travel.title": "旅行地圖",
+  "travel.hint": "城市級足跡（隱私模糊到城市）。",
+  "cite.label": "引用本文",
+  "cite.copy": "複製引用",
+  "cite.copied": "已複製",
+  "webmentions.title": "被提及",
+  "webmentions.empty": "暫無 Webmention。",
+  "webmentions.disabled": "未設定 Webmention 端點（見文件）。",
+  "nowPlaying.listening": "在聽",
+  "nowPlaying.watching": "在看",
+  "nowPlaying.empty": "暫無在聽/在看。",
+  "lab.title": "倉庫儀表板",
+  "lab.hint": "工程健康度一覽（靜態資料，建置時寫入）。",
+  "nav.lab": "實驗室",
+  "lighthouse.title": "Lighthouse 分數牆",
+  "lighthouse.hint": "效能與無障礙分數隨里程碑變化。",
+  "stack.title": "今日棧",
+  "adr.title": "ADR 關係",
+  "adr.hint": "決策誰取代誰（靜態圖）。",
+  "a11y.density": "閱讀密度",
+  "a11y.densityHint": "舒適閱讀會放大字級並增加行距。",
+  "a11y.comfortable": "舒適",
+  "a11y.default": "預設",
+  "a11y.contrast": "高對比",
+  "a11y.contrastOn": "開啟高對比",
+  "a11y.contrastOff": "關閉高對比",
+  "a11y.helpTitle": "鍵盤與讀屏提示",
+  "a11y.helpOpen": "開啟快捷鍵說明",
+  "a11y.helpClose": "關閉",
+  "a11y.helpBody": "按 ? 開啟本面板。Ctrl/Cmd+K 搜尋。跳過連結可直達正文。主題與語言在首頁設定區。",
+  "newsletter.title": "郵件訂閱",
+  "newsletter.hint": "RSS 之外的郵件觸達（需設定表單端點）。",
+  "newsletter.email": "電子郵件",
+  "newsletter.submit": "訂閱",
+  "newsletter.privacy": "僅用於發送更新，可隨時退訂。",
+  "newsletter.disabled": "訂閱端點未設定，請先看 docs/newsletter.md。",
 };
 
 const en: Catalog = {
@@ -202,6 +376,65 @@ const en: Catalog = {
   "toc.title": "On this page",
   "progress.label": "Reading progress",
   "comments.title": "Comments",
+  "onThisDay.title": "On this day",
+  "onThisDay.hint": "Today is {date}: notes from past years.",
+  "onThisDay.empty": "Nothing from prior years on this day.",
+  "heatmap.title": "Writing heatmap",
+  "heatmap.hint": "Publishing days over the past year (tech + build log).",
+  "heatmap.less": "Less",
+  "heatmap.more": "More",
+  "revisions.title": "Revision timeline",
+  "readAloud.minutes": "About {n} min read",
+  "readAloud.start": "Read aloud",
+  "readAloud.stop": "Stop",
+  "readAloud.unsupported": "Speech synthesis is unavailable here.",
+  "series.label": "Series",
+  "series.prev": "Previous",
+  "series.next": "Next",
+  "life.intro": "Diaries, film frames, and places.",
+  "life.kindDiary": "Diary",
+  "life.kindPhoto": "Film",
+  "film.title": "Film gallery",
+  "film.hint": "Use left/right arrows; captions are announced.",
+  "film.prev": "Previous frame",
+  "film.next": "Next frame",
+  "travel.title": "Travel map",
+  "travel.hint": "City-level footprints (privacy-blurred).",
+  "cite.label": "Cite this post",
+  "cite.copy": "Copy citation",
+  "cite.copied": "Copied",
+  "webmentions.title": "Mentions",
+  "webmentions.empty": "No webmentions yet.",
+  "webmentions.disabled": "Webmention endpoint not configured (see docs).",
+  "nowPlaying.listening": "Listening",
+  "nowPlaying.watching": "Watching",
+  "nowPlaying.empty": "Nothing listed right now.",
+  "lab.title": "Repo dashboard",
+  "lab.hint": "Engineering health at a glance (static build-time data).",
+  "nav.lab": "Lab",
+  "lighthouse.title": "Lighthouse wall",
+  "lighthouse.hint": "Perf and a11y scores across milestones.",
+  "stack.title": "Today’s stack",
+  "adr.title": "ADR graph",
+  "adr.hint": "Which decisions superseded which.",
+  "a11y.density": "Reading density",
+  "a11y.densityHint": "Comfort mode enlarges type and line height.",
+  "a11y.comfortable": "Comfort",
+  "a11y.default": "Default",
+  "a11y.contrast": "High contrast",
+  "a11y.contrastOn": "Enable high contrast",
+  "a11y.contrastOff": "Disable high contrast",
+  "a11y.helpTitle": "Keyboard & screen reader tips",
+  "a11y.helpOpen": "Open shortcut help",
+  "a11y.helpClose": "Close",
+  "a11y.helpBody":
+    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme and language live on the home settings.",
+  "newsletter.title": "Newsletter",
+  "newsletter.hint": "Email updates beyond RSS (form endpoint required).",
+  "newsletter.email": "Email",
+  "newsletter.submit": "Subscribe",
+  "newsletter.privacy": "Used only for updates; unsubscribe anytime.",
+  "newsletter.disabled": "Subscribe endpoint missing — see docs/newsletter.md.",
 };
 
 const de: Catalog = {
@@ -253,6 +486,65 @@ const de: Catalog = {
   "toc.title": "Inhalt",
   "progress.label": "Lesefortschritt",
   "comments.title": "Kommentare",
+  "onThisDay.title": "On this day",
+  "onThisDay.hint": "Today is {date}: notes from past years.",
+  "onThisDay.empty": "Nothing from prior years on this day.",
+  "heatmap.title": "Writing heatmap",
+  "heatmap.hint": "Publishing days over the past year (tech + build log).",
+  "heatmap.less": "Less",
+  "heatmap.more": "More",
+  "revisions.title": "Revision timeline",
+  "readAloud.minutes": "About {n} min read",
+  "readAloud.start": "Read aloud",
+  "readAloud.stop": "Stop",
+  "readAloud.unsupported": "Speech synthesis is unavailable here.",
+  "series.label": "Series",
+  "series.prev": "Previous",
+  "series.next": "Next",
+  "life.intro": "Diaries, film frames, and places.",
+  "life.kindDiary": "Diary",
+  "life.kindPhoto": "Film",
+  "film.title": "Film gallery",
+  "film.hint": "Use left/right arrows; captions are announced.",
+  "film.prev": "Previous frame",
+  "film.next": "Next frame",
+  "travel.title": "Travel map",
+  "travel.hint": "City-level footprints (privacy-blurred).",
+  "cite.label": "Cite this post",
+  "cite.copy": "Copy citation",
+  "cite.copied": "Copied",
+  "webmentions.title": "Mentions",
+  "webmentions.empty": "No webmentions yet.",
+  "webmentions.disabled": "Webmention endpoint not configured (see docs).",
+  "nowPlaying.listening": "Listening",
+  "nowPlaying.watching": "Watching",
+  "nowPlaying.empty": "Nothing listed right now.",
+  "lab.title": "Repo dashboard",
+  "lab.hint": "Engineering health at a glance (static build-time data).",
+  "nav.lab": "Lab",
+  "lighthouse.title": "Lighthouse wall",
+  "lighthouse.hint": "Perf and a11y scores across milestones.",
+  "stack.title": "Today’s stack",
+  "adr.title": "ADR graph",
+  "adr.hint": "Which decisions superseded which.",
+  "a11y.density": "Reading density",
+  "a11y.densityHint": "Comfort mode enlarges type and line height.",
+  "a11y.comfortable": "Comfort",
+  "a11y.default": "Default",
+  "a11y.contrast": "High contrast",
+  "a11y.contrastOn": "Enable high contrast",
+  "a11y.contrastOff": "Disable high contrast",
+  "a11y.helpTitle": "Keyboard & screen reader tips",
+  "a11y.helpOpen": "Open shortcut help",
+  "a11y.helpClose": "Close",
+  "a11y.helpBody":
+    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme and language live on the home settings.",
+  "newsletter.title": "Newsletter",
+  "newsletter.hint": "Email updates beyond RSS (form endpoint required).",
+  "newsletter.email": "Email",
+  "newsletter.submit": "Subscribe",
+  "newsletter.privacy": "Used only for updates; unsubscribe anytime.",
+  "newsletter.disabled": "Subscribe endpoint missing — see docs/newsletter.md.",
 };
 
 const ja: Catalog = {
@@ -304,6 +596,65 @@ const ja: Catalog = {
   "toc.title": "目次",
   "progress.label": "読書進捗",
   "comments.title": "コメント",
+  "onThisDay.title": "On this day",
+  "onThisDay.hint": "Today is {date}: notes from past years.",
+  "onThisDay.empty": "Nothing from prior years on this day.",
+  "heatmap.title": "Writing heatmap",
+  "heatmap.hint": "Publishing days over the past year (tech + build log).",
+  "heatmap.less": "Less",
+  "heatmap.more": "More",
+  "revisions.title": "Revision timeline",
+  "readAloud.minutes": "About {n} min read",
+  "readAloud.start": "Read aloud",
+  "readAloud.stop": "Stop",
+  "readAloud.unsupported": "Speech synthesis is unavailable here.",
+  "series.label": "Series",
+  "series.prev": "Previous",
+  "series.next": "Next",
+  "life.intro": "Diaries, film frames, and places.",
+  "life.kindDiary": "Diary",
+  "life.kindPhoto": "Film",
+  "film.title": "Film gallery",
+  "film.hint": "Use left/right arrows; captions are announced.",
+  "film.prev": "Previous frame",
+  "film.next": "Next frame",
+  "travel.title": "Travel map",
+  "travel.hint": "City-level footprints (privacy-blurred).",
+  "cite.label": "Cite this post",
+  "cite.copy": "Copy citation",
+  "cite.copied": "Copied",
+  "webmentions.title": "Mentions",
+  "webmentions.empty": "No webmentions yet.",
+  "webmentions.disabled": "Webmention endpoint not configured (see docs).",
+  "nowPlaying.listening": "Listening",
+  "nowPlaying.watching": "Watching",
+  "nowPlaying.empty": "Nothing listed right now.",
+  "lab.title": "Repo dashboard",
+  "lab.hint": "Engineering health at a glance (static build-time data).",
+  "nav.lab": "Lab",
+  "lighthouse.title": "Lighthouse wall",
+  "lighthouse.hint": "Perf and a11y scores across milestones.",
+  "stack.title": "Today’s stack",
+  "adr.title": "ADR graph",
+  "adr.hint": "Which decisions superseded which.",
+  "a11y.density": "Reading density",
+  "a11y.densityHint": "Comfort mode enlarges type and line height.",
+  "a11y.comfortable": "Comfort",
+  "a11y.default": "Default",
+  "a11y.contrast": "High contrast",
+  "a11y.contrastOn": "Enable high contrast",
+  "a11y.contrastOff": "Disable high contrast",
+  "a11y.helpTitle": "Keyboard & screen reader tips",
+  "a11y.helpOpen": "Open shortcut help",
+  "a11y.helpClose": "Close",
+  "a11y.helpBody":
+    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme and language live on the home settings.",
+  "newsletter.title": "Newsletter",
+  "newsletter.hint": "Email updates beyond RSS (form endpoint required).",
+  "newsletter.email": "Email",
+  "newsletter.submit": "Subscribe",
+  "newsletter.privacy": "Used only for updates; unsubscribe anytime.",
+  "newsletter.disabled": "Subscribe endpoint missing — see docs/newsletter.md.",
 };
 
 const ko: Catalog = {

@@ -1,12 +1,14 @@
 ---
 /**
- * 归档：技术 + 从零到一 按时间倒序。
+ * 归档：时间线 + 写作热力图。
  */
 import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
 import { publishedSorted } from "@/content/_helpers";
 import { formatDate } from "@/lib/date";
+import { buildHeatmap } from "@/lib/heatmap";
 import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
+import { WritingHeatmap } from "@/components/WritingHeatmap";
 
 export async function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -16,25 +18,44 @@ const raw = Astro.params.locale ?? "zh-Hans";
 if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
 
-const blog = publishedSorted(await getCollection("blog")).map((e) => ({
+const blogEntries = publishedSorted(await getCollection("blog"));
+const buildEntries = publishedSorted(await getCollection("build-log"));
+
+const blog = blogEntries.map((e) => ({
   href: localePath(locale, `blog/${e.id}`),
   title: e.data.title,
   date: e.data.pubDate,
   section: translate(locale, "nav.blog"),
 }));
-const build = publishedSorted(await getCollection("build-log")).map((e) => ({
+const build = buildEntries.map((e) => ({
   href: localePath(locale, `build/${e.id}`),
   title: e.data.title,
   date: e.data.pubDate,
   section: translate(locale, "nav.build"),
 }));
 const entries = [...blog, ...build].sort((a, b) => b.date.getTime() - a.date.getTime());
+const heatCells = buildHeatmap(
+  [...blogEntries, ...buildEntries].map((e) => e.data.pubDate),
+  new Date(),
+  371,
+);
 ---
 
 <SiteLayout title={translate(locale, "archive.title")} locale={locale} ogSlug="blog">
   <header class="mb-8 space-y-2">
     <h1 class="text-3xl font-semibold">{translate(locale, "archive.title")}</h1>
   </header>
+
+  <div class="mb-10">
+    <WritingHeatmap
+      title={translate(locale, "heatmap.title")}
+      hint={translate(locale, "heatmap.hint")}
+      cells={heatCells}
+      lessLabel={translate(locale, "heatmap.less")}
+      moreLabel={translate(locale, "heatmap.more")}
+    />
+  </div>
+
   {
     entries.length === 0 ? (
       <p class="text-hl-muted">{translate(locale, "archive.empty")}</p>

@@ -89,14 +89,31 @@ test.describe("衡录关键路径", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText("欢迎来到衡录");
   });
 
-  test("长文有目录与阅读进度条", async ({ page }) => {
+  test("长文有目录、阅读进度、听读与系列导航", async ({ page }) => {
     await page.goto("./zh-Hans/blog/welcome-henglu/");
     const toc = page.getByRole("navigation", { name: "本页目录" });
     await expect(toc).toBeVisible();
     await expect(toc.getByRole("link", { name: "这是什么站" })).toBeVisible();
     await expect(page.getByRole("progressbar", { name: "阅读进度" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "朗读" })).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "系列" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "修订时间线" })).toBeVisible();
     // 缺 Giscus env 时不渲染评论区（优雅降级）
     await expect(page.locator(".giscus")).toHaveCount(0);
+  });
+
+  test("生活区、今夕何夕与实验室可达", async ({ page }) => {
+    await page.goto("./zh-Hans/life/");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("生活");
+    await page.goto("./zh-Hans/on-this-day/");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("今夕何夕");
+    await page.goto("./zh-Hans/lab/");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("仓库仪表盘");
+  });
+
+  test("归档页含写作热力图", async ({ page }) => {
+    await page.goto("./zh-Hans/archive/");
+    await expect(page.getByRole("heading", { name: "写作热力图" })).toBeVisible();
   });
 
   test("RSS 可获取", async ({ request }) => {

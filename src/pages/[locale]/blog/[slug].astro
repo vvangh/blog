@@ -1,16 +1,25 @@
 ---
 /**
- * 技术博客详情。
+ * 技术博客详情：听读、修订、系列、目录、进度、评论。
  */
 import { getCollection, render } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
 import { publishedSorted } from "@/content/_helpers";
 import { formatDate } from "@/lib/date";
+import { estimateReadingMinutes } from "@/lib/reading";
+import { resolveSeriesNav } from "@/lib/series";
 import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 import { filterTocHeadings } from "@/lib/toc";
 import { PostToc } from "@/components/PostToc";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { GiscusComments } from "@/components/GiscusComments";
+import { ReadAloud } from "@/components/ReadAloud";
+import { RevisionTimeline } from "@/components/RevisionTimeline";
+import { SeriesNav } from "@/components/SeriesNav";
+import { CiteCopy } from "@/components/CiteCopy";
+import { Webmentions } from "@/components/Webmentions";
+import { SITE_NAME_ZH } from "@/lib/site";
+import { absolutePageUrl } from "@/lib/og";
 
 export async function getStaticPaths() {
   const entries = publishedSorted(await getCollection("blog"));
@@ -28,6 +37,22 @@ const locale: Locale = raw;
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 const tocItems = filterTocHeadings(headings);
+
+const allBlog = publishedSorted(await getCollection("blog"));
+const seriesNav = resolveSeriesNav(
+  entry.id,
+  allBlog.map((e) => ({
+    id: e.id,
+    title: e.data.title,
+    series: e.data.series,
+    seriesOrder: e.data.seriesOrder,
+  })),
+);
+
+const bodyText = `${entry.data.title}\n${entry.data.description ?? ""}\n${entry.body ?? ""}`;
+const reading = estimateReadingMinutes(bodyText);
+const pageUrl = absolutePageUrl(Astro.url.pathname);
+const citation = `《${entry.data.title}》· ${SITE_NAME_ZH} · ${pageUrl}`;
 ---
 
 <SiteLayout
@@ -50,10 +75,67 @@ const tocItems = filterTocHeadings(headings);
           </time>
         </p>
         {entry.data.description ? <p class="text-hl-muted">{entry.data.description}</p> : null}
+        <ReadAloud
+          client:load
+          minutes={reading.minutes}
+          minutesLabel={translate(locale, "readAloud.minutes")}
+          startLabel={translate(locale, "readAloud.start")}
+          stopLabel={translate(locale, "readAloud.stop")}
+          unsupportedLabel={translate(locale, "readAloud.unsupported")}
+        />
       </header>
-      <div class="content-body space-y-4 leading-relaxed">
+      <div class="content-body space-y-4 leading-relaxed" data-read-aloud-root>
         <Content />
       </div>
+      <RevisionTimeline
+        title={translate(locale, "revisions.title")}
+        revisions={[...entry.data.revisions]
+          .sort((a, b) => a.date.valueOf() - b.date.valueOf())
+          .map((rev) => ({
+            iso: rev.date.toISOString(),
+            label: formatDate(rev.date, locale),
+            summary: rev.summary,
+          }))}
+      />
+      {
+        seriesNav ? (
+          <SeriesNav
+            seriesLabel={translate(locale, "series.label")}
+            seriesName={seriesNav.series}
+            prevLabel={translate(locale, "series.prev")}
+            nextLabel={translate(locale, "series.next")}
+            prev={
+              seriesNav.prev
+                ? {
+                    href: localePath(locale, `blog/${seriesNav.prev.id}`),
+                    title: seriesNav.prev.title,
+                  }
+                : null
+            }
+            next={
+              seriesNav.next
+                ? {
+                    href: localePath(locale, `blog/${seriesNav.next.id}`),
+                    title: seriesNav.next.title,
+                  }
+                : null
+            }
+          />
+        ) : null
+      }
+      <CiteCopy
+        client:load
+        label={translate(locale, "cite.label")}
+        copyLabel={translate(locale, "cite.copy")}
+        copiedLabel={translate(locale, "cite.copied")}
+        citation={citation}
+      />
+      <Webmentions
+        title={translate(locale, "webmentions.title")}
+        empty={translate(locale, "webmentions.empty")}
+        disabled={translate(locale, "webmentions.disabled")}
+        pageUrl={pageUrl}
+      />
       <GiscusComments locale={locale} heading={translate(locale, "comments.title")} />
     </article>
     {

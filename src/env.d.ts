@@ -10,6 +10,9 @@ interface ImportMetaEnv {
   readonly PUBLIC_GISCUS_CATEGORY?: string;
   readonly PUBLIC_GISCUS_CATEGORY_ID?: string;
   readonly PUBLIC_GISCUS_MAPPING?: string;
+  readonly PUBLIC_WEBMENTION_ENDPOINT?: string;
+  readonly PUBLIC_WEBMENTION_API?: string;
+  readonly PUBLIC_NEWSLETTER_ACTION?: string;
 }
 
 interface ImportMeta {

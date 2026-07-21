@@ -1,0 +1,47 @@
+---
+/**
+ * Newsletter 订阅框（可配置 action；缺省降级说明）。
+ */
+import {
+  readNewsletterEnvFromImportMeta,
+  resolveNewsletterAction,
+} from "@/lib/newsletter";
+import { translate, type Locale } from "@/lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const action = resolveNewsletterAction(readNewsletterEnvFromImportMeta());
+---
+
+<section class="rounded-xl border border-hl-border bg-hl-panel p-4" aria-labelledby="newsletter-heading">
+  <h2 id="newsletter-heading" class="m-0 text-lg font-semibold">{translate(locale, "newsletter.title")}</h2>
+  <p class="mt-1 text-sm text-hl-muted">{translate(locale, "newsletter.hint")}</p>
+  {
+    action ? (
+      <form class="mt-4 grid gap-3" method="post" action={action} target="_blank" rel="noopener">
+        <label class="grid gap-1 text-sm">
+          <span>{translate(locale, "newsletter.email")}</span>
+          <input
+            class="min-h-10 rounded-md border border-hl-border bg-hl-bg px-3 text-hl-fg"
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+          />
+        </label>
+        <button
+          class="inline-flex min-h-10 items-center justify-center rounded-md bg-hl-accent px-4 font-semibold text-white"
+          type="submit"
+        >
+          {translate(locale, "newsletter.submit")}
+        </button>
+        <p class="m-0 text-xs text-hl-muted">{translate(locale, "newsletter.privacy")}</p>
+      </form>
+    ) : (
+      <p class="mt-3 text-sm text-hl-muted">{translate(locale, "newsletter.disabled")}</p>
+    )
+  }
+</section>

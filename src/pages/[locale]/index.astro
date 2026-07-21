@@ -1,10 +1,13 @@
 ---
 /**
- * 首页：Signal 英雄构图——品牌主导、克制入场动效。
+ * 首页：Signal 英雄 + 设置 + 今日栈 + Newsletter。
  */
 import SiteLayout from "@/layouts/SiteLayout";
 import { ThemeSettings } from "@/components/ThemeSettings";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { A11ySettings } from "@/components/A11ySettings";
+import { StackBadge } from "@/components/StackBadge";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 
@@ -80,6 +83,21 @@ const locale: Locale = raw;
       hint={translate(locale, "lang.hint")}
       switchedTemplate={translate(locale, "lang.switched")}
     />
+    <A11ySettings
+      client:load
+      densityHeading={translate(locale, "a11y.density")}
+      densityHint={translate(locale, "a11y.densityHint")}
+      comfortableLabel={translate(locale, "a11y.comfortable")}
+      defaultLabel={translate(locale, "a11y.default")}
+      contrastHeading={translate(locale, "a11y.contrast")}
+      contrastOn={translate(locale, "a11y.contrastOn")}
+      contrastOff={translate(locale, "a11y.contrastOff")}
+    />
+    <StackBadge locale={locale} />
+  </section>
+
+  <section class="mt-10 max-w-lg">
+    <NewsletterSignup locale={locale} />
   </section>
 
   <p class="mt-10 max-w-prose leading-relaxed text-hl-muted">

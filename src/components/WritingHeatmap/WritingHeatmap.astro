@@ -1,0 +1,58 @@
+---
+/**
+ * 写作热力图（静态格子，无 JS）。
+ */
+interface Cell {
+  date: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
+}
+
+interface Props {
+  title: string;
+  hint: string;
+  cells: Cell[];
+  lessLabel: string;
+  moreLabel: string;
+}
+
+const { title, hint, cells, lessLabel, moreLabel } = Astro.props;
+const levelClass: Record<0 | 1 | 2 | 3 | 4, string> = {
+  0: "bg-hl-soft/40",
+  1: "bg-hl-accent/30",
+  2: "bg-hl-accent/50",
+  3: "bg-hl-accent/75",
+  4: "bg-hl-accent",
+};
+---
+
+<section class="space-y-3" aria-labelledby="heatmap-heading" data-pagefind-ignore>
+  <div>
+    <h2 id="heatmap-heading" class="text-lg font-semibold">
+      {title}
+    </h2>
+    <p class="mt-1 text-sm text-hl-muted">{hint}</p>
+  </div>
+  <div
+    class="grid gap-1 overflow-x-auto"
+    style="grid-template-columns: repeat(53, minmax(0.55rem, 1fr));"
+    role="img"
+    aria-label={hint}
+  >
+    {
+      cells.map((cell) => (
+        <span
+          class:list={["aspect-square rounded-[2px]", levelClass[cell.level]]}
+          title={`${cell.date}: ${cell.count}`}
+        />
+      ))
+    }
+  </div>
+  <div class="flex items-center gap-1 text-xs text-hl-muted">
+    <span>{lessLabel}</span>
+    {[0, 1, 2, 3, 4].map((lv) => (
+      <span class:list={["h-3 w-3 rounded-[2px]", levelClass[lv as 0 | 1 | 2 | 3 | 4]]} />
+    ))}
+    <span>{moreLabel}</span>
+  </div>
+</section>

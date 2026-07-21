@@ -1,0 +1,61 @@
+---
+/**
+ * Webmentions 列表：缺配置显示说明；有 API 则构建期拉取。
+ */
+import {
+  parseJf2Mentions,
+  readWebmentionEnvFromImportMeta,
+  resolveWebmentionApiBase,
+  resolveWebmentionEndpoint,
+  type WebmentionItem,
+} from "@/lib/webmentions";
+
+interface Props {
+  title: string;
+  empty: string;
+  disabled: string;
+  /** 当前页绝对 URL，作为 mention target */
+  pageUrl: string;
+}
+
+const { title, empty, disabled, pageUrl } = Astro.props;
+const env = readWebmentionEnvFromImportMeta();
+const endpoint = resolveWebmentionEndpoint(env);
+const apiBase = resolveWebmentionApiBase(env);
+
+let items: WebmentionItem[] = [];
+const configured = Boolean(endpoint || apiBase);
+
+if (apiBase) {
+  try {
+    const res = await fetch(`${apiBase}${encodeURIComponent(pageUrl)}`);
+    if (res.ok) {
+      items = parseJf2Mentions(await res.json());
+    }
+  } catch {
+    items = [];
+  }
+}
+---
+
+<section class="mt-10 border-t border-hl-border pt-6" aria-labelledby="wm-heading" data-pagefind-ignore>
+  <h2 id="wm-heading" class="text-lg font-semibold">{title}</h2>
+  {
+    !configured ? (
+      <p class="mt-2 text-sm text-hl-muted">{disabled}</p>
+    ) : items.length === 0 ? (
+      <p class="mt-2 text-sm text-hl-muted">{empty}</p>
+    ) : (
+      <ul class="mt-4 space-y-3">
+        {items.map((item) => (
+          <li class="text-sm">
+            <a class="font-medium text-hl-accent" href={item.url} rel="noopener noreferrer">
+              {item.author}
+            </a>
+            {item.content ? <p class="mt-1 text-hl-muted">{item.content}</p> : null}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>

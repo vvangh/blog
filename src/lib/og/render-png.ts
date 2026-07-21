@@ -64,7 +64,12 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
           {
             type: "div",
             props: {
-              style: { display: "flex", flexDirection: "column", gap: "12px" },
+              style: {
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                width: "100%",
+              },
               children: [
                 {
                   type: "div",
@@ -76,6 +81,22 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
                       letterSpacing: "0.08em",
                     },
                     children: SITE_NAME_EN,
+                  },
+                },
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "10px 18px",
+                      borderRadius: "999px",
+                      border: "2px solid #7eb6a4",
+                      color: "#7eb6a4",
+                      fontSize: 22,
+                      fontWeight: 700,
+                    },
+                    children: "Henglu · From Zero",
                   },
                 },
               ],
@@ -108,3 +129,6 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
   const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 1200 } });
   return Buffer.from(resvg.render().asPng());
 }
+
+/** 贴纸角标文案（OG 系列感） */
+export const OG_STICKER = "Henglu · From Zero";

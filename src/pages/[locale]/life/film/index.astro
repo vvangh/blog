@@ -1,0 +1,37 @@
+---
+/**
+ * 胶片相册页。
+ */
+import { getCollection } from "astro:content";
+import SiteLayout from "@/layouts/SiteLayout";
+import { publishedSorted } from "@/content/_helpers";
+import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+import { FilmGallery } from "@/components/FilmGallery";
+
+export async function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+
+const frames = publishedSorted(await getCollection("life"))
+  .filter((e) => e.data.kind === "photo" && e.data.image)
+  .map((e) => ({
+    src: e.data.image!,
+    caption: e.data.caption ?? e.data.title,
+    title: e.data.title,
+  }));
+---
+
+<SiteLayout title={translate(locale, "film.title")} locale={locale} ogSlug="life">
+  <FilmGallery
+    client:load
+    frames={frames}
+    title={translate(locale, "film.title")}
+    hint={translate(locale, "film.hint")}
+    prevLabel={translate(locale, "film.prev")}
+    nextLabel={translate(locale, "film.next")}
+  />
+</SiteLayout>

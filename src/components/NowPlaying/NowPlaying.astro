@@ -1,0 +1,42 @@
+---
+/**
+ * 页脚「在听 / 在看」条。
+ */
+import { NOW_PLAYING } from "@/lib/now-playing";
+import { translate, type Locale } from "@/lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const items = NOW_PLAYING;
+---
+
+{
+  items.length > 0 ? (
+    <div class="mb-4 space-y-1 text-sm" data-pagefind-ignore>
+      {items.map((item) => {
+        const kindLabel =
+          item.kind === "listening"
+            ? translate(locale, "nowPlaying.listening")
+            : translate(locale, "nowPlaying.watching");
+        const text = item.artistOrCreator ? `${item.title} · ${item.artistOrCreator}` : item.title;
+        return (
+          <p class="m-0">
+            <span class="text-hl-muted">{kindLabel}：</span>
+            {item.url ? (
+              <a class="text-hl-accent no-underline hover:underline" href={item.url} rel="noopener noreferrer">
+                {text}
+              </a>
+            ) : (
+              <span>{text}</span>
+            )}
+          </p>
+        );
+      })}
+    </div>
+  ) : (
+    <p class="mb-4 text-sm text-hl-muted">{translate(locale, "nowPlaying.empty")}</p>
+  )
+}

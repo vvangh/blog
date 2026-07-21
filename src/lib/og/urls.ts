@@ -2,13 +2,14 @@
  * OG URL 助手。目录外请经 `@/lib/og` 导入。
  */
 import { SITE_BASE } from "@/lib/site";
+import { resolveCanonicalOrigin } from "@/lib/domains";
 
-export function defaultOgImageUrl(siteOrigin = "https://vvangh.github.io"): string {
+export function defaultOgImageUrl(siteOrigin = resolveCanonicalOrigin()): string {
   const base = SITE_BASE.endsWith("/") ? SITE_BASE : `${SITE_BASE}/`;
   return new URL(`${base}og-default.png`, siteOrigin).href;
 }
 
-export function absolutePageUrl(pathname: string, siteOrigin = "https://vvangh.github.io"): string {
+export function absolutePageUrl(pathname: string, siteOrigin = resolveCanonicalOrigin()): string {
   if (pathname.startsWith("http")) return pathname;
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return new URL(path, siteOrigin).href;

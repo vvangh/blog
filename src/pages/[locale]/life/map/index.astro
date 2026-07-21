@@ -1,0 +1,109 @@
+---
+/**
+ * 旅行地图：城市级打点（简化投影，非精确 GIS）。
+ */
+import { getCollection } from "astro:content";
+import SiteLayout from "@/layouts/SiteLayout";
+import { publishedSorted } from "@/content/_helpers";
+import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+
+export async function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+
+type City = { name: string; lat: number; lng: number };
+const cityMap = new Map<string, City>();
+for (const entry of publishedSorted(await getCollection("life"))) {
+  if (entry.data.location && entry.data.lat != null && entry.data.lng != null) {
+    cityMap.set(entry.data.location, {
+      name: entry.data.location,
+      lat: entry.data.lat,
+      lng: entry.data.lng,
+    });
+  }
+}
+const cities = [...cityMap.values()];
+
+/** 简易等距圆柱投影到 viewBox */
+function project(lat: number, lng: number): { x: number; y: number } {
+  const x = ((lng + 180) / 360) * 800;
+  const y = ((90 - lat) / 180) * 400;
+  return { x, y };
+}
+---
+
+<SiteLayout title={translate(locale, "travel.title")} locale={locale} ogSlug="life">
+  <header class="mb-8 space-y-2">
+    <h1 class="text-3xl font-semibold">{translate(locale, "travel.title")}</h1>
+    <p class="text-hl-muted">{translate(locale, "travel.hint")}</p>
+  </header>
+
+  <svg
+    class="w-full rounded-lg border border-hl-border bg-hl-panel"
+    viewBox="0 0 800 400"
+    role="img"
+    aria-label={translate(locale, "travel.title")}
+  >
+    <rect width="800" height="400" fill="var(--hl-soft)" fill-opacity="0.35"></rect>
+    <!-- 示意经纬网格 -->
+    {
+      [0, 1, 2, 3, 4].map((i) => (
+        <line
+          x1={0}
+          y1={i * 100}
+          x2={800}
+          y2={i * 100}
+          stroke="var(--hl-border)"
+          stroke-width="1"
+        />
+      ))
+    }
+    {
+      [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+        <line
+          x1={i * 100}
+          y1={0}
+          x2={i * 100}
+          y2={400}
+          stroke="var(--hl-border)"
+          stroke-width="1"
+        />
+      ))
+    }
+    {
+      cities.map((city) => {
+        const { x, y } = project(city.lat, city.lng);
+        return (
+          <g>
+            <circle cx={x} cy={y} r="7" fill="var(--hl-accent)" />
+            <text x={x + 10} y={y + 4} fill="var(--hl-fg)" font-size="14">
+              {city.name}
+            </text>
+          </g>
+        );
+      })
+    }
+  </svg>
+
+  {
+    cities.length === 0 ? (
+      <p class="mt-4 text-hl-muted">{translate(locale, "life.empty")}</p>
+    ) : (
+      <ul class="mt-6 space-y-2 text-sm">
+        {cities.map((c) => (
+          <li>
+            {c.name}
+            <span class="text-hl-muted">
+              {" "}
+              ({c.lat.toFixed(2)}, {c.lng.toFixed(2)})
+            </span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</SiteLayout>

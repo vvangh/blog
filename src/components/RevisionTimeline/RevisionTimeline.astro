@@ -1,0 +1,41 @@
+---
+/**
+ * 修订时间线：展示 frontmatter revisions。
+ */
+interface RevisionView {
+  iso: string;
+  label: string;
+  summary: string;
+}
+
+interface Props {
+  title: string;
+  revisions: RevisionView[];
+}
+
+const { title, revisions } = Astro.props;
+---
+
+{
+  revisions.length > 0 ? (
+    <section class="mt-10 border-t border-hl-border pt-6" aria-labelledby="revisions-heading" data-pagefind-ignore>
+      <h2 id="revisions-heading" class="text-lg font-semibold">
+        {title}
+      </h2>
+      <ol class="mt-4 space-y-3 border-l border-hl-border pl-4">
+        {revisions.map((rev) => (
+          <li class="relative">
+            <span
+              class="absolute top-1.5 -left-[1.3rem] h-2.5 w-2.5 rounded-full bg-hl-accent"
+              aria-hidden="true"
+            />
+            <time class="font-mono text-xs text-hl-muted" datetime={rev.iso}>
+              {rev.label}
+            </time>
+            <p class="mt-1 text-sm leading-relaxed">{rev.summary}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ) : null
+}
