@@ -1,10 +1,11 @@
 ---
 /**
- * 全站默认布局：文档外壳、品牌标题、主内容槽。
+ * 全站默认布局：文档外壳、主题 boot、品牌顶栏、主内容槽。
  * 页面外请经 `@/layouts/SiteLayout` 导入。
  */
 import "@/styles/global.css";
 import { SITE_DESCRIPTION, SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+import { getThemeBootScript } from "@/lib/theme";
 import { SiteHeader } from "@/components/SiteHeader";
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 const { title, description = SITE_DESCRIPTION } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE_NAME_ZH}` : `${SITE_NAME_ZH} · ${SITE_TAGLINE}`;
 const base = import.meta.env.BASE_URL;
+const themeBoot = getThemeBootScript();
 ---
 
 <!doctype html>
@@ -26,11 +28,12 @@ const base = import.meta.env.BASE_URL;
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+    <script is:inline set:html={themeBoot} />
   </head>
   <body class="min-h-screen antialiased">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-black"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-[var(--henglu-bg)] focus:px-3 focus:py-2 focus:text-[var(--henglu-fg)] focus:shadow"
     >
       跳到主要内容
     </a>
@@ -38,8 +41,9 @@ const base = import.meta.env.BASE_URL;
     <main id="main" class="mx-auto w-full max-w-3xl px-4 py-10">
       <slot />
     </main>
-    <footer class="mx-auto w-full max-w-3xl px-4 pb-12 text-sm opacity-70">
+    <footer class="mx-auto w-full max-w-3xl px-4 pb-12 text-sm text-[var(--henglu-muted)]">
       <p>© {new Date().getFullYear()} {SITE_NAME_ZH} · vvangh</p>
+      <p class="mt-1">代码 Apache-2.0；文章版权归作者。</p>
     </footer>
   </body>
 </html>

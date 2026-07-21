@@ -1,21 +1,48 @@
 @import "tailwindcss";
 
 /*
- * 衡录全局样式入口。
- * 主题四模式（浅/暗/自动/自定义）在后续里程碑落地；此处只提供基础排版。
+ * 衡录全局样式：CSS 变量驱动浅/暗；由 html[data-theme] 切换。
+ * 复杂关键帧等可局部 @use SCSS（见 components 内 scoped 或独立 .scss），禁止新建全局大 SCSS 架构。
  */
-:root {
-  color-scheme: light dark;
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
   --henglu-fg: #1a1a1a;
   --henglu-bg: #f7f5f0;
+  --henglu-muted: #5c5a55;
   --henglu-accent: #2f5d50;
+  --henglu-accent-soft: #d8e8e2;
+  --henglu-border: color-mix(in oklab, #1a1a1a 12%, transparent);
+  --henglu-focus: #2f5d50;
 }
 
+[data-theme="dark"] {
+  color-scheme: dark;
+  --henglu-fg: #f2efe8;
+  --henglu-bg: #121412;
+  --henglu-muted: #a8a59c;
+  --henglu-accent: #7eb6a4;
+  --henglu-accent-soft: #1e332c;
+  --henglu-border: color-mix(in oklab, #f2efe8 14%, transparent);
+  --henglu-focus: #7eb6a4;
+}
+
+/*
+ * 尚无 data-theme 时（极短 boot 前）用系统偏好兜底，减少闪烁。
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
+    color-scheme: dark;
     --henglu-fg: #f2efe8;
     --henglu-bg: #121412;
+    --henglu-muted: #a8a59c;
     --henglu-accent: #7eb6a4;
+    --henglu-accent-soft: #1e332c;
+    --henglu-border: color-mix(in oklab, #f2efe8 14%, transparent);
+    --henglu-focus: #7eb6a4;
   }
 }
 
@@ -28,4 +55,21 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+}
+
+:focus-visible {
+  outline: 2px solid var(--henglu-focus);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

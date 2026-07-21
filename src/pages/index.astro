@@ -1,17 +1,17 @@
 ---
 /**
- * 首页：品牌信号 + 一句介绍 + Vue 岛冒烟。
+ * 首页：品牌 + 副标题 + 主题设置岛（替换脚手架计数按钮）。
  */
 import SiteLayout from "@/layouts/SiteLayout";
-import { HelloIsland } from "@/components/HelloIsland";
+import { ThemeSettings } from "@/components/ThemeSettings";
 import { SITE_DESCRIPTION, SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 ---
 
 <SiteLayout>
   <section class="space-y-6">
-    <h1 class="text-4xl font-semibold tracking-tight">{SITE_NAME_ZH}</h1>
-    <p class="text-lg opacity-80">{SITE_TAGLINE}</p>
-    <p class="max-w-prose leading-relaxed opacity-90">{SITE_DESCRIPTION}</p>
-    <HelloIsland client:visible />
+    <h1 class="text-4xl font-semibold tracking-tight text-[var(--henglu-accent)]">{SITE_NAME_ZH}</h1>
+    <p class="text-lg text-[var(--henglu-muted)]">{SITE_TAGLINE}</p>
+    <p class="max-w-prose leading-relaxed">{SITE_DESCRIPTION}</p>
+    <ThemeSettings client:visible />
   </section>
 </SiteLayout>
