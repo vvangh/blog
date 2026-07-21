@@ -1,6 +1,6 @@
 ---
 /**
- * 首页：墨衡英雄构图（品牌主导）+ 设置岛收在首屏外。
+ * 首页：Signal 英雄构图——品牌主导、克制入场动效。
  */
 import SiteLayout from "@/layouts/SiteLayout";
 import { ThemeSettings } from "@/components/ThemeSettings";
@@ -20,23 +20,54 @@ const locale: Locale = raw;
 ---
 
 <SiteLayout locale={locale} ogSlug="home">
-  <section class="hero-stage" aria-labelledby="hero-brand">
-    <p class="text-sm tracking-[0.35em] text-[var(--henglu-accent)]">HENGLU</p>
-    <h1 id="hero-brand" class="hero-brand">{SITE_NAME_ZH}</h1>
-    <p class="hero-tagline">{SITE_TAGLINE}</p>
-    <div class="hero-actions">
-      <a class="btn-ink" href={localePath(locale, "blog")}>{translate(locale, "nav.blog")}</a>
-      <a class="btn-ghost" href={localePath(locale, "build")}>{translate(locale, "nav.build")}</a>
+  <section
+    class="relative flex min-h-[calc(100vh-6rem)] flex-col justify-center gap-6 overflow-hidden py-10"
+    aria-labelledby="hero-brand"
+  >
+    <div
+      class="motion-safe-glow pointer-events-none absolute -right-16 top-8 h-56 w-56 rounded-full bg-hl-accent/20 blur-3xl dark:bg-hl-accent/30"
+      aria-hidden="true"
+    >
     </div>
-    <div class="hero-scale" aria-hidden="true">
-      <span></span>
-      <span></span>
-      <span></span>
-      衡
+    <p
+      class="motion-safe-rise font-mono text-xs font-medium tracking-[0.35em] text-hl-accent uppercase"
+      style="animation-delay: 0.05s"
+    >
+      HENGLU · SIGNAL
+    </p>
+    <h1
+      id="hero-brand"
+      class="motion-safe-rise font-display text-[clamp(3.5rem,12vw,7rem)] leading-[0.92] font-semibold tracking-tight text-hl-fg"
+      style="animation-delay: 0.12s"
+    >
+      {SITE_NAME_ZH}
+    </h1>
+    <p
+      class="motion-safe-rise max-w-md text-lg text-hl-muted md:text-xl"
+      style="animation-delay: 0.2s"
+    >
+      {SITE_TAGLINE}
+    </p>
+    <div class="motion-safe-rise flex flex-wrap gap-3" style="animation-delay: 0.28s">
+      <a
+        class="inline-flex min-h-11 items-center justify-center rounded-lg bg-hl-accent px-5 font-semibold text-white no-underline transition hover:-translate-y-0.5 hover:bg-hl-accent-2 focus-visible:outline-hl-focus"
+        href={localePath(locale, "blog")}
+      >
+        {translate(locale, "nav.blog")}
+      </a>
+      <a
+        class="inline-flex min-h-11 items-center justify-center rounded-lg border border-hl-border bg-transparent px-5 font-medium text-hl-fg no-underline transition hover:border-hl-accent hover:text-hl-accent"
+        href={localePath(locale, "build")}
+      >
+        {translate(locale, "nav.build")}
+      </a>
     </div>
   </section>
 
-  <section class="mt-8 grid gap-6 border-t border-[var(--henglu-border)] pt-10 md:grid-cols-2" aria-label="站点设置">
+  <section
+    class="mt-6 grid gap-6 border-t border-hl-border pt-10 md:grid-cols-2"
+    aria-label="站点设置"
+  >
     <ThemeSettings
       client:load
       heading={translate(locale, "theme.heading")}
@@ -51,7 +82,7 @@ const locale: Locale = raw;
     />
   </section>
 
-  <p class="mt-10 max-w-prose text-[var(--henglu-muted)] leading-relaxed">
+  <p class="mt-10 max-w-prose leading-relaxed text-hl-muted">
     {translate(locale, "home.intro")}
   </p>
 </SiteLayout>

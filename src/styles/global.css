@@ -1,322 +1,132 @@
 @import "tailwindcss";
 
 /*
- * 衡录「墨衡」视觉系统：
- * 墨色氛围 + 刻度感（衡）+ 印章式品牌；浅/暗由 html[data-theme] 驱动。
- * 禁紫渐变 / 奶油风 / Inter；复杂关键帧用局部 SCSS。
+ * 衡录「Signal」视觉：炫酷简约现代科技感。
+ * 废弃水墨/印章/宣纸；浅暗由 html[data-theme] + @theme 令牌驱动。
  */
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+@theme {
+  --font-sans: "IBM Plex Sans", "Noto Sans SC", "Segoe UI", sans-serif;
+  --font-display: "Outfit", "Noto Sans SC", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "Cascadia Code", ui-monospace, monospace;
+
+  --color-hl-fg: var(--hl-fg);
+  --color-hl-bg: var(--hl-bg);
+  --color-hl-muted: var(--hl-muted);
+  --color-hl-accent: var(--hl-accent);
+  --color-hl-accent-2: var(--hl-accent-2);
+  --color-hl-soft: var(--hl-soft);
+  --color-hl-border: var(--hl-border);
+  --color-hl-focus: var(--hl-focus);
+  --color-hl-panel: var(--hl-panel);
+
+  --animate-rise: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-glow: glow-pulse 8s ease-in-out infinite alternate;
+}
+
 :root,
 [data-theme="light"] {
   color-scheme: light;
-  --henglu-fg: #1c1914;
-  --henglu-bg: #ebe4d6;
-  --henglu-bg-deep: #ddd4c2;
-  --henglu-muted: #5a5348;
-  --henglu-accent: #1f4f43;
-  --henglu-accent-bright: #2a6b5a;
-  --henglu-accent-soft: #c5d9d1;
-  --henglu-ink: #0e2a24;
-  --henglu-seal: #8b2e2e;
-  --henglu-border: color-mix(in oklab, #1c1914 14%, transparent);
-  --henglu-focus: #1f4f43;
-  --henglu-grain: color-mix(in oklab, #1c1914 6%, transparent);
-  --henglu-wash-a: #c8ddd4;
-  --henglu-wash-b: #e2d8c4;
+  --hl-fg: #0b1220;
+  --hl-bg: #f3f5f8;
+  --hl-muted: #5b6578;
+  --hl-accent: #0d9488;
+  --hl-accent-2: #0284c7;
+  --hl-soft: #d7f3ef;
+  --hl-border: color-mix(in oklab, #0b1220 12%, transparent);
+  --hl-focus: #0d9488;
+  --hl-panel: color-mix(in oklab, #ffffff 82%, #d7f3ef);
+  --hl-glow-a: color-mix(in oklab, #0d9488 28%, transparent);
+  --hl-glow-b: color-mix(in oklab, #0284c7 22%, transparent);
+  --hl-grid: color-mix(in oklab, #0b1220 6%, transparent);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --henglu-fg: #efe8dc;
-  --henglu-bg: #0c1210;
-  --henglu-bg-deep: #070b09;
-  --henglu-muted: #a39b8c;
-  --henglu-accent: #7eb6a4;
-  --henglu-accent-bright: #9ad0bf;
-  --henglu-accent-soft: #1a322c;
-  --henglu-ink: #d7ebe3;
-  --henglu-seal: #d47878;
-  --henglu-border: color-mix(in oklab, #efe8dc 14%, transparent);
-  --henglu-focus: #7eb6a4;
-  --henglu-grain: color-mix(in oklab, #efe8dc 5%, transparent);
-  --henglu-wash-a: #15241f;
-  --henglu-wash-b: #1c1812;
+  --hl-fg: #e8eef7;
+  --hl-bg: #070a0f;
+  --hl-muted: #9aa6b8;
+  --hl-accent: #2dd4bf;
+  --hl-accent-2: #38bdf8;
+  --hl-soft: #123038;
+  --hl-border: color-mix(in oklab, #e8eef7 14%, transparent);
+  --hl-focus: #2dd4bf;
+  --hl-panel: color-mix(in oklab, #0d131c 88%, #123038);
+  --hl-glow-a: color-mix(in oklab, #2dd4bf 22%, transparent);
+  --hl-glow-b: color-mix(in oklab, #38bdf8 18%, transparent);
+  --hl-grid: color-mix(in oklab, #e8eef7 5%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
-    --henglu-fg: #efe8dc;
-    --henglu-bg: #0c1210;
-    --henglu-bg-deep: #070b09;
-    --henglu-muted: #a39b8c;
-    --henglu-accent: #7eb6a4;
-    --henglu-accent-bright: #9ad0bf;
-    --henglu-accent-soft: #1a322c;
-    --henglu-ink: #d7ebe3;
-    --henglu-seal: #d47878;
-    --henglu-border: color-mix(in oklab, #efe8dc 14%, transparent);
-    --henglu-focus: #7eb6a4;
-    --henglu-grain: color-mix(in oklab, #efe8dc 5%, transparent);
-    --henglu-wash-a: #15241f;
-    --henglu-wash-b: #1c1812;
+    --hl-fg: #e8eef7;
+    --hl-bg: #070a0f;
+    --hl-muted: #9aa6b8;
+    --hl-accent: #2dd4bf;
+    --hl-accent-2: #38bdf8;
+    --hl-soft: #123038;
+    --hl-border: color-mix(in oklab, #e8eef7 14%, transparent);
+    --hl-focus: #2dd4bf;
+    --hl-panel: color-mix(in oklab, #0d131c 88%, #123038);
+    --hl-glow-a: color-mix(in oklab, #2dd4bf 22%, transparent);
+    --hl-glow-b: color-mix(in oklab, #38bdf8 18%, transparent);
+    --hl-grid: color-mix(in oklab, #e8eef7 5%, transparent);
   }
 }
 
-@font-face {
-  font-family: "Henglu Display";
-  src: local("Source Han Serif SC"), local("Noto Serif SC"), local("Songti SC");
-  font-display: swap;
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background: var(--hl-bg);
+    color: var(--hl-fg);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* 科技氛围：微网格 + 双色光斑（非纸纹/墨晕） */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 40% at 12% 0%, var(--hl-glow-a), transparent 60%),
+      radial-gradient(ellipse 45% 35% at 92% 88%, var(--hl-glow-b), transparent 55%),
+      linear-gradient(180deg, var(--hl-bg), var(--hl-bg));
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.7;
+    background-image:
+      linear-gradient(var(--hl-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hl-grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 20%, transparent 75%);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--hl-focus);
+    outline-offset: 3px;
+  }
 }
 
-html {
-  font-family: "Newsreader", "Source Han Serif SC", "Noto Serif SC", "Songti SC", Georgia, serif;
-  background: var(--henglu-bg);
-  color: var(--henglu-fg);
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  position: relative;
-  isolation: isolate;
-}
-
-/* 氛围层：墨晕 + 纸纹噪点 + 右侧刻度 */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 80% 55% at 12% 8%, var(--henglu-wash-a), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 88% 92%, var(--henglu-wash-b), transparent 50%),
-    linear-gradient(165deg, var(--henglu-bg) 0%, var(--henglu-bg-deep) 100%);
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.55;
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 47px,
-      var(--henglu-grain) 47px,
-      var(--henglu-grain) 48px
-    ),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
-  background-size:
-    48px 100%,
-    180px 180px;
-  mix-blend-mode: multiply;
-}
-
-[data-theme="dark"] body::after {
-  mix-blend-mode: soft-light;
-  opacity: 0.35;
-}
-
-:focus-visible {
-  outline: 2px solid var(--henglu-focus);
-  outline-offset: 3px;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-/* —— 顶栏 —— */
-.site-header {
-  border-bottom: 1px solid var(--henglu-border);
-  background: var(--henglu-bg);
-  position: sticky;
-  top: 0;
-  z-index: 40;
-}
-
-.site-brand {
-  font-family: "Henglu Display", "Noto Serif SC", serif;
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--henglu-ink);
-  text-decoration: none;
-  display: inline-block;
-  transform-origin: left center;
-  animation: seal-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.site-nav a {
-  position: relative;
-  text-decoration: none;
-  color: var(--henglu-fg);
-  padding-bottom: 0.15rem;
-}
-
-.site-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1.5px;
-  background: var(--henglu-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.28s ease;
-}
-
-.site-nav a:hover::after,
-.site-nav a:focus-visible::after {
-  transform: scaleX(1);
-}
-
-/* —— 首页英雄（一屏一构图） —— */
-.hero-stage {
-  position: relative;
-  min-height: calc(100vh - 6.5rem);
-  display: grid;
-  align-content: center;
-  gap: 1.5rem;
-  padding-block: 2rem 3rem;
-  overflow: hidden;
-}
-
-.hero-stage::before {
-  content: "";
-  position: absolute;
-  right: -8%;
-  top: 10%;
-  width: min(42vw, 22rem);
-  height: min(42vw, 22rem);
-  border: 2px solid color-mix(in oklab, var(--henglu-seal) 55%, transparent);
-  border-radius: 50%;
-  opacity: 0.45;
-  animation: wash-drift 14s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-
-.hero-brand {
-  font-family: "Henglu Display", "Noto Serif SC", serif;
-  font-size: clamp(4.5rem, 14vw, 8rem);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: 0.12em;
-  color: var(--henglu-ink);
-  margin: 0;
-  animation: seal-in 0.85s 0.08s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.hero-tagline {
-  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
-  color: var(--henglu-muted);
-  max-width: 22rem;
-  margin: 0;
-  animation: rise-in 0.7s 0.18s ease both;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  animation: rise-in 0.7s 0.28s ease both;
-}
-
-.btn-ink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.75rem;
-  padding: 0.55rem 1.15rem;
-  border: 1.5px solid var(--henglu-accent);
-  background: var(--henglu-accent);
-  color: var(--henglu-bg);
-  text-decoration: none;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    color 0.2s ease;
-}
-
-.btn-ink:hover {
-  background: var(--henglu-accent-bright);
-  border-color: var(--henglu-accent-bright);
-  transform: translateY(-1px);
-}
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.75rem;
-  padding: 0.55rem 1.15rem;
-  border: 1.5px solid var(--henglu-border);
-  background: transparent;
-  color: var(--henglu-fg);
-  text-decoration: none;
-  transition:
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.btn-ghost:hover {
-  border-color: var(--henglu-accent);
-  color: var(--henglu-accent);
-}
-
-.hero-scale {
-  position: absolute;
-  right: 0;
-  bottom: 12%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  opacity: 0.55;
-  pointer-events: none;
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: var(--henglu-muted);
-  writing-mode: vertical-rl;
-}
-
-.hero-scale span {
-  display: block;
-  width: 1.5px;
-  height: 2.5rem;
-  background: var(--henglu-accent);
-  opacity: 0.5;
-}
-
-@keyframes seal-in {
+@keyframes rise {
   from {
-    transform: scale(1.06) rotate(-1.5deg);
-  }
-  to {
-    transform: scale(1) rotate(0);
-  }
-}
-
-@keyframes rise-in {
-  from {
-    transform: translateY(0.75rem);
+    transform: translateY(0.85rem);
     opacity: 0.001;
   }
   to {
@@ -325,55 +135,49 @@ body::after {
   }
 }
 
-@keyframes wash-drift {
+@keyframes glow-pulse {
   from {
-    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.45;
+    transform: scale(1);
   }
   to {
-    transform: translate(-1.5rem, 1rem) rotate(8deg);
+    opacity: 0.8;
+    transform: scale(1.06);
   }
+}
+
+/* 标杆动效类：配合 prefers-reduced-motion 关闭 */
+.motion-safe-rise {
+  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motion-safe-glow {
+  animation: glow-pulse 8s ease-in-out infinite alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-brand,
-  .hero-brand,
-  .hero-tagline,
-  .hero-actions,
-  .hero-stage::before {
+  .motion-safe-rise,
+  .motion-safe-glow {
     animation: none !important;
   }
+}
 
-  .site-nav a::after {
-    transition: none;
+@layer components {
+  .content-body :is(h2, h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
   }
-}
-
-.content-body :is(h2, h3) {
-  margin-top: 1.75rem;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-}
-
-.content-body p {
-  margin: 0.75rem 0;
-}
-
-.content-body ul {
-  margin: 0.75rem 0;
-  padding-left: 1.25rem;
-  list-style: disc;
-}
-
-.content-body a {
-  color: var(--henglu-accent);
-  text-underline-offset: 3px;
-}
-
-.panel-ink {
-  display: grid;
-  gap: 0.75rem;
-  max-width: 28rem;
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--henglu-border);
-  background: color-mix(in oklab, var(--henglu-bg) 70%, var(--henglu-accent-soft));
+  .content-body p {
+    margin: 0.75rem 0;
+  }
+  .content-body ul {
+    margin: 0.75rem 0;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .content-body a {
+    color: var(--hl-accent);
+    text-underline-offset: 3px;
+  }
 }

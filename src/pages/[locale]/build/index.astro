@@ -22,11 +22,11 @@ const entries = publishedSorted(await getCollection("build-log"));
 <SiteLayout title={translate(locale, "build.title")} locale={locale} ogSlug="build">
   <header class="mb-8 space-y-2">
     <h1 class="text-3xl font-semibold">{translate(locale, "build.title")}</h1>
-    <p class="text-[var(--henglu-muted)]">公开记录衡录从 0 到 1 的搭建过程。</p>
+    <p class="text-hl-muted">公开记录衡录从 0 到 1 的搭建过程。</p>
   </header>
   {
     entries.length === 0 ? (
-      <p class="text-[var(--henglu-muted)]">{translate(locale, "build.empty")}</p>
+      <p class="text-hl-muted">{translate(locale, "build.empty")}</p>
     ) : (
       <div>
         {entries.map((entry) => (

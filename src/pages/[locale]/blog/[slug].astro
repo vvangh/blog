@@ -33,16 +33,16 @@ const { Content } = await render(entry);
 >
   <article>
     <p class="mb-4 text-sm">
-      <a class="text-[var(--henglu-accent)]" href={localePath(locale, "blog")}>← 技术</a>
+      <a class="text-hl-accent" href={localePath(locale, "blog")}>← 技术</a>
     </p>
     <header class="mb-8 space-y-3">
       <h1 class="text-3xl font-semibold tracking-tight">{entry.data.title}</h1>
-      <p class="text-sm text-[var(--henglu-muted)]">
+      <p class="text-sm text-hl-muted">
         <time datetime={entry.data.pubDate.toISOString()}>
           {formatDate(entry.data.pubDate, locale)}
         </time>
       </p>
-      {entry.data.description ? <p class="text-[var(--henglu-muted)]">{entry.data.description}</p> : null}
+      {entry.data.description ? <p class="text-hl-muted">{entry.data.description}</p> : null}
     </header>
     <div class="content-body space-y-4 leading-relaxed">
       <Content />

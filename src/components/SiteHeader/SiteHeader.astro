@@ -1,6 +1,6 @@
 ---
 /**
- * 站点顶栏：印章式品牌 + 墨线下划线导航。
+ * 站点顶栏：几何品牌字 + 现代导航。
  */
 import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 import { localePath, translate, type Locale } from "@/lib/i18n";
@@ -19,18 +19,30 @@ const links = [
 ];
 ---
 
-<header class="site-header">
-  <div class="mx-auto flex max-w-5xl flex-wrap items-end justify-between gap-4 px-4 py-5">
+<header
+  class="sticky top-0 z-40 border-b border-hl-border bg-hl-bg/80 backdrop-blur-md"
+>
+  <div class="mx-auto flex max-w-5xl flex-wrap items-end justify-between gap-4 px-4 py-4">
     <div>
-      <a href={localePath(locale)} class="site-brand">{SITE_NAME_ZH}</a>
-      <p class="mt-1 max-w-xs text-sm text-[var(--henglu-muted)]">{SITE_TAGLINE}</p>
+      <a
+        href={localePath(locale)}
+        class="font-display text-2xl font-semibold tracking-tight text-hl-fg no-underline transition-opacity hover:opacity-80"
+      >
+        {SITE_NAME_ZH}
+      </a>
+      <p class="mt-1 max-w-xs text-sm text-hl-muted">{SITE_TAGLINE}</p>
     </div>
-    <nav class="site-nav" aria-label={translate(locale, "nav.main")}>
-      <ul class="flex flex-wrap gap-5 text-sm tracking-wide">
+    <nav aria-label={translate(locale, "nav.main")}>
+      <ul class="flex flex-wrap gap-1 text-sm font-medium tracking-wide">
         {
           links.map((link) => (
             <li>
-              <a href={link.href}>{link.label}</a>
+              <a
+                href={link.href}
+                class="inline-flex min-h-10 items-center rounded-md px-3 text-hl-fg no-underline transition-colors hover:bg-hl-soft hover:text-hl-accent"
+              >
+                {link.label}
+              </a>
             </li>
           ))
         }

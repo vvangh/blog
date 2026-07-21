@@ -53,22 +53,22 @@ const ogImageAbs = new URL(ogImagePath(ogSlug), "https://vvangh.github.io").href
     <meta name="twitter:image" content={ogImageAbs} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="apple-touch-icon" href={`${base}og-default.png`} />
-    <meta name="theme-color" content="#2f5d50" />
+    <meta name="theme-color" content="#0d9488" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
     <script is:inline set:html={themeBoot} />
     <Analytics />
   </head>
-  <body class="min-h-screen antialiased">
+  <body class="min-h-screen font-sans antialiased">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-[var(--henglu-bg)] focus:px-3 focus:py-2 focus:text-[var(--henglu-fg)] focus:shadow"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-hl-bg focus:px-3 focus:py-2 focus:text-hl-fg focus:shadow"
     >
       {translate(locale, "skip.toMain")}
     </a>
@@ -76,8 +76,8 @@ const ogImageAbs = new URL(ogImagePath(ogSlug), "https://vvangh.github.io").href
     <main id="main" class="mx-auto w-full max-w-5xl px-4 py-8">
       <slot />
     </main>
-    <footer class="mx-auto w-full max-w-5xl px-4 pb-14 pt-4 text-sm text-[var(--henglu-muted)]">
-      <div class="border-t border-[var(--henglu-border)] pt-8">
+    <footer class="mx-auto w-full max-w-5xl px-4 pt-4 pb-14 text-sm text-hl-muted">
+      <div class="border-t border-hl-border pt-8">
         <p>{translate(locale, "footer.rights", { year })}</p>
         <p class="mt-1">{translate(locale, "footer.license")}</p>
       </div>

@@ -63,7 +63,6 @@ function onSystemChange(): void {
 }
 
 onMounted(() => {
-  // 与 head boot 对齐；勿在用户已操作后再强行覆盖
   preference.value = readThemePreference();
   applyAndAnnounce();
   media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -90,136 +89,58 @@ watch(
 </script>
 
 <template>
-  <section class="theme-settings" aria-labelledby="theme-settings-heading">
-    <h2 id="theme-settings-heading" class="theme-settings__title">{{ props.heading }}</h2>
-    <p class="theme-settings__hint">{{ props.hint }}</p>
+  <section
+    class="grid max-w-md gap-3 rounded-xl border border-hl-border bg-hl-panel p-4"
+    aria-labelledby="theme-settings-heading"
+  >
+    <h2 id="theme-settings-heading" class="m-0 text-lg font-semibold">{{ props.heading }}</h2>
+    <p class="m-0 text-sm text-hl-muted">{{ props.hint }}</p>
 
-    <fieldset class="theme-settings__modes">
+    <fieldset class="m-0 grid gap-2 border-0 p-0">
       <legend class="sr-only">主题模式</legend>
-      <label v-for="item in modes" :key="item.value" class="theme-settings__option">
+      <label
+        v-for="item in modes"
+        :key="item.value"
+        class="grid cursor-pointer grid-cols-[auto_1fr] grid-rows-[auto_auto] items-center gap-x-2 rounded-lg px-2 py-1.5 hover:bg-hl-soft/60"
+      >
         <input
           v-model="preference.mode"
+          class="row-span-2"
           type="radio"
           name="henglu-theme-mode"
           :value="item.value"
         />
-        <span class="theme-settings__option-label">{{ item.label }}</span>
-        <span class="theme-settings__option-hint">{{ item.hint }}</span>
+        <span class="font-semibold">{{ item.label }}</span>
+        <span class="text-xs text-hl-muted">{{ item.hint }}</span>
       </label>
     </fieldset>
 
-    <div v-if="showSchedule" class="theme-settings__schedule">
-      <label class="theme-settings__time">
+    <div v-if="showSchedule" class="grid gap-3 pt-1">
+      <label class="flex flex-wrap items-center justify-between gap-2 text-sm">
         <span>浅色开始</span>
         <input
           v-model="preference.schedule.lightStart"
+          class="min-h-9 rounded-md border border-hl-border bg-hl-bg px-2 text-hl-fg"
           type="time"
           name="lightStart"
           required
           @change="onScheduleChange"
         />
       </label>
-      <label class="theme-settings__time">
+      <label class="flex flex-wrap items-center justify-between gap-2 text-sm">
         <span>浅色结束</span>
         <input
           v-model="preference.schedule.lightEnd"
+          class="min-h-9 rounded-md border border-hl-border bg-hl-bg px-2 text-hl-fg"
           type="time"
           name="lightEnd"
           required
           @change="onScheduleChange"
         />
       </label>
-      <p class="theme-settings__schedule-note">支持跨午夜（例如 22:00 到次日 06:00）。</p>
+      <p class="m-0 text-xs text-hl-muted">支持跨午夜（例如 22:00 到次日 06:00）。</p>
     </div>
 
     <p class="sr-only" aria-live="polite" aria-atomic="true">{{ liveMessage }}</p>
   </section>
 </template>
-
-<style scoped>
-.theme-settings {
-  display: grid;
-  gap: 0.75rem;
-  max-width: 28rem;
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--henglu-border);
-  background: color-mix(in oklab, var(--henglu-bg) 70%, var(--henglu-accent-soft));
-}
-
-.theme-settings__title {
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-
-.theme-settings__hint {
-  margin: 0;
-  font-size: 0.875rem;
-  opacity: 0.75;
-}
-
-.theme-settings__modes {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  display: grid;
-  gap: 0.5rem;
-}
-
-.theme-settings__option {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 0.5rem;
-  align-items: center;
-  cursor: pointer;
-}
-
-.theme-settings__option input {
-  grid-row: 1 / span 2;
-}
-
-.theme-settings__option-label {
-  font-weight: 600;
-}
-
-.theme-settings__option-hint {
-  font-size: 0.8125rem;
-  opacity: 0.7;
-}
-
-.theme-settings__schedule {
-  display: grid;
-  gap: 0.75rem;
-  padding-top: 0.25rem;
-}
-
-.theme-settings__time {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-}
-
-.theme-settings__time input {
-  min-height: 2.25rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid color-mix(in oklab, var(--henglu-fg) 25%, transparent);
-  border-radius: 0.375rem;
-  background: var(--henglu-bg);
-  color: var(--henglu-fg);
-}
-
-.theme-settings__schedule-note {
-  margin: 0;
-  font-size: 0.8125rem;
-  opacity: 0.7;
-}
-
-.theme-settings :focus-visible {
-  outline: 2px solid var(--henglu-accent);
-  outline-offset: 2px;
-}
-</style>
