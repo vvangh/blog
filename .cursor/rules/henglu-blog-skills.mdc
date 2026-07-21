@@ -1,0 +1,42 @@
+---
+description: 衡录博客：技能对照 + 最严边改边审（方案 §15 / §6.4）
+alwaysApply: true
+---
+
+# 衡录 · 技能与边改边审
+
+## 动手前先读 Skill
+
+讨论方案或写/改本仓代码前，必须先 Read 相关 Agent Skill，禁止凭印象硬写。
+
+| 场景 | 优先技能 |
+| --- | --- |
+| 架构 / 分层 / ADR | `jeffallan-claude-skills-architecture-designer` |
+| Vue 岛 / SFC / 组合式 API | `jeffallan-claude-skills-vue-expert` |
+| 页面视觉 / 首屏 / 品牌 | `anthropics-skills-frontend-design` |
+| UX / 无障碍审计 | `jezweb-claude-skills-ux-audit` |
+| Playwright / e2e / axe | `jeffallan-claude-skills-playwright-expert` 或 `playwright-testing` |
+| `.cursor/rules` 落盘 | `create-rule` |
+| 差分挑错 | `review-bugbot`（有实质代码变更时优先） |
+| 安全相关 | `review-security` |
+
+不做：与 Element Plus 后台强绑的技能；无关技能不硬凑。  
+规则只放本仓 `blog/.cursor/rules/`，禁止写入 `repository/.cursor`。
+
+## 最严边改边审
+
+每完成一个可审单元（单文件关键改动、一个组件、一条用例、一块配置）即自审，**不通过不做下一块**；里程碑结束再总审。
+
+自审清单：
+
+1. §6.4：strict、PascalCase 组件、行数上限、做减法、中文描述性注释、barrel
+2. §12：语义、焦点、可访问名、alt、`lang`
+3. 有测试则同步补测并跑绿；无覆盖逻辑不进里程碑
+4. Vue / a11y / e2e / 安全：先调 §15 技能再改，改完用同一标准复检
+5. 实质代码变更优先 `review-bugbot`
+
+## 工程硬约束（摘要）
+
+- 入口：`vp`（`vp run` / `vp install` / `vp check` / `vp test`）；Astro **禁止**裸 `vp dev`
+- `base: '/blog/'`；Vue **3.5.x**；Tailwind 优先；BACKLOG 未升格不实现
+- 面向人的文本用简体中文；跨目录导入只经 barrel `index`
