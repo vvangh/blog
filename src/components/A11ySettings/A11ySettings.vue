@@ -55,10 +55,7 @@ watch(
 </script>
 
 <template>
-  <section
-    class="grid max-w-md gap-4 rounded-xl border border-hl-border bg-hl-panel p-4"
-    aria-label="a11y"
-  >
+  <section class="prefs-panel grid w-full gap-4" aria-label="a11y">
     <div>
       <h2 class="m-0 text-lg font-semibold">{{ props.densityHeading }}</h2>
       <p class="mt-1 text-sm text-hl-muted">{{ props.densityHint }}</p>

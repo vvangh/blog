@@ -62,86 +62,104 @@ const citation = `《${entry.data.title}》· ${SITE_NAME_ZH} · ${pageUrl}`;
   ogSlug="blog"
 >
   <ReadingProgress client:load label={translate(locale, "progress.label")} />
-  <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-10" data-reading-root>
+  <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-14" data-reading-root>
     <article>
-      <p class="mb-4 text-sm">
-        <a class="text-hl-accent" href={localePath(locale, "blog")}>← {translate(locale, "nav.blog")}</a>
+      <p class="mb-8">
+        <a
+          class="inline-flex items-center gap-1 text-sm font-medium text-hl-muted no-underline transition hover:text-hl-accent"
+          href={localePath(locale, "blog")}
+        >
+          ← {translate(locale, "nav.blog")}
+        </a>
       </p>
-      <header class="mb-8 space-y-3">
-        <h1 class="text-3xl font-semibold tracking-tight">{entry.data.title}</h1>
-        <p class="text-sm text-hl-muted">
+      <header class="mb-12 space-y-5 border-b border-hl-border pb-10">
+        {
+          entry.data.tags?.[0] ? (
+            <p class="font-mono text-[0.7rem] tracking-[0.28em] text-hl-accent uppercase">
+              {entry.data.tags[0]}
+            </p>
+          ) : null
+        }
+        <h1 class="font-display text-[clamp(2rem,5vw,3.25rem)] leading-[1.1] font-bold tracking-tight">
+          {entry.data.title}
+        </h1>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-hl-muted">
           <time datetime={entry.data.pubDate.toISOString()}>
             {formatDate(entry.data.pubDate, locale)}
           </time>
-        </p>
-        {entry.data.description ? <p class="text-hl-muted">{entry.data.description}</p> : null}
-        <ReadAloud
-          client:load
-          minutes={reading.minutes}
-          minutesLabel={translate(locale, "readAloud.minutes")}
-          startLabel={translate(locale, "readAloud.start")}
-          stopLabel={translate(locale, "readAloud.stop")}
-          unsupportedLabel={translate(locale, "readAloud.unsupported")}
-        />
+        </div>
+        {entry.data.description ? <p class="max-w-2xl text-lg text-hl-muted">{entry.data.description}</p> : null}
+        <div class="pt-2">
+          <ReadAloud
+            client:load
+            minutes={reading.minutes}
+            minutesLabel={translate(locale, "readAloud.minutes")}
+            startLabel={translate(locale, "readAloud.start")}
+            stopLabel={translate(locale, "readAloud.stop")}
+            unsupportedLabel={translate(locale, "readAloud.unsupported")}
+          />
+        </div>
       </header>
-      <div class="content-body space-y-4 leading-relaxed" data-read-aloud-root>
+      <div class="content-body" data-read-aloud-root>
         <Content />
       </div>
-      <RevisionTimeline
-        title={translate(locale, "revisions.title")}
-        revisions={[...entry.data.revisions]
-          .sort((a, b) => a.date.valueOf() - b.date.valueOf())
-          .map((rev) => ({
-            iso: rev.date.toISOString(),
-            label: formatDate(rev.date, locale),
-            summary: rev.summary,
-          }))}
-      />
-      {
-        seriesNav ? (
-          <SeriesNav
-            seriesLabel={translate(locale, "series.label")}
-            seriesName={seriesNav.series}
-            prevLabel={translate(locale, "series.prev")}
-            nextLabel={translate(locale, "series.next")}
-            prev={
-              seriesNav.prev
-                ? {
-                    href: localePath(locale, `blog/${seriesNav.prev.id}`),
-                    title: seriesNav.prev.title,
-                  }
-                : null
-            }
-            next={
-              seriesNav.next
-                ? {
-                    href: localePath(locale, `blog/${seriesNav.next.id}`),
-                    title: seriesNav.next.title,
-                  }
-                : null
-            }
-          />
-        ) : null
-      }
-      <CiteCopy
-        client:load
-        label={translate(locale, "cite.label")}
-        copyLabel={translate(locale, "cite.copy")}
-        copiedLabel={translate(locale, "cite.copied")}
-        citation={citation}
-      />
-      <Webmentions
-        title={translate(locale, "webmentions.title")}
-        empty={translate(locale, "webmentions.empty")}
-        disabled={translate(locale, "webmentions.disabled")}
-        pageUrl={pageUrl}
-      />
-      <GiscusComments locale={locale} heading={translate(locale, "comments.title")} />
+      <div class="mt-14 space-y-10 border-t border-hl-border pt-10">
+        <RevisionTimeline
+          title={translate(locale, "revisions.title")}
+          revisions={[...entry.data.revisions]
+            .sort((a, b) => a.date.valueOf() - b.date.valueOf())
+            .map((rev) => ({
+              iso: rev.date.toISOString(),
+              label: formatDate(rev.date, locale),
+              summary: rev.summary,
+            }))}
+        />
+        {
+          seriesNav ? (
+            <SeriesNav
+              seriesLabel={translate(locale, "series.label")}
+              seriesName={seriesNav.series}
+              prevLabel={translate(locale, "series.prev")}
+              nextLabel={translate(locale, "series.next")}
+              prev={
+                seriesNav.prev
+                  ? {
+                      href: localePath(locale, `blog/${seriesNav.prev.id}`),
+                      title: seriesNav.prev.title,
+                    }
+                  : null
+              }
+              next={
+                seriesNav.next
+                  ? {
+                      href: localePath(locale, `blog/${seriesNav.next.id}`),
+                      title: seriesNav.next.title,
+                    }
+                  : null
+              }
+            />
+          ) : null
+        }
+        <CiteCopy
+          client:load
+          label={translate(locale, "cite.label")}
+          copyLabel={translate(locale, "cite.copy")}
+          copiedLabel={translate(locale, "cite.copied")}
+          citation={citation}
+        />
+        <Webmentions
+          title={translate(locale, "webmentions.title")}
+          empty={translate(locale, "webmentions.empty")}
+          disabled={translate(locale, "webmentions.disabled")}
+          pageUrl={pageUrl}
+        />
+        <GiscusComments locale={locale} heading={translate(locale, "comments.title")} />
+      </div>
     </article>
     {
       tocItems.length > 0 ? (
-        <aside class="mt-10 lg:mt-0" data-pagefind-ignore>
-          <div class="lg:sticky lg:top-28">
+        <aside class="mt-12 lg:mt-0" data-pagefind-ignore>
+          <div class="rounded-2xl border border-hl-border bg-hl-panel/70 p-4 backdrop-blur-sm lg:sticky lg:top-28">
             <PostToc client:load title={translate(locale, "toc.title")} items={tocItems} />
           </div>
         </aside>

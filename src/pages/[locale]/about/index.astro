@@ -1,8 +1,9 @@
 ---
 /**
- * 关于页。
+ * 关于页：站介绍（偏好已迁入全站悬浮设置）。
  */
 import SiteLayout from "@/layouts/SiteLayout";
+import { StackBadge } from "@/components/StackBadge";
 import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
 
 export function getStaticPaths() {
@@ -15,8 +16,17 @@ const locale: Locale = raw;
 ---
 
 <SiteLayout title={translate(locale, "about.title")} locale={locale} ogSlug="home">
-  <header class="mb-8 space-y-2">
-    <h1 class="text-3xl font-semibold">{translate(locale, "about.title")}</h1>
+  <header class="mb-10 max-w-2xl space-y-4">
+    <p class="font-mono text-xs tracking-[0.35em] text-hl-accent uppercase">
+      {translate(locale, "home.eyebrow")}
+    </p>
+    <h1 class="font-display text-4xl font-bold tracking-tight md:text-5xl">
+      {translate(locale, "about.title")}
+    </h1>
+    <p class="text-lg leading-relaxed text-hl-muted">{translate(locale, "about.body")}</p>
   </header>
-  <p class="max-w-prose leading-relaxed text-hl-muted">{translate(locale, "about.body")}</p>
+
+  <section class="mt-12 max-w-lg border-t border-hl-border pt-10" aria-label={translate(locale, "stack.title")}>
+    <StackBadge locale={locale} />
+  </section>
 </SiteLayout>

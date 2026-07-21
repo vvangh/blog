@@ -18,6 +18,7 @@ export * from "./ReadingProgress";
 export * from "./ReadAloud";
 export * from "./RevisionTimeline";
 export * from "./SeriesNav";
+export * from "./SiteFab";
 export * from "./SiteHeader";
 export * from "./SiteSearch";
 export * from "./SplashScreen";

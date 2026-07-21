@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 /*
- * vv「Signal」视觉：炫酷简约现代科技感。
- * 废弃水墨/印章/宣纸；浅暗由 html[data-theme] + @theme 令牌驱动。
+ * vv Studio：可交付级个人站视觉。
+ * 石墨画布 + 信号橙强调；展示用 Syne，正文 Source Sans 3 + 思源黑体。
+ * 忌紫粉渐变、奶油衬线套餐、Inter 默认堆。
  */
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --font-sans: "IBM Plex Sans", "Noto Sans SC", "Segoe UI", sans-serif;
-  --font-display: "Outfit", "Noto Sans SC", "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", "Cascadia Code", ui-monospace, monospace;
+  --font-sans: "Source Sans 3", "Noto Sans SC", "Segoe UI", sans-serif;
+  --font-display: "Syne", "Noto Sans SC", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, monospace;
 
   --color-hl-fg: var(--hl-fg);
   --color-hl-bg: var(--hl-bg);
@@ -22,58 +23,61 @@
   --color-hl-focus: var(--hl-focus);
   --color-hl-panel: var(--hl-panel);
 
-  --animate-rise: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-glow: glow-pulse 8s ease-in-out infinite alternate;
+  --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-glow: glow-pulse 10s ease-in-out infinite alternate;
 }
 
 :root,
 [data-theme="light"] {
   color-scheme: light;
-  --hl-fg: #0b1220;
-  --hl-bg: #f3f5f8;
-  --hl-muted: #5b6578;
-  --hl-accent: #0f766e;
-  --hl-accent-2: #0284c7;
-  --hl-soft: #d7f3ef;
-  --hl-border: color-mix(in oklab, #0b1220 12%, transparent);
-  --hl-focus: #0f766e;
-  --hl-panel: color-mix(in oklab, #ffffff 82%, #d7f3ef);
-  --hl-glow-a: color-mix(in oklab, #0d9488 28%, transparent);
-  --hl-glow-b: color-mix(in oklab, #0284c7 22%, transparent);
-  --hl-grid: color-mix(in oklab, #0b1220 6%, transparent);
+  --hl-fg: #12141a;
+  --hl-bg: #f2f3f5;
+  --hl-muted: #5a6475;
+  --hl-accent: #e2411a;
+  --hl-accent-2: #2563eb;
+  --hl-soft: #ffe4db;
+  --hl-border: color-mix(in oklab, #12141a 10%, transparent);
+  --hl-focus: #e2411a;
+  --hl-panel: color-mix(in oklab, #ffffff 90%, #ffe4db);
+  --hl-glow-a: color-mix(in oklab, #e2411a 18%, transparent);
+  --hl-glow-b: color-mix(in oklab, #2563eb 14%, transparent);
+  --hl-grid: color-mix(in oklab, #12141a 5%, transparent);
+  --hl-rule: color-mix(in oklab, #12141a 14%, transparent);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --hl-fg: #e8eef7;
-  --hl-bg: #070a0f;
-  --hl-muted: #9aa6b8;
-  --hl-accent: #2dd4bf;
-  --hl-accent-2: #38bdf8;
-  --hl-soft: #123038;
-  --hl-border: color-mix(in oklab, #e8eef7 14%, transparent);
-  --hl-focus: #2dd4bf;
-  --hl-panel: color-mix(in oklab, #0d131c 88%, #123038);
-  --hl-glow-a: color-mix(in oklab, #2dd4bf 22%, transparent);
-  --hl-glow-b: color-mix(in oklab, #38bdf8 18%, transparent);
-  --hl-grid: color-mix(in oklab, #e8eef7 5%, transparent);
+  --hl-fg: #f4f5f7;
+  --hl-bg: #0a0b0e;
+  --hl-muted: #9aa3b2;
+  --hl-accent: #ff6a3d;
+  --hl-accent-2: #60a5fa;
+  --hl-soft: #3a1c14;
+  --hl-border: color-mix(in oklab, #f4f5f7 12%, transparent);
+  --hl-focus: #ff6a3d;
+  --hl-panel: color-mix(in oklab, #12151c 92%, #3a1c14);
+  --hl-glow-a: color-mix(in oklab, #ff6a3d 20%, transparent);
+  --hl-glow-b: color-mix(in oklab, #60a5fa 14%, transparent);
+  --hl-grid: color-mix(in oklab, #f4f5f7 4.5%, transparent);
+  --hl-rule: color-mix(in oklab, #f4f5f7 16%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
-    --hl-fg: #e8eef7;
-    --hl-bg: #070a0f;
-    --hl-muted: #9aa6b8;
-    --hl-accent: #2dd4bf;
-    --hl-accent-2: #38bdf8;
-    --hl-soft: #123038;
-    --hl-border: color-mix(in oklab, #e8eef7 14%, transparent);
-    --hl-focus: #2dd4bf;
-    --hl-panel: color-mix(in oklab, #0d131c 88%, #123038);
-    --hl-glow-a: color-mix(in oklab, #2dd4bf 22%, transparent);
-    --hl-glow-b: color-mix(in oklab, #38bdf8 18%, transparent);
-    --hl-grid: color-mix(in oklab, #e8eef7 5%, transparent);
+    --hl-fg: #f4f5f7;
+    --hl-bg: #0a0b0e;
+    --hl-muted: #9aa3b2;
+    --hl-accent: #ff6a3d;
+    --hl-accent-2: #60a5fa;
+    --hl-soft: #3a1c14;
+    --hl-border: color-mix(in oklab, #f4f5f7 12%, transparent);
+    --hl-focus: #ff6a3d;
+    --hl-panel: color-mix(in oklab, #12151c 92%, #3a1c14);
+    --hl-glow-a: color-mix(in oklab, #ff6a3d 20%, transparent);
+    --hl-glow-b: color-mix(in oklab, #60a5fa 14%, transparent);
+    --hl-grid: color-mix(in oklab, #f4f5f7 4.5%, transparent);
+    --hl-rule: color-mix(in oklab, #f4f5f7 16%, transparent);
   }
 }
 
@@ -91,7 +95,7 @@
     isolation: isolate;
   }
 
-  /* 科技氛围：微网格 + 双色光斑（非纸纹/墨晕） */
+  /* 氛围：柔光斑 + 斜向网格 + 细噪点 */
   body::before {
     content: "";
     position: fixed;
@@ -99,9 +103,9 @@
     z-index: -2;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 55% 40% at 12% 0%, var(--hl-glow-a), transparent 60%),
-      radial-gradient(ellipse 45% 35% at 92% 88%, var(--hl-glow-b), transparent 55%),
-      linear-gradient(180deg, var(--hl-bg), var(--hl-bg));
+      radial-gradient(ellipse 50% 42% at 8% -5%, var(--hl-glow-a), transparent 58%),
+      radial-gradient(ellipse 42% 36% at 96% 100%, var(--hl-glow-b), transparent 52%),
+      linear-gradient(165deg, var(--hl-bg) 0%, var(--hl-bg) 100%);
   }
 
   body::after {
@@ -110,23 +114,28 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.7;
+    opacity: 0.55;
     background-image:
       linear-gradient(var(--hl-grid) 1px, transparent 1px),
       linear-gradient(90deg, var(--hl-grid) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 20%, transparent 75%);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 20%, #000 15%, transparent 72%);
   }
 
   :focus-visible {
     outline: 2px solid var(--hl-focus);
     outline-offset: 3px;
   }
+
+  ::selection {
+    background: color-mix(in oklab, var(--hl-accent) 35%, transparent);
+    color: var(--hl-fg);
+  }
 }
 
 @keyframes rise {
   from {
-    transform: translateY(0.85rem);
+    transform: translateY(1rem);
     opacity: 0.001;
   }
   to {
@@ -137,54 +146,63 @@
 
 @keyframes glow-pulse {
   from {
-    opacity: 0.45;
+    opacity: 0.4;
     transform: scale(1);
   }
   to {
-    opacity: 0.8;
-    transform: scale(1.06);
+    opacity: 0.85;
+    transform: scale(1.08);
   }
 }
 
-/* 标杆动效类：配合 prefers-reduced-motion 关闭 */
+@keyframes brand-underline {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 .motion-safe-rise {
-  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .motion-safe-glow {
-  animation: glow-pulse 8s ease-in-out infinite alternate;
+  animation: glow-pulse 10s ease-in-out infinite alternate;
+}
+
+.motion-safe-underline {
+  transform-origin: left center;
+  animation: brand-underline 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
 }
 
 .motion-safe-nav-link {
   transition:
     color 0.2s ease,
-    background-color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.motion-safe-nav-link:hover {
-  transform: translateY(-1px);
+    background-color 0.2s ease;
 }
 
 .motion-safe-card {
   transition:
     border-color 0.25s ease,
+    color 0.2s ease,
     transform 0.25s ease;
 }
 
 .motion-safe-card:hover {
-  transform: translateY(-2px);
+  transform: translateX(4px);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .motion-safe-rise,
-  .motion-safe-glow {
+  .motion-safe-glow,
+  .motion-safe-underline {
     animation: none !important;
   }
 
   .motion-safe-nav-link,
   .motion-safe-card,
-  .motion-safe-nav-link:hover,
   .motion-safe-card:hover {
     transition: none !important;
     transform: none !important;
@@ -192,23 +210,92 @@
 }
 
 @layer components {
+  .page-shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 72rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .page-shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  .brand-mark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 0.85;
+  }
+
+  .content-body {
+    max-width: 42rem;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
   .content-body :is(h2, h3) {
-    margin-top: 1.75rem;
-    margin-bottom: 0.75rem;
-    font-weight: 600;
+    margin-top: 2.25rem;
+    margin-bottom: 0.85rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
     scroll-margin-top: 6rem;
   }
-  .content-body p {
-    margin: 0.75rem 0;
+
+  .content-body h2 {
+    font-size: 1.5rem;
   }
+
+  .content-body h3 {
+    font-size: 1.2rem;
+  }
+
+  .content-body p {
+    margin: 1rem 0;
+  }
+
   .content-body ul {
-    margin: 0.75rem 0;
-    padding-left: 1.25rem;
+    margin: 1rem 0;
+    padding-left: 1.35rem;
     list-style: disc;
   }
+
+  .content-body li + li {
+    margin-top: 0.35rem;
+  }
+
   .content-body a {
     color: var(--hl-accent);
     text-underline-offset: 3px;
+  }
+
+  .content-body :is(code):not(pre code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    padding: 0.12em 0.4em;
+    border-radius: 0.35rem;
+    color: var(--hl-fg);
+    background: color-mix(in oklab, var(--hl-fg) 6%, transparent);
+    border: 1px solid var(--hl-border);
+  }
+
+  /* Expressive Code：与正文节奏对齐 */
+  .content-body .expressive-code {
+    margin-block: 1.5rem;
+  }
+
+  .content-body .expressive-code pre {
+    margin: 0;
+  }
+
+  .prefs-panel {
+    border: 1px solid var(--hl-border);
+    border-radius: 1rem;
+    background: var(--hl-panel);
+    padding: 1.25rem;
   }
 }
 
@@ -222,15 +309,15 @@ html[data-density="comfortable"] .content-body {
   letter-spacing: 0.01em;
 }
 
-/* 高对比预设：加强前景/背景差，接近 AAA */
+/* 高对比预设 */
 html[data-contrast="high"][data-theme="light"],
 html[data-contrast="high"]:not([data-theme="dark"]) {
   --hl-fg: #000000;
   --hl-bg: #ffffff;
   --hl-muted: #222222;
-  --hl-accent: #0a5c55;
-  --hl-accent-2: #024e8c;
-  --hl-soft: #d0ebe7;
+  --hl-accent: #b91c1c;
+  --hl-accent-2: #1d4ed8;
+  --hl-soft: #ffe4e6;
   --hl-border: #000000;
   --hl-focus: #000000;
   --hl-panel: #ffffff;
@@ -240,9 +327,9 @@ html[data-contrast="high"][data-theme="dark"] {
   --hl-fg: #ffffff;
   --hl-bg: #000000;
   --hl-muted: #e0e0e0;
-  --hl-accent: #5eead4;
-  --hl-accent-2: #7dd3fc;
-  --hl-soft: #0f2a28;
+  --hl-accent: #fb923c;
+  --hl-accent-2: #93c5fd;
+  --hl-soft: #3f1d12;
   --hl-border: #ffffff;
   --hl-focus: #ffffff;
   --hl-panel: #0a0a0a;

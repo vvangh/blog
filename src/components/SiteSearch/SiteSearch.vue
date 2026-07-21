@@ -167,7 +167,7 @@ defineExpose({ openDialog });
   <div class="site-search">
     <button
       type="button"
-      class="inline-flex min-h-10 items-center gap-2 rounded-md border border-hl-border px-3 text-sm text-hl-muted transition hover:border-hl-accent hover:text-hl-accent"
+      class="inline-flex min-h-10 items-center gap-2 rounded-full border border-hl-border bg-hl-panel/50 px-3 text-sm text-hl-muted transition hover:border-hl-accent hover:text-hl-accent"
       :aria-label="openLabel"
       @click="openDialog"
     >

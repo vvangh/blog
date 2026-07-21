@@ -21,7 +21,7 @@ seriesOrder: 2
 
 ## 命令速查
 
-```bash title="常用脚本" showLineNumbers
+```bash title="vv · shell" frame="terminal"
 vp install
 vp run dev
 vp check

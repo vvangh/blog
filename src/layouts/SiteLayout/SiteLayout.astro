@@ -16,7 +16,7 @@ import { Analytics } from "@/components/Analytics";
 import { SplashScreen } from "@/components/SplashScreen";
 import { BackgroundLayer } from "@/components/BackgroundLayer";
 import { NowPlaying } from "@/components/NowPlaying";
-import { A11yCheatsheet } from "@/components/A11yCheatsheet";
+import { SiteFab } from "@/components/SiteFab";
 
 interface Props {
   title?: string;
@@ -63,13 +63,13 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
     <meta name="twitter:image" content={ogImageAbs} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="apple-touch-icon" href={`${base}og-default.png`} />
-    <meta name="theme-color" content="#0d9488" />
+    <meta name="theme-color" content="#0a0b0e" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Noto+Sans+SC:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Syne:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
     <script is:inline set:html={themeBoot} />
@@ -82,38 +82,55 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
       client:load
       brand={translate(locale, "splash.brand")}
       skipLabel={translate(locale, "splash.skip")}
+      tagline={SITE_TAGLINE}
     />
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-hl-bg focus:px-3 focus:py-2 focus:text-hl-fg focus:shadow"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-hl-bg focus:px-3 focus:py-2 focus:text-hl-fg focus:shadow"
     >
       {translate(locale, "skip.toMain")}
     </a>
     <SiteHeader locale={locale} />
-    <main
-      id="main"
-      class="mx-auto w-full max-w-5xl px-4 py-8"
-      data-pagefind-body
-      data-pagefind-meta={`title:${pageTitle}`}
-    >
+    <main id="main" class="page-shell py-10 md:py-14" data-pagefind-body data-pagefind-meta={`title:${pageTitle}`}>
       <slot />
     </main>
-    <footer
-      class="mx-auto w-full max-w-5xl px-4 pt-4 pb-14 text-sm text-hl-muted"
-      data-pagefind-ignore
-    >
-      <div class="border-t border-hl-border pt-8">
-        <NowPlaying locale={locale} />
+    <footer class="page-shell pt-2 pb-16 text-sm text-hl-muted" data-pagefind-ignore>
+      <div class="border-t border-hl-border pt-10">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p class="brand-mark text-3xl text-hl-fg">{SITE_NAME_ZH}</p>
+            <p class="mt-2 text-hl-muted">{SITE_TAGLINE}</p>
+          </div>
+          <NowPlaying locale={locale} />
+        </div>
         <p>{translate(locale, "footer.rights", { year })}</p>
-        <p class="mt-1">{translate(locale, "footer.license")}</p>
+        <p class="mt-1 opacity-80">{translate(locale, "footer.license")}</p>
       </div>
     </footer>
-    <A11yCheatsheet
+    <SiteFab
       client:load
-      title={translate(locale, "a11y.helpTitle")}
-      openLabel={translate(locale, "a11y.helpOpen")}
-      closeLabel={translate(locale, "a11y.helpClose")}
-      body={translate(locale, "a11y.helpBody")}
+      locale={locale}
+      prefsTitle={translate(locale, "about.prefs")}
+      prefsHint={translate(locale, "about.prefsHint")}
+      prefsOpenLabel={translate(locale, "prefs.open")}
+      prefsCloseLabel={translate(locale, "prefs.close")}
+      topLabel={translate(locale, "top.label")}
+      helpTitle={translate(locale, "a11y.helpTitle")}
+      helpOpenLabel={translate(locale, "a11y.helpOpen")}
+      helpCloseLabel={translate(locale, "a11y.helpClose")}
+      helpBody={translate(locale, "a11y.helpBody")}
+      themeHeading={translate(locale, "theme.heading")}
+      themeHint={translate(locale, "theme.hint")}
+      langHeading={translate(locale, "lang.heading")}
+      langHint={translate(locale, "lang.hint")}
+      langSwitched={translate(locale, "lang.switched")}
+      densityHeading={translate(locale, "a11y.density")}
+      densityHint={translate(locale, "a11y.densityHint")}
+      comfortableLabel={translate(locale, "a11y.comfortable")}
+      defaultLabel={translate(locale, "a11y.default")}
+      contrastHeading={translate(locale, "a11y.contrast")}
+      contrastOn={translate(locale, "a11y.contrastOn")}
+      contrastOff={translate(locale, "a11y.contrastOff")}
     />
   </body>
 </html>

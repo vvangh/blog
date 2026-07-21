@@ -10,11 +10,20 @@ export type MessageKey =
   | "nav.build"
   | "nav.life"
   | "nav.fun"
+  | "nav.more"
   | "nav.main"
   | "skip.toMain"
   | "footer.rights"
   | "footer.license"
   | "home.intro"
+  | "home.latest"
+  | "home.viewAll"
+  | "home.eyebrow"
+  | "about.prefs"
+  | "about.prefsHint"
+  | "prefs.open"
+  | "prefs.close"
+  | "top.label"
   | "blog.title"
   | "blog.empty"
   | "build.title"
@@ -118,11 +127,20 @@ const zhHans: Catalog = {
   "nav.build": "从零到一",
   "nav.life": "生活",
   "nav.fun": "趣味",
+  "nav.more": "更多",
   "nav.main": "主导航",
   "skip.toMain": "跳到主要内容",
   "footer.rights": "© {year} vv · vvangh",
   "footer.license": "代码 Apache-2.0；文章版权归作者。",
   "home.intro": "vv 是 vvangh 的个人站点：写技术、记生活、收藏一点娱乐；并从零公开搭建过程。",
+  "home.latest": "最近在写",
+  "home.viewAll": "全部文章",
+  "home.eyebrow": "个人站点",
+  "about.prefs": "站点偏好",
+  "about.prefsHint": "主题、语言与阅读辅助；点右下角设置按钮即可打开。",
+  "prefs.open": "打开设置",
+  "prefs.close": "关闭",
+  "top.label": "返回顶部",
   "blog.title": "技术",
   "blog.empty": "技术博客内容将在后续里程碑写入 Content Collection「blog」。",
   "build.title": "从零到一",
@@ -210,7 +228,8 @@ const zhHans: Catalog = {
   "a11y.helpTitle": "键盘与读屏提示",
   "a11y.helpOpen": "打开快捷键帮助",
   "a11y.helpClose": "关闭",
-  "a11y.helpBody": "按 ? 打开本面板。Ctrl/Cmd+K 搜索。跳过链接可直达正文。主题与语言在首页设置区。",
+  "a11y.helpBody":
+    "按 ? 打开本面板。Ctrl/Cmd+K 搜索。跳过链接可直达正文。主题、语言与阅读辅助在右下角「设置」。",
   "newsletter.title": "邮件订阅",
   "newsletter.hint": "RSS 之外的邮件触达（需配置表单端点）。",
   "newsletter.email": "邮箱",
@@ -226,11 +245,20 @@ const zhHant: Catalog = {
   "nav.build": "從零到一",
   "nav.life": "生活",
   "nav.fun": "趣味",
+  "nav.more": "更多",
   "nav.main": "主導航",
   "skip.toMain": "跳到主要內容",
   "footer.rights": "© {year} vv · vvangh",
   "footer.license": "程式碼 Apache-2.0；文章版權歸作者。",
   "home.intro": "vv 是 vvangh 的個人站點：寫技術、記生活、收藏一點娛樂；並從零公開搭建過程。",
+  "home.latest": "最近在寫",
+  "home.viewAll": "全部文章",
+  "home.eyebrow": "個人站點",
+  "about.prefs": "站點偏好",
+  "about.prefsHint": "主題、語言與閱讀輔助；點右下角設定按鈕即可打開。",
+  "prefs.open": "打開設定",
+  "prefs.close": "關閉",
+  "top.label": "返回頂部",
   "blog.title": "技術",
   "blog.empty": "技術部落格內容將在後續里程碑寫入 Content Collection「blog」。",
   "build.title": "從零到一",
@@ -318,7 +346,8 @@ const zhHant: Catalog = {
   "a11y.helpTitle": "鍵盤與讀屏提示",
   "a11y.helpOpen": "開啟快捷鍵說明",
   "a11y.helpClose": "關閉",
-  "a11y.helpBody": "按 ? 開啟本面板。Ctrl/Cmd+K 搜尋。跳過連結可直達正文。主題與語言在首頁設定區。",
+  "a11y.helpBody":
+    "按 ? 開啟本面板。Ctrl/Cmd+K 搜尋。跳過連結可直達正文。主題、語言與閱讀輔助在右下角「設定」。",
   "newsletter.title": "郵件訂閱",
   "newsletter.hint": "RSS 之外的郵件觸達（需設定表單端點）。",
   "newsletter.email": "電子郵件",
@@ -333,12 +362,22 @@ const en: Catalog = {
   "nav.build": "From Zero",
   "nav.life": "Life",
   "nav.fun": "Fun",
+  "nav.more": "More",
   "nav.main": "Main navigation",
   "skip.toMain": "Skip to main content",
   "footer.rights": "© {year} vv · vvangh",
   "footer.license": "Code Apache-2.0; articles © the author.",
   "home.intro":
     "vv is vvangh’s personal site: tech notes, life logs, a bit of fun—and an open build diary from day one.",
+  "home.latest": "Latest writing",
+  "home.viewAll": "All posts",
+  "home.eyebrow": "Personal site",
+  "about.prefs": "Site preferences",
+  "about.prefsHint":
+    "Theme, language, and reading aids — open via the settings button at bottom-right.",
+  "prefs.open": "Open settings",
+  "prefs.close": "Close",
+  "top.label": "Back to top",
   "blog.title": "Tech",
   "blog.empty": "Tech posts will land in the blog content collection in a later milestone.",
   "build.title": "From Zero",
@@ -428,7 +467,7 @@ const en: Catalog = {
   "a11y.helpOpen": "Open shortcut help",
   "a11y.helpClose": "Close",
   "a11y.helpBody":
-    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme and language live on the home settings.",
+    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme, language, and reading aids live in the bottom-right Settings button.",
   "newsletter.title": "Newsletter",
   "newsletter.hint": "Email updates beyond RSS (form endpoint required).",
   "newsletter.email": "Email",
@@ -443,12 +482,21 @@ const de: Catalog = {
   "nav.build": "Von Null",
   "nav.life": "Leben",
   "nav.fun": "Spaß",
+  "nav.more": "Mehr",
   "nav.main": "Hauptnavigation",
   "skip.toMain": "Zum Inhalt springen",
   "footer.rights": "© {year} vv · vvangh",
   "footer.license": "Code Apache-2.0; Texte © Autor.",
   "home.intro":
     "vv ist vvanghs persönliche Seite: Technik, Leben, etwas Unterhaltung—und ein offenes Baulogbuch.",
+  "home.latest": "Zuletzt",
+  "home.viewAll": "Alle Beiträge",
+  "home.eyebrow": "Persönliche Seite",
+  "about.prefs": "Seiteneinstellungen",
+  "about.prefsHint": "Theme, Sprache und Lesehilfen — über die Einstellungen unten rechts.",
+  "prefs.open": "Einstellungen öffnen",
+  "prefs.close": "Schließen",
+  "top.label": "Nach oben",
   "blog.title": "Technik",
   "blog.empty": "Technikbeiträge folgen in einem späteren Meilenstein.",
   "build.title": "Von Null",
@@ -538,7 +586,7 @@ const de: Catalog = {
   "a11y.helpOpen": "Open shortcut help",
   "a11y.helpClose": "Close",
   "a11y.helpBody":
-    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme and language live on the home settings.",
+    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme, language, and reading aids live in the bottom-right Settings button.",
   "newsletter.title": "Newsletter",
   "newsletter.hint": "Email updates beyond RSS (form endpoint required).",
   "newsletter.email": "Email",
@@ -553,11 +601,20 @@ const ja: Catalog = {
   "nav.build": "ゼロから",
   "nav.life": "生活",
   "nav.fun": "趣味",
+  "nav.more": "もっと",
   "nav.main": "メインナビ",
   "skip.toMain": "本文へスキップ",
   "footer.rights": "© {year} vv · vvangh",
   "footer.license": "コードは Apache-2.0、文章の著作権は著者に帰属。",
   "home.intro": "vv は vvangh の個人サイト。技術・生活・趣味を残し、構築過程も公開します。",
+  "home.latest": "最近の記事",
+  "home.viewAll": "すべての記事",
+  "home.eyebrow": "個人サイト",
+  "about.prefs": "サイト設定",
+  "about.prefsHint": "テーマ・言語・読み補助は右下の設定ボタンから。",
+  "prefs.open": "設定を開く",
+  "prefs.close": "閉じる",
+  "top.label": "ページ上部へ",
   "blog.title": "技術",
   "blog.empty": "技術記事は後のマイルストーンで blog コレクションに追加します。",
   "build.title": "ゼロから",
@@ -646,7 +703,7 @@ const ja: Catalog = {
   "a11y.helpOpen": "Open shortcut help",
   "a11y.helpClose": "Close",
   "a11y.helpBody":
-    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme and language live on the home settings.",
+    "Press ? for this panel. Ctrl/Cmd+K searches. Skip link jumps to main. Theme, language, and reading aids live in the bottom-right Settings button.",
   "newsletter.title": "Newsletter",
   "newsletter.hint": "Email updates beyond RSS (form endpoint required).",
   "newsletter.email": "Email",

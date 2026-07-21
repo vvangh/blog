@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
     <button
       v-if="supported"
       type="button"
-      class="inline-flex min-h-9 items-center rounded-md border border-hl-border px-3 font-medium text-hl-fg transition hover:border-hl-accent hover:text-hl-accent"
+      class="inline-flex min-h-9 items-center rounded-full border border-hl-border px-3 font-medium text-hl-fg transition hover:border-hl-accent hover:text-hl-accent"
       :aria-pressed="speaking"
       @click="toggle"
     >

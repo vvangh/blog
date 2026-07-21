@@ -56,8 +56,8 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "64px",
-          background: "linear-gradient(135deg, #0f1412 0%, #1a2420 55%, #24352e 100%)",
-          color: "#f2efe8",
+          background: "linear-gradient(145deg, #0a0b0e 0%, #14161c 55%, #1c1410 100%)",
+          color: "#f4f5f7",
           fontFamily: "Inter",
         },
         children: [
@@ -75,10 +75,10 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
                   type: "div",
                   props: {
                     style: {
-                      fontSize: 36,
-                      color: "#7eb6a4",
+                      fontSize: 40,
+                      color: "#ff6a3d",
                       fontWeight: 700,
-                      letterSpacing: "0.08em",
+                      letterSpacing: "-0.06em",
                     },
                     children: SITE_NAME_EN,
                   },
@@ -91,12 +91,12 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
                       alignItems: "center",
                       padding: "10px 18px",
                       borderRadius: "999px",
-                      border: "2px solid #7eb6a4",
-                      color: "#7eb6a4",
+                      border: "2px solid #ff6a3d",
+                      color: "#ff6a3d",
                       fontSize: 22,
                       fontWeight: 700,
                     },
-                    children: "vv · From Zero",
+                    children: "vv · Studio",
                   },
                 },
               ],
@@ -112,7 +112,7 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
           {
             type: "div",
             props: {
-              style: { fontSize: 28, color: "#a8a59c" },
+              style: { fontSize: 28, color: "#9aa3b2" },
               children: sub,
             },
           },
@@ -131,4 +131,4 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
 }
 
 /** 贴纸角标文案（OG 系列感） */
-export const OG_STICKER = "vv · From Zero";
+export const OG_STICKER = "vv · Studio";

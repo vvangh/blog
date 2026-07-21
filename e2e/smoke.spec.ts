@@ -90,7 +90,7 @@ test.describe("vv 关键路径", () => {
   });
 
   test("长文有目录、阅读进度、听读与系列导航", async ({ page }) => {
-    await page.goto("./zh-Hans/blog/welcome-henglu/");
+    await page.goto("./zh-Hans/blog/welcome/");
     const toc = page.getByRole("navigation", { name: "本页目录" });
     await expect(toc).toBeVisible();
     await expect(toc.getByRole("link", { name: "这是什么站" })).toBeVisible();

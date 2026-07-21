@@ -1,12 +1,13 @@
 <script setup lang="ts">
 /**
- * 首次进站 Splash：可跳过；prefers-reduced-motion 时立即结束。
+ * 首次进站 Splash：品牌字标入场；可跳过；prefers-reduced-motion 时立即结束。
  */
 import { onMounted, ref } from "vue";
 
 const props = defineProps<{
   brand: string;
   skipLabel: string;
+  tagline?: string;
 }>();
 
 const STORAGE_KEY = "henglu-splash-seen";
@@ -31,7 +32,6 @@ onMounted(() => {
   }
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce) {
-    // 尊重减动效：不播放启动页
     try {
       sessionStorage.setItem(STORAGE_KEY, "1");
     } catch {
@@ -40,7 +40,7 @@ onMounted(() => {
     return;
   }
   visible.value = true;
-  timer = setTimeout(dismiss, 1600);
+  timer = setTimeout(dismiss, 1500);
 });
 </script>
 
@@ -52,20 +52,28 @@ onMounted(() => {
     aria-modal="true"
     :aria-label="brand"
   >
-    <p
-      class="motion-safe-rise font-display text-5xl font-semibold tracking-tight text-hl-fg md:text-6xl"
-    >
+    <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div
+        class="motion-safe-glow absolute top-1/3 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-hl-accent/25 blur-3xl"
+      />
+    </div>
+    <p class="brand-mark motion-safe-rise relative text-7xl text-hl-fg md:text-8xl">
       {{ brand }}
     </p>
+    <span
+      class="motion-safe-underline relative mt-3 block h-[3px] w-16 bg-hl-accent"
+      aria-hidden="true"
+    />
     <p
-      class="motion-safe-rise mt-3 font-mono text-xs tracking-[0.35em] text-hl-accent uppercase"
-      style="animation-delay: 0.12s"
+      v-if="tagline"
+      class="motion-safe-rise relative mt-5 text-sm tracking-[0.2em] text-hl-muted"
+      style="animation-delay: 0.15s"
     >
-      HENGLU · SIGNAL
+      {{ tagline }}
     </p>
     <button
       type="button"
-      class="absolute right-4 bottom-6 min-h-11 rounded-md px-4 text-sm text-hl-muted hover:text-hl-accent"
+      class="absolute right-4 bottom-6 min-h-11 rounded-full px-4 text-sm text-hl-muted hover:text-hl-accent"
       @click="dismiss"
     >
       {{ skipLabel }}

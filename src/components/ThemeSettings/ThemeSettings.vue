@@ -89,10 +89,7 @@ watch(
 </script>
 
 <template>
-  <section
-    class="grid max-w-md gap-3 rounded-xl border border-hl-border bg-hl-panel p-4"
-    aria-labelledby="theme-settings-heading"
-  >
+  <section class="prefs-panel grid w-full gap-3" aria-labelledby="theme-settings-heading">
     <h2 id="theme-settings-heading" class="m-0 text-lg font-semibold">{{ props.heading }}</h2>
     <p class="m-0 text-sm text-hl-muted">{{ props.hint }}</p>
 
