@@ -19,7 +19,7 @@
 
 ## 工程硬约定
 
-- **Node：** 当前最新 LTS，由 `vp env pin lts --target node-version` 写入 `.node-version`（现为 **24.18.0**）；`engines.node` / `devEngines.runtime` 与之对齐。
+- **Node：** 当前最新 LTS，由 `vp env pin lts --target dev-engines` 写入 `package.json#devEngines.runtime`（现为 **24.18.0**）；可选 `engines.node` 作消费者下限。**不使用** `.node-version`。
 - **依赖：** 安装/升级取当前最新稳定版；Vue 固定 **3.5.x** 稳定线（`~3.5`），不上 3.6 RC。
 - **导入：** 优先 `@/`（→ `src/`）与 `~/`（→ 项目根）；目录外经 barrel，禁止 `../../../` 深层相对路径。
 

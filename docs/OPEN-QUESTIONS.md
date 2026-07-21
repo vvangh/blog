@@ -37,3 +37,15 @@
 | **拟验证** | 读 `package.json` 的 `vue` 范围；读 `tsconfig.json` paths、`astro.config.mjs` / `vite.config.ts` 的 `resolve.alias`。                                                                         |
 | **状态**   | **resolved**                                                                                                                                                                                  |
 | **结论**   | **已落地。** `vue` 为 `~3.5.40`；`tsconfig` paths、`astro`/`vite` alias 均配置 `@`→`src/`、`~`→项目根。依赖日常仍走 `vp add` / `vp install` 取稳定最新；Vue 禁止升到 3.6 RC（除非计划改口）。 |
+
+---
+
+## Q4. CI 应从何处读取 Node 版本？
+
+| 项         | 内容                                                                                                                                                                        |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **问题**   | GitHub Actions 的 `actions/setup-node` 是否仍可用 `node-version-file: .node-version`？                                                                                      |
+| **背景**   | 前次落地误把 CI 指到 `.node-version`；与「真相源在 package.json」冲突。                                                                                                     |
+| **拟验证** | [setup-node 文档](https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md)：`package.json` 解析顺序为 `volta.node` → `devEngines.runtime` → `engines.node`。 |
+| **状态**   | **resolved**                                                                                                                                                                |
+| **结论**   | CI 使用 `node-version-file: "package.json"`，优先读 `devEngines.runtime`（现 `24.18.0`），再回退 `engines.node`。**禁止** `node-version-file: .node-version`。              |
