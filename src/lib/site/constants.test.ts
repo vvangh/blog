@@ -5,10 +5,10 @@ import { describe, expect, it } from "vite-plus/test";
 import { SITE_BASE, SITE_NAME_EN, SITE_NAME_ZH, SITE_TAGLINE } from "./constants";
 
 describe("site constants", () => {
-  it("exposes Henglu brand strings", () => {
-    expect(SITE_NAME_ZH).toBe("衡录");
-    expect(SITE_NAME_EN).toBe("Henglu");
-    expect(SITE_TAGLINE.length).toBeGreaterThan(0);
+  it("exposes vv brand strings", () => {
+    expect(SITE_NAME_ZH).toBe("vv");
+    expect(SITE_NAME_EN).toBe("vv");
+    expect(SITE_TAGLINE).toBe("技术 · 生活 · 趣味");
   });
 
   it("uses GitHub Pages project base", () => {

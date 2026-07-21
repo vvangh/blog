@@ -8,7 +8,7 @@ tags: [工程化, Vite+, Astro]
 
 ## 背景
 
-衡录要从「有想法」变成「有仓库、有命令、有门禁」。前三个里程碑把远端、Astro 脚手架和 Vite+（check / staged / commitlint / CI）一次钉死。
+vv（曾用名衡录）要从「有想法」变成「有仓库、有命令、有门禁」。前三个里程碑把远端、Astro 脚手架和 Vite+（check / staged / commitlint / CI）一次钉死。
 
 ## 做了什么
 

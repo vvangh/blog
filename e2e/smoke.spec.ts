@@ -4,7 +4,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-test.describe("衡录关键路径", () => {
+test.describe("vv 关键路径", () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
       sessionStorage.setItem("henglu-splash-seen", "1");
@@ -14,7 +14,7 @@ test.describe("衡录关键路径", () => {
   test("根路径最终落到带语言前缀的首页", async ({ page }) => {
     await page.goto("./");
     await page.waitForURL(/\/blog\/(zh-Hans|zh-Hant|en|de|ja|ko|fr|es|ru)\/$/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("衡录");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("vv");
   });
 
   test("主导航可进入技术与从零到一", async ({ page }) => {
@@ -85,8 +85,8 @@ test.describe("衡录关键路径", () => {
   test("技术文章列表与详情可达", async ({ page }) => {
     await page.goto("./zh-Hans/blog/");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("技术");
-    await page.getByRole("link", { name: "欢迎来到衡录" }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("欢迎来到衡录");
+    await page.getByRole("link", { name: "欢迎来到 vv" }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("欢迎来到 vv");
   });
 
   test("长文有目录、阅读进度、听读与系列导航", async ({ page }) => {
@@ -121,7 +121,7 @@ test.describe("衡录关键路径", () => {
     expect(res.ok()).toBeTruthy();
     const text = await res.text();
     expect(text).toContain("<rss");
-    expect(text).toContain("欢迎来到衡录");
+    expect(text).toContain("欢迎来到 vv");
   });
 
   test("PWA manifest 可达且 scope 指向 /blog/", async ({ request }) => {

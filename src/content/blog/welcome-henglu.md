@@ -1,9 +1,9 @@
 ---
-title: 欢迎来到衡录
+title: 欢迎来到 vv
 description: 第一篇技术笔记：这里写什么、怎么读、工程约定一览。
 pubDate: 2026-07-21
-tags: [介绍, 衡录]
-series: 衡录入门
+tags: [介绍, vv]
+series: vv 入门
 seriesOrder: 1
 revisions:
   - date: 2026-03-01
@@ -14,7 +14,7 @@ revisions:
 
 ## 这是什么站
 
-**衡录（Henglu）** 是 vvangh 的个人站点：技术笔记、生活与趣味会陆续出现；「从零到一」公开建站过程。
+**vv** 是 vvangh 的个人站点：技术笔记、生活与趣味会陆续出现；「从零到一」公开建站过程。
 
 ## 怎么读
 

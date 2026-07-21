@@ -3,7 +3,7 @@ title: 用 Vite+ 管住个人站工具链
 description: 为什么不用 Husky + ESLint 双轨，而用 vp check / staged。
 pubDate: 2026-07-21
 tags: [Vite+, 工程化]
-series: 衡录入门
+series: vv 入门
 seriesOrder: 2
 ---
 

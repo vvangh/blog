@@ -1,6 +1,6 @@
 # 多语言独立域名（可选）
 
-目标：用短域名（如 `henglu.dev`）替代 `vvangh.github.io/blog/`，并可按语言分子域。
+目标：用短域名（如 `vv.dev`）替代 `vvangh.github.io/blog/`，并可按语言分子域。
 
 ## 本仓已有骨架
 

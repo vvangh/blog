@@ -55,9 +55,9 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "og-default.png"],
       manifest: {
-        name: "衡录 · Henglu",
-        short_name: "衡录",
-        description: "记下技术，也留下生活与趣味",
+        name: "vv",
+        short_name: "vv",
+        description: "技术 · 生活 · 趣味",
         theme_color: "#2f5d50",
         background_color: "#121412",
         display: "standalone",

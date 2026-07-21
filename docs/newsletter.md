@@ -1,6 +1,6 @@
 # Newsletter 订阅（可选）
 
-衡录以 **RSS** 为默认订阅通道。邮件 Newsletter 需要外部服务账号（Buttondown、Listmonk、Mailchimp 等），本站只提供**可配置表单骨架**。
+vv 以 **RSS** 为默认订阅通道。邮件 Newsletter 需要外部服务账号（Buttondown、Listmonk、Mailchimp 等），本站只提供**可配置表单骨架**。
 
 ## 启用步骤
 

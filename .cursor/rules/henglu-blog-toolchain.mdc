@@ -1,9 +1,9 @@
 ---
-description: 衡录：Node LTS、依赖最新稳定、路径别名与 barrel
+description: vv：Node LTS、依赖最新稳定、路径别名与 barrel
 alwaysApply: true
 ---
 
-# 衡录 · 工具链硬约定
+# vv · 工具链硬约定
 
 ## Node
 

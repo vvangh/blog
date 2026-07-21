@@ -4,7 +4,7 @@
  */
 
 export type DomainConfig = {
-  /** 规范站点源，如 https://henglu.dev；空则沿用 GitHub Pages */
+  /** 规范站点源，如 https://vv.dev；空则沿用 GitHub Pages */
   canonicalOrigin: string;
   /** 语言子域映射（可选，未启用时为空） */
   localeHosts: Partial<Record<string, string>>;
@@ -17,8 +17,8 @@ export type DomainConfig = {
 export const DOMAIN_CONFIG: DomainConfig = {
   canonicalOrigin: "",
   localeHosts: {
-    // "zh-Hans": "https://zh.henglu.dev",
-    // en: "https://en.henglu.dev",
+    // "zh-Hans": "https://zh.vv.dev",
+    // en: "https://en.vv.dev",
   },
 };
 

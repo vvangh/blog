@@ -96,7 +96,7 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
                       fontSize: 22,
                       fontWeight: 700,
                     },
-                    children: "Henglu · From Zero",
+                    children: "vv · From Zero",
                   },
                 },
               ],
@@ -131,4 +131,4 @@ export async function renderOgPng(payload: OgPayload): Promise<Buffer> {
 }
 
 /** 贴纸角标文案（OG 系列感） */
-export const OG_STICKER = "Henglu · From Zero";
+export const OG_STICKER = "vv · From Zero";

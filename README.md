@@ -1,8 +1,8 @@
-# 衡录 · Henglu
+# vv
 
-记下技术，也留下生活与趣味。
+技术 · 生活 · 趣味。
 
-衡录是 vvangh 的个人站点：写技术、记生活、收藏一点娱乐；并从零公开搭建过程。
+vv 是 vvangh 的个人站点：写技术、记生活、收藏一点娱乐；并从零公开搭建过程。
 
 线上地址（规划）：[https://vvangh.github.io/blog/](https://vvangh.github.io/blog/)
 
