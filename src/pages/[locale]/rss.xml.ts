@@ -4,7 +4,7 @@
 import type { APIRoute } from "astro";
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
-import { publishedSorted } from "@/content/_helpers";
+import { publishedSorted, type BlogEntry } from "@/content/_helpers";
 import { LOCALES, isLocale, localePath, type Locale } from "@/lib/i18n";
 import { SITE_DESCRIPTION, SITE_NAME_ZH } from "@/lib/site";
 
@@ -18,7 +18,7 @@ export const GET: APIRoute = async (context) => {
     return new Response("Not Found", { status: 404 });
   }
   const locale: Locale = raw;
-  const posts = publishedSorted(await getCollection("blog"));
+  const posts: BlogEntry[] = publishedSorted(await getCollection("blog"));
 
   return rss({
     title: `${SITE_NAME_ZH} · ${locale}`,

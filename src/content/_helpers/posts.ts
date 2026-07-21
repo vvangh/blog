@@ -4,7 +4,7 @@
  */
 import type { CollectionEntry } from "astro:content";
 
-type DatedEntry = { data: { pubDate: Date; draft?: boolean } };
+type DatedEntry = { id: string; data: { pubDate: Date; draft?: boolean } };
 
 export function isPublished<T extends DatedEntry>(entry: T): boolean {
   return entry.data.draft !== true;
@@ -15,7 +15,8 @@ export function sortByDateDesc<T extends DatedEntry>(entries: T[]): T[] {
 }
 
 export function publishedSorted<T extends DatedEntry>(entries: T[]): T[] {
-  return sortByDateDesc(entries.filter(isPublished));
+  // 用箭头包装，避免 filter(isPublished) 把 T 收窄成 DatedEntry（CI tsgolint）
+  return sortByDateDesc(entries.filter((entry) => isPublished(entry)));
 }
 
 export type BlogEntry = CollectionEntry<"blog">;
