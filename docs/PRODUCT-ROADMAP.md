@@ -16,8 +16,8 @@
 
 | id                 | 能力                              | 作用 / 效果例子                      | 优先级 | 状态    |
 | ------------------ | --------------------------------- | ------------------------------------ | ------ | ------- |
-| plug-search        | 全局搜索 Ctrl/Cmd+K（Pagefind）   | 键盘弹出搜索，读屏可读结果           | P0     | planned |
-| plug-code          | Expressive Code / Shiki 增强      | 代码块复制、行号、文件名             | P0     | planned |
+| plug-search        | 全局搜索 Ctrl/Cmd+K（Pagefind）   | 键盘弹出搜索，读屏可读结果           | P0     | done    |
+| plug-code          | Expressive Code / Shiki 增强      | 代码块复制、行号、文件名             | P0     | done    |
 | plug-toc           | 文内 TOC                          | 长文侧栏跳章节                       | P1     | planned |
 | plug-progress      | 阅读进度条                        | 顶栏细进度                           | P1     | planned |
 | plug-giscus        | Giscus 评论                       | 文末讨论                             | P2     | idea    |

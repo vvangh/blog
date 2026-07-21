@@ -16,3 +16,12 @@ tags: [Vite+, 工程化]
 ## 效果
 
 改完文件后，钩子自动修格式；CI 红就别合并——个人站也按产品纪律来。
+
+## 命令速查
+
+```bash title="常用脚本" showLineNumbers
+vp install
+vp run dev
+vp check
+vp test
+```

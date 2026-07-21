@@ -10,6 +10,7 @@ import { defineConfig } from "astro/config";
 import vue from "@astrojs/vue";
 import sitemap from "@astrojs/sitemap";
 import AstroPWA from "@vite-pwa/astro";
+import expressiveCode from "astro-expressive-code";
 import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
@@ -23,6 +24,16 @@ export default defineConfig({
   site: "https://vvangh.github.io",
   base: "/blog/",
   integrations: [
+    expressiveCode({
+      themes: ["github-dark", "github-light"],
+      defaultProps: {
+        wrap: true,
+      },
+      styleOverrides: {
+        borderRadius: "0.5rem",
+        codeFontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+      },
+    }),
     vue(),
     sitemap({
       i18n: {

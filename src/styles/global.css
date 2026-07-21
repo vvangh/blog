@@ -32,11 +32,11 @@
   --hl-fg: #0b1220;
   --hl-bg: #f3f5f8;
   --hl-muted: #5b6578;
-  --hl-accent: #0d9488;
+  --hl-accent: #0f766e;
   --hl-accent-2: #0284c7;
   --hl-soft: #d7f3ef;
   --hl-border: color-mix(in oklab, #0b1220 12%, transparent);
-  --hl-focus: #0d9488;
+  --hl-focus: #0f766e;
   --hl-panel: color-mix(in oklab, #ffffff 82%, #d7f3ef);
   --hl-glow-a: color-mix(in oklab, #0d9488 28%, transparent);
   --hl-glow-b: color-mix(in oklab, #0284c7 22%, transparent);

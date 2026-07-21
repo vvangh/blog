@@ -5,4 +5,5 @@ export * from "./Analytics";
 export * from "./LanguageSwitcher";
 export * from "./PostCard";
 export * from "./SiteHeader";
+export * from "./SiteSearch";
 export * from "./ThemeSettings";

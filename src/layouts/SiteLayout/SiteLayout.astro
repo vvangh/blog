@@ -73,10 +73,18 @@ const ogImageAbs = new URL(ogImagePath(ogSlug), "https://vvangh.github.io").href
       {translate(locale, "skip.toMain")}
     </a>
     <SiteHeader locale={locale} />
-    <main id="main" class="mx-auto w-full max-w-5xl px-4 py-8">
+    <main
+      id="main"
+      class="mx-auto w-full max-w-5xl px-4 py-8"
+      data-pagefind-body
+      data-pagefind-meta={`title:${pageTitle}`}
+    >
       <slot />
     </main>
-    <footer class="mx-auto w-full max-w-5xl px-4 pt-4 pb-14 text-sm text-hl-muted">
+    <footer
+      class="mx-auto w-full max-w-5xl px-4 pt-4 pb-14 text-sm text-hl-muted"
+      data-pagefind-ignore
+    >
       <div class="border-t border-hl-border pt-8">
         <p>{translate(locale, "footer.rights", { year })}</p>
         <p class="mt-1">{translate(locale, "footer.license")}</p>

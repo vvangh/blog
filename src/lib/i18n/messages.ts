@@ -27,7 +27,27 @@ export type MessageKey =
   | "theme.hint"
   | "lang.heading"
   | "lang.hint"
-  | "lang.switched";
+  | "lang.switched"
+  | "nav.about"
+  | "nav.archive"
+  | "nav.friends"
+  | "nav.tags"
+  | "search.open"
+  | "search.title"
+  | "search.placeholder"
+  | "search.empty"
+  | "search.noIndex"
+  | "search.close"
+  | "about.title"
+  | "about.body"
+  | "archive.title"
+  | "archive.empty"
+  | "friends.title"
+  | "friends.empty"
+  | "tags.title"
+  | "tags.empty"
+  | "splash.skip"
+  | "splash.brand";
 
 type Catalog = Record<MessageKey, string>;
 
@@ -55,6 +75,26 @@ const zhHans: Catalog = {
   "lang.heading": "语言",
   "lang.hint": "选择界面语言；下次访问会记住你的选择。",
   "lang.switched": "已切换为 {label}",
+  "nav.about": "关于",
+  "nav.archive": "归档",
+  "nav.friends": "友链",
+  "nav.tags": "标签",
+  "search.open": "打开搜索",
+  "search.title": "搜索站点",
+  "search.placeholder": "搜索文章与页面…",
+  "search.empty": "没有匹配结果",
+  "search.noIndex": "搜索索引未就绪（请先 vp run build）",
+  "search.close": "关闭",
+  "about.title": "关于",
+  "about.body": "衡录是 vvangh 的个人站点：写技术、记生活、收藏一点娱乐；并从零公开搭建过程。",
+  "archive.title": "归档",
+  "archive.empty": "暂无已发布内容。",
+  "friends.title": "友链",
+  "friends.empty": "暂无友链。",
+  "tags.title": "标签",
+  "tags.empty": "暂无标签。",
+  "splash.skip": "跳过",
+  "splash.brand": "衡录",
 };
 
 const zhHant: Catalog = {
@@ -82,6 +122,26 @@ const zhHant: Catalog = {
   "lang.heading": "語言",
   "lang.hint": "選擇介面語言；下次造訪會記住你的選擇。",
   "lang.switched": "已切換為 {label}",
+  "nav.about": "關於",
+  "nav.archive": "歸檔",
+  "nav.friends": "友鏈",
+  "nav.tags": "標籤",
+  "search.open": "開啟搜尋",
+  "search.title": "搜尋站點",
+  "search.placeholder": "搜尋文章與頁面…",
+  "search.empty": "沒有符合的結果",
+  "search.noIndex": "搜尋索引尚未就緒（請先 vp run build）",
+  "search.close": "關閉",
+  "about.title": "關於",
+  "about.body": "衡錄是 vvangh 的個人站點：寫技術、記生活、收藏一點娛樂；並從零公開搭建過程。",
+  "archive.title": "歸檔",
+  "archive.empty": "暫無已發布內容。",
+  "friends.title": "友鏈",
+  "friends.empty": "暫無友鏈。",
+  "tags.title": "標籤",
+  "tags.empty": "暫無標籤。",
+  "splash.skip": "跳過",
+  "splash.brand": "衡錄",
 };
 
 const en: Catalog = {
@@ -109,6 +169,27 @@ const en: Catalog = {
   "lang.heading": "Language",
   "lang.hint": "Pick a UI language; we’ll remember it next time.",
   "lang.switched": "Switched to {label}",
+  "nav.about": "About",
+  "nav.archive": "Archive",
+  "nav.friends": "Friends",
+  "nav.tags": "Tags",
+  "search.open": "Open search",
+  "search.title": "Search the site",
+  "search.placeholder": "Search posts and pages…",
+  "search.empty": "No matches",
+  "search.noIndex": "Search index not ready (run vp run build first)",
+  "search.close": "Close",
+  "about.title": "About",
+  "about.body":
+    "Henglu is vvangh’s personal site: tech notes, life logs, a bit of fun—and an open build diary.",
+  "archive.title": "Archive",
+  "archive.empty": "Nothing published yet.",
+  "friends.title": "Friends",
+  "friends.empty": "No friend links yet.",
+  "tags.title": "Tags",
+  "tags.empty": "No tags yet.",
+  "splash.skip": "Skip",
+  "splash.brand": "Henglu",
 };
 
 const de: Catalog = {
@@ -136,6 +217,27 @@ const de: Catalog = {
   "lang.heading": "Sprache",
   "lang.hint": "UI-Sprache wählen; wir merken sie uns.",
   "lang.switched": "Gewechselt zu {label}",
+  "nav.about": "Über",
+  "nav.archive": "Archiv",
+  "nav.friends": "Freunde",
+  "nav.tags": "Tags",
+  "search.open": "Suche öffnen",
+  "search.title": "Website durchsuchen",
+  "search.placeholder": "Beiträge und Seiten suchen…",
+  "search.empty": "Keine Treffer",
+  "search.noIndex": "Suchindex fehlt (zuerst vp run build)",
+  "search.close": "Schließen",
+  "about.title": "Über",
+  "about.body":
+    "Henglu ist vvanghs persönliche Seite: Technik, Leben, etwas Unterhaltung—und ein offenes Baulogbuch.",
+  "archive.title": "Archiv",
+  "archive.empty": "Noch keine Beiträge.",
+  "friends.title": "Freunde",
+  "friends.empty": "Noch keine Links.",
+  "tags.title": "Tags",
+  "tags.empty": "Noch keine Tags.",
+  "splash.skip": "Überspringen",
+  "splash.brand": "Henglu",
 };
 
 const ja: Catalog = {
@@ -163,6 +265,27 @@ const ja: Catalog = {
   "lang.heading": "言語",
   "lang.hint": "UI 言語を選ぶと次回も覚えています。",
   "lang.switched": "{label} に切り替えました",
+  "nav.about": "について",
+  "nav.archive": "アーカイブ",
+  "nav.friends": "友人",
+  "nav.tags": "タグ",
+  "search.open": "検索を開く",
+  "search.title": "サイト内検索",
+  "search.placeholder": "記事やページを検索…",
+  "search.empty": "一致する結果がありません",
+  "search.noIndex": "検索インデックス未準備（先に vp run build）",
+  "search.close": "閉じる",
+  "about.title": "について",
+  "about.body":
+    "衡録（Henglu）は vvangh の個人サイト。技術・生活・趣味を残し、構築過程も公開します。",
+  "archive.title": "アーカイブ",
+  "archive.empty": "公開記事はまだありません。",
+  "friends.title": "友人リンク",
+  "friends.empty": "まだリンクがありません。",
+  "tags.title": "タグ",
+  "tags.empty": "まだタグがありません。",
+  "splash.skip": "スキップ",
+  "splash.brand": "衡録",
 };
 
 export const MESSAGES: Record<Locale, Catalog> = {
