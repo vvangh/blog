@@ -1,0 +1,42 @@
+---
+/**
+ * 语言首页：品牌 + 主题 + 语言切换。
+ */
+import SiteLayout from "@/layouts/SiteLayout";
+import { ThemeSettings } from "@/components/ThemeSettings";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) {
+  throw new Error(`Unsupported locale: ${raw}`);
+}
+const locale: Locale = raw;
+---
+
+<SiteLayout locale={locale}>
+  <section class="space-y-8">
+    <div class="space-y-4">
+      <h1 class="text-4xl font-semibold tracking-tight text-[var(--henglu-accent)]">{SITE_NAME_ZH}</h1>
+      <p class="text-lg text-[var(--henglu-muted)]">{SITE_TAGLINE}</p>
+      <p class="max-w-prose leading-relaxed">{translate(locale, "home.intro")}</p>
+    </div>
+    <ThemeSettings
+      client:visible
+      heading={translate(locale, "theme.heading")}
+      hint={translate(locale, "theme.hint")}
+    />
+    <LanguageSwitcher
+      client:visible
+      locale={locale}
+      heading={translate(locale, "lang.heading")}
+      hint={translate(locale, "lang.hint")}
+      switchedTemplate={translate(locale, "lang.switched")}
+    />
+  </section>
+</SiteLayout>

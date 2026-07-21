@@ -12,6 +12,7 @@ export {};
 declare module 'vue' {
   export interface GlobalComponents {
     HelloIsland: typeof import('./components/HelloIsland/HelloIsland.vue')['default']
+    LanguageSwitcher: typeof import('./components/LanguageSwitcher/LanguageSwitcher.vue')['default']
     ThemeSettings: typeof import('./components/ThemeSettings/ThemeSettings.vue')['default']
   }
 }

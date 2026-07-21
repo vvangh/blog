@@ -1,33 +1,44 @@
 ---
 /**
- * 站点顶栏：品牌 + 分区导航（占位路由）。
+ * 站点顶栏：品牌 + 分区导航（带语言前缀）。
  */
 import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+import { localePath, translate, type Locale } from "@/lib/i18n";
 
-const base = import.meta.env.BASE_URL;
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
 const links = [
-  { href: `${base}`, label: "首页" },
-  { href: `${base}blog/`, label: "技术" },
-  { href: `${base}build/`, label: "从零到一" },
-  { href: `${base}life/`, label: "生活" },
-  { href: `${base}fun/`, label: "趣味" },
+  { href: localePath(locale), label: translate(locale, "nav.home") },
+  { href: localePath(locale, "blog"), label: translate(locale, "nav.blog") },
+  { href: localePath(locale, "build"), label: translate(locale, "nav.build") },
+  { href: localePath(locale, "life"), label: translate(locale, "nav.life") },
+  { href: localePath(locale, "fun"), label: translate(locale, "nav.fun") },
 ];
 ---
 
 <header class="border-b border-[var(--henglu-border)]">
   <div class="mx-auto flex max-w-3xl flex-wrap items-baseline justify-between gap-4 px-4 py-5">
     <div>
-      <a href={base} class="text-2xl font-semibold tracking-wide text-[var(--henglu-accent)] no-underline">
+      <a
+        href={localePath(locale)}
+        class="text-2xl font-semibold tracking-wide text-[var(--henglu-accent)] no-underline"
+      >
         {SITE_NAME_ZH}
       </a>
       <p class="mt-1 text-sm text-[var(--henglu-muted)]">{SITE_TAGLINE}</p>
     </div>
-    <nav aria-label="主导航">
+    <nav aria-label={translate(locale, "nav.main")}>
       <ul class="flex flex-wrap gap-4 text-sm">
         {
           links.map((link) => (
             <li>
-              <a class="underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--henglu-focus)]" href={link.href}>
+              <a
+                class="underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--henglu-focus)]"
+                href={link.href}
+              >
                 {link.label}
               </a>
             </li>

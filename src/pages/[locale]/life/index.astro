@@ -1,0 +1,18 @@
+---
+/** 生活分区占位（二期）。 */
+import SiteLayout from "@/layouts/SiteLayout";
+import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+---
+
+<SiteLayout title={translate(locale, "life.title")} locale={locale}>
+  <h1 class="text-3xl font-semibold">{translate(locale, "life.title")}</h1>
+  <p class="mt-4 text-[var(--henglu-muted)]">{translate(locale, "life.empty")}</p>
+</SiteLayout>

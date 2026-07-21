@@ -1,17 +1,40 @@
 ---
 /**
- * 首页：品牌 + 副标题 + 主题设置岛（替换脚手架计数按钮）。
+ * 根路径：按 localStorage / navigator.languages 协商语言后跳转。
+ * 无 JS 时展示五语种链接兜底。
  */
-import SiteLayout from "@/layouts/SiteLayout";
-import { ThemeSettings } from "@/components/ThemeSettings";
-import { SITE_DESCRIPTION, SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+import { LOCALES, LOCALE_LABELS, LOCALE_STORAGE_KEY, localePath } from "@/lib/i18n";
+import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+
+const links = LOCALES.map((locale) => ({
+  locale,
+  href: localePath(locale),
+  label: LOCALE_LABELS[locale],
+}));
+
+const boot = `(function(){try{var K=${JSON.stringify(LOCALE_STORAGE_KEY)};var stored=localStorage.getItem(K);function norm(t){t=String(t||"").toLowerCase().replace(/_/g,"-");if(!t)return null;if(t==="zh-hans"||t==="zh-cn"||t==="zh-sg"||t==="zh")return"zh-Hans";if(t==="zh-hant"||t==="zh-tw"||t==="zh-hk"||t==="zh-mo")return"zh-Hant";if(t==="en"||t.indexOf("en-")===0)return"en";if(t==="de"||t.indexOf("de-")===0)return"de";if(t==="ja"||t.indexOf("ja-")===0)return"ja";var list=["zh-Hans","zh-Hant","en","de","ja"];for(var i=0;i<list.length;i++){if(list[i].toLowerCase()===t)return list[i];}return null;}var hit=norm(stored);if(!hit){var langs=navigator.languages||[navigator.language];for(var j=0;j<langs.length;j++){hit=norm(langs[j]);if(hit)break;}}if(!hit)hit="zh-Hans";location.replace(${JSON.stringify(import.meta.env.BASE_URL)}+hit+"/");}catch(e){location.replace(${JSON.stringify(import.meta.env.BASE_URL)}+"zh-Hans/");}})();`;
 ---
 
-<SiteLayout>
-  <section class="space-y-6">
-    <h1 class="text-4xl font-semibold tracking-tight text-[var(--henglu-accent)]">{SITE_NAME_ZH}</h1>
-    <p class="text-lg text-[var(--henglu-muted)]">{SITE_TAGLINE}</p>
-    <p class="max-w-prose leading-relaxed">{SITE_DESCRIPTION}</p>
-    <ThemeSettings client:visible />
-  </section>
-</SiteLayout>
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{SITE_NAME_ZH} · {SITE_TAGLINE}</title>
+    <meta http-equiv="refresh" content={`0;url=${localePath("zh-Hans")}`} />
+    <script is:inline set:html={boot} />
+  </head>
+  <body>
+    <h1>{SITE_NAME_ZH}</h1>
+    <p>{SITE_TAGLINE}</p>
+    <ul>
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </body>
+</html>

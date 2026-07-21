@@ -13,6 +13,17 @@ import {
   type ThemePreference,
 } from "@/lib/theme";
 
+const props = withDefaults(
+  defineProps<{
+    heading?: string;
+    hint?: string;
+  }>(),
+  {
+    heading: "外观",
+    hint: "浅色、暗色、跟随系统，或按作息自定义时段。",
+  },
+);
+
 const preference = ref<ThemePreference>(readThemePreference());
 const liveMessage = ref("");
 let media: MediaQueryList | null = null;
@@ -77,8 +88,8 @@ watch(
 
 <template>
   <section class="theme-settings" aria-labelledby="theme-settings-heading">
-    <h2 id="theme-settings-heading" class="theme-settings__title">外观</h2>
-    <p class="theme-settings__hint">浅色、暗色、跟随系统，或按作息自定义时段。</p>
+    <h2 id="theme-settings-heading" class="theme-settings__title">{{ props.heading }}</h2>
+    <p class="theme-settings__hint">{{ props.hint }}</p>
 
     <fieldset class="theme-settings__modes">
       <legend class="sr-only">主题模式</legend>
