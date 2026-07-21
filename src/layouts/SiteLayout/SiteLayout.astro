@@ -1,0 +1,45 @@
+---
+/**
+ * 全站默认布局：文档外壳、品牌标题、主内容槽。
+ * 页面外请经 `@/layouts/SiteLayout` 导入。
+ */
+import "@/styles/global.css";
+import { SITE_DESCRIPTION, SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+import { SiteHeader } from "@/components/SiteHeader";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = SITE_DESCRIPTION } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE_NAME_ZH}` : `${SITE_NAME_ZH} · ${SITE_TAGLINE}`;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body class="min-h-screen antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-black"
+    >
+      跳到主要内容
+    </a>
+    <SiteHeader />
+    <main id="main" class="mx-auto w-full max-w-3xl px-4 py-10">
+      <slot />
+    </main>
+    <footer class="mx-auto w-full max-w-3xl px-4 pb-12 text-sm opacity-70">
+      <p>© {new Date().getFullYear()} {SITE_NAME_ZH} · vvangh</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+---
+/**
+ * 站点顶栏：品牌 + 分区导航（占位路由）。
+ */
+import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+
+const base = import.meta.env.BASE_URL;
+const links = [
+  { href: `${base}`, label: "首页" },
+  { href: `${base}blog/`, label: "技术" },
+  { href: `${base}build/`, label: "从零到一" },
+  { href: `${base}life/`, label: "生活" },
+  { href: `${base}fun/`, label: "趣味" },
+];
+---
+
+<header class="border-b border-black/10 dark:border-white/10">
+  <div class="mx-auto flex max-w-3xl flex-wrap items-baseline justify-between gap-4 px-4 py-5">
+    <div>
+      <a href={base} class="text-2xl font-semibold tracking-wide text-[var(--henglu-accent)] no-underline">
+        {SITE_NAME_ZH}
+      </a>
+      <p class="mt-1 text-sm opacity-70">{SITE_TAGLINE}</p>
+    </div>
+    <nav aria-label="主导航">
+      <ul class="flex flex-wrap gap-4 text-sm">
+        {
+          links.map((link) => (
+            <li>
+              <a class="underline-offset-4 hover:underline" href={link.href}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

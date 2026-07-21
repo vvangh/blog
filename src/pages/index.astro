@@ -1,0 +1,17 @@
+---
+/**
+ * 首页：品牌信号 + 一句介绍 + Vue 岛冒烟。
+ */
+import SiteLayout from "@/layouts/SiteLayout";
+import { HelloIsland } from "@/components/HelloIsland";
+import { SITE_DESCRIPTION, SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+---
+
+<SiteLayout>
+  <section class="space-y-6">
+    <h1 class="text-4xl font-semibold tracking-tight">{SITE_NAME_ZH}</h1>
+    <p class="text-lg opacity-80">{SITE_TAGLINE}</p>
+    <p class="max-w-prose leading-relaxed opacity-90">{SITE_DESCRIPTION}</p>
+    <HelloIsland client:visible />
+  </section>
+</SiteLayout>

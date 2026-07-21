@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+/*
+ * 衡录全局样式入口。
+ * 主题四模式（浅/暗/自动/自定义）在后续里程碑落地；此处只提供基础排版。
+ */
+:root {
+  color-scheme: light dark;
+  --henglu-fg: #1a1a1a;
+  --henglu-bg: #f7f5f0;
+  --henglu-accent: #2f5d50;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --henglu-fg: #f2efe8;
+    --henglu-bg: #121412;
+    --henglu-accent: #7eb6a4;
+  }
+}
+
+html {
+  font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", Georgia, serif;
+  background: var(--henglu-bg);
+  color: var(--henglu-fg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}

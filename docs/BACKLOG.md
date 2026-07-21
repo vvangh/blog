@@ -7,50 +7,50 @@
 
 ## 内容与叙事
 
-| id | 标题 | 作用 | 效果例子 | 状态 | 分区 |
-| --- | --- | --- | --- | --- | --- |
-| idea-on-this-day | 今夕何夕页 | 聚合往年今日的日记/照片 | 每年 7/21 自动列出往年记录 | idea | life |
-| idea-writing-heatmap | 写作热力图 | 按发文天数着色激励写作 | 像 GitHub 贡献墙看今年写了多少天 | idea | blog |
-| idea-post-revisions | 文章修订时间线 | 展示观点如何修订 | 文末「2026-03 曾认为…，2026-07 更正为…」 | idea | blog |
-| idea-read-aloud | 读完估计 + 听读 | 时长估算；浏览器朗读正文 | 低视力用户点「朗读」听完一篇 | idea | a11y |
-| idea-series-nav | 系列课式目录 | 系列文上一篇/下一篇 | 教程第三篇底部跳第四篇 | idea | blog |
+| id                   | 标题            | 作用                     | 效果例子                                 | 状态 | 分区 |
+| -------------------- | --------------- | ------------------------ | ---------------------------------------- | ---- | ---- |
+| idea-on-this-day     | 今夕何夕页      | 聚合往年今日的日记/照片  | 每年 7/21 自动列出往年记录               | idea | life |
+| idea-writing-heatmap | 写作热力图      | 按发文天数着色激励写作   | 像 GitHub 贡献墙看今年写了多少天         | idea | blog |
+| idea-post-revisions  | 文章修订时间线  | 展示观点如何修订         | 文末「2026-03 曾认为…，2026-07 更正为…」 | idea | blog |
+| idea-read-aloud      | 读完估计 + 听读 | 时长估算；浏览器朗读正文 | 低视力用户点「朗读」听完一篇             | idea | a11y |
+| idea-series-nav      | 系列课式目录    | 系列文上一篇/下一篇      | 教程第三篇底部跳第四篇                   | idea | blog |
 
 ## 互动与社交
 
-| id | 标题 | 作用 | 效果例子 | 状态 | 分区 |
-| --- | --- | --- | --- | --- | --- |
-| idea-cite-copy | 可复制引用块 | 方便转载署名 | 一键复制「《标题》· 衡录 · URL」 | idea | blog |
-| idea-webmentions | Webmentions | 收录别站提到你的链接 | 文末出现「被某某博客引用」 | idea | blog |
-| idea-og-sticker | OG 贴纸风角标 | 分享卡系列感 | 预览图带「衡录 · 从零到一」角标 | idea | eng |
+| id               | 标题          | 作用                 | 效果例子                         | 状态 | 分区 |
+| ---------------- | ------------- | -------------------- | -------------------------------- | ---- | ---- |
+| idea-cite-copy   | 可复制引用块  | 方便转载署名         | 一键复制「《标题》· 衡录 · URL」 | idea | blog |
+| idea-webmentions | Webmentions   | 收录别站提到你的链接 | 文末出现「被某某博客引用」       | idea | blog |
+| idea-og-sticker  | OG 贴纸风角标 | 分享卡系列感         | 预览图带「衡录 · 从零到一」角标  | idea | eng  |
 
 ## 娱乐与生活
 
-| id | 标题 | 作用 | 效果例子 | 状态 | 分区 |
-| --- | --- | --- | --- | --- | --- |
-| idea-now-playing | 在听/在看条 | 静态展示当前影音 | 页脚「在听：某某歌」 | idea | fun |
+| id                | 标题         | 作用                        | 效果例子                 | 状态 | 分区 |
+| ----------------- | ------------ | --------------------------- | ------------------------ | ---- | ---- |
+| idea-now-playing  | 在听/在看条  | 静态展示当前影音            | 页脚「在听：某某歌」     | idea | fun  |
 | idea-film-gallery | 胶片相册模式 | 胶片帧 + 键盘切换 + caption | 左右键翻照片，读屏读说明 | idea | life |
-| idea-travel-map | 旅行地图 | 城市级足迹（隐私模糊） | 地图上点亮去过的城市 | idea | life |
+| idea-travel-map   | 旅行地图     | 城市级足迹（隐私模糊）      | 地图上点亮去过的城市     | idea | life |
 
 ## 工程与元作品
 
-| id | 标题 | 作用 | 效果例子 | 状态 | 分区 |
-| --- | --- | --- | --- | --- | --- |
-| idea-repo-dashboard | 仓库仪表盘页 | 展示 tag/CI/测试数 | `/lab` 一页看工程健康度 | idea | eng |
-| idea-lighthouse-wall | Lighthouse 分数墙 | 性能/无障碍分数曲线 | build-log 里分数从 85→95 | idea | eng |
-| idea-stack-badge | 今日栈小组件 | 首页展示主力技术版本 | 「Astro x / Vue 3.5」 | idea | eng |
-| idea-adr-graph | ADR 可视化 | 决策谁取代谁 | `/build` 嵌 ADR 关系图 | idea | eng |
+| id                   | 标题              | 作用                 | 效果例子                 | 状态 | 分区 |
+| -------------------- | ----------------- | -------------------- | ------------------------ | ---- | ---- |
+| idea-repo-dashboard  | 仓库仪表盘页      | 展示 tag/CI/测试数   | `/lab` 一页看工程健康度  | idea | eng  |
+| idea-lighthouse-wall | Lighthouse 分数墙 | 性能/无障碍分数曲线  | build-log 里分数从 85→95 | idea | eng  |
+| idea-stack-badge     | 今日栈小组件      | 首页展示主力技术版本 | 「Astro x / Vue 3.5」    | idea | eng  |
+| idea-adr-graph       | ADR 可视化        | 决策谁取代谁         | `/build` 嵌 ADR 关系图   | idea | eng  |
 
 ## 无障碍再发散
 
-| id | 标题 | 作用 | 效果例子 | 状态 | 分区 |
-| --- | --- | --- | --- | --- | --- |
-| idea-reading-density | 大字号/宽松排版 | 低视力阅读密度 | 设置里开「舒适阅读」行距变大 | idea | a11y |
-| idea-high-contrast | 高对比主题预设 | 更强对比度 | 一键高对比，接近 AAA | idea | a11y |
-| idea-a11y-cheatsheet | 快捷键帮助面板 | `?` 说明键盘/读屏提示 | 弹出「跳过链接、地标」说明 | idea | a11y |
+| id                   | 标题            | 作用                  | 效果例子                     | 状态 | 分区 |
+| -------------------- | --------------- | --------------------- | ---------------------------- | ---- | ---- |
+| idea-reading-density | 大字号/宽松排版 | 低视力阅读密度        | 设置里开「舒适阅读」行距变大 | idea | a11y |
+| idea-high-contrast   | 高对比主题预设  | 更强对比度            | 一键高对比，接近 AAA         | idea | a11y |
+| idea-a11y-cheatsheet | 快捷键帮助面板  | `?` 说明键盘/读屏提示 | 弹出「跳过链接、地标」说明   | idea | a11y |
 
 ## 运营与增长
 
-| id | 标题 | 作用 | 效果例子 | 状态 | 分区 |
-| --- | --- | --- | --- | --- | --- |
-| idea-newsletter | Newsletter 订阅 | RSS 外的邮件触达 | 首页订阅框（含隐私说明） | idea | blog |
-| idea-custom-domains | 多语言独立域名 | 短域名替代 github.io | `henglu.dev` / 语言子域 | idea | eng |
+| id                  | 标题            | 作用                 | 效果例子                 | 状态 | 分区 |
+| ------------------- | --------------- | -------------------- | ------------------------ | ---- | ---- |
+| idea-newsletter     | Newsletter 订阅 | RSS 外的邮件触达     | 首页订阅框（含隐私说明） | idea | blog |
+| idea-custom-domains | 多语言独立域名  | 短域名替代 github.io | `henglu.dev` / 语言子域  | idea | eng  |

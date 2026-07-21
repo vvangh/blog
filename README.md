@@ -8,16 +8,18 @@
 
 ## 技术栈摘要
 
-| 层 | 选型 |
-| --- | --- |
-| 站点框架 | Astro（SSG） |
-| 交互岛 | Vue 3.5.x（`@astrojs/vue`） |
-| 工具链 | Vite+（`vp`）：install / check / test / staged / run |
-| 样式 | Tailwind 优先；局部复杂样式 SCSS 降级 |
-| 内容 | Content Collections（`blog` / `build-log`，预留 life / fun） |
-| 部署 | GitHub Pages 项目站（`base: '/blog/'`） |
+| 层       | 选型                                                         |
+| -------- | ------------------------------------------------------------ |
+| 站点框架 | Astro（SSG）                                                 |
+| 交互岛   | Vue 3.5.x（`@astrojs/vue`）                                  |
+| 工具链   | Vite+（`vp`）：install / check / test / staged / run         |
+| 样式     | Tailwind 优先；局部复杂样式 SCSS 降级                        |
+| 内容     | Content Collections（`blog` / `build-log`，预留 life / fun） |
+| 部署     | GitHub Pages 项目站（`base: '/blog/'`）                      |
 
-## 本地开发（脚手架落地后）
+## 本地开发
+
+脚手架已可用（Astro + Vue 3.5 + Tailwind；`base: '/blog/'`）。
 
 ```bash
 vp install
