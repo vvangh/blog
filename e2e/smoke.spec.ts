@@ -55,6 +55,21 @@ test.describe("衡录关键路径", () => {
     }
   });
 
+  test("技术文章列表与详情可达", async ({ page }) => {
+    await page.goto("./zh-Hans/blog/");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("技术");
+    await page.getByRole("link", { name: "欢迎来到衡录" }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("欢迎来到衡录");
+  });
+
+  test("RSS 可获取", async ({ request }) => {
+    const res = await request.get("./zh-Hans/rss.xml");
+    expect(res.ok()).toBeTruthy();
+    const text = await res.text();
+    expect(text).toContain("<rss");
+    expect(text).toContain("欢迎来到衡录");
+  });
+
   test("PWA manifest 可达且 scope 指向 /blog/", async ({ request }) => {
     const res = await request.get("./manifest.webmanifest");
     expect(res.ok()).toBeTruthy();

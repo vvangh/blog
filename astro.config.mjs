@@ -8,6 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import vue from "@astrojs/vue";
+import sitemap from "@astrojs/sitemap";
 import AstroPWA from "@vite-pwa/astro";
 import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "unplugin-auto-import/vite";
@@ -23,6 +24,18 @@ export default defineConfig({
   base: "/blog/",
   integrations: [
     vue(),
+    sitemap({
+      i18n: {
+        defaultLocale: "zh-Hans",
+        locales: {
+          "zh-Hans": "zh-Hans",
+          "zh-Hant": "zh-Hant",
+          en: "en",
+          de: "de",
+          ja: "ja",
+        },
+      },
+    }),
     AstroPWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "og-default.png"],
