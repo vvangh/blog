@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# commit-msg：用 commitlint 校验 Conventional Commits（中文摘要允许）
+# 用 vp exec，避免 npx/npm 与 devEngines.packageManager=pnpm 冲突
+vp exec commitlint --edit "$1"
