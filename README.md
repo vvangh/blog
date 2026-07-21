@@ -42,12 +42,14 @@ Astro 业务命令一律用 `vp run <script>`，不要对 Astro 使用裸 `vp de
 
 ## CI 与部署触发
 
-| 场景                                              | 何时跑                                                                                       | 说明                                                 |
-| ------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| **CI**（`vp check` / `vp test` / `vp run build`） | 向 `main` / `develop` 的 **PR**；**push** 到 `main` 或 `develop`；或手动 `workflow_dispatch` | 只做质量门禁，**不**发 GitHub Pages                  |
-| **Deploy Pages**                                  | **push** 到 `main`，或手动 `workflow_dispatch`                                               | 构建 `dist`（`base: '/blog/'`）并发布到 GitHub Pages |
+| 场景                                                    | 何时跑                                                                | 说明                              |
+| ------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------- |
+| **CI**（`vp check` / `vp test` / `vp run build` / e2e） | **PR** → `main`/`develop`；**push** → `main` 或 `develop`；或手动     | **只做质量门禁，绝不发 Pages**    |
+| **Deploy Pages**                                        | **仅** `push` 到 **`main`**，或在 **main** 上手动 `workflow_dispatch` | `develop` **不会**触发此 workflow |
 
-约定：`develop` 日常提交只跑 CI；合入 / 推到 `main` 才部署。仓库 Settings → Pages → Source 需选 **GitHub Actions**。
+约定：日常在 `develop` 推代码只会跑 CI；合入 / 推到 `main` 才部署。仓库 Settings → Pages → Source 需选 **GitHub Actions**。
+
+换行：仓库统一 **LF**（见 `.gitattributes`）；Windows 请避免把 CRLF 提交进仓，否则 CI 上 `vp check` 会因格式检查失败。
 
 ## 分支与里程碑
 

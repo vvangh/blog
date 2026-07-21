@@ -1,7 +1,9 @@
 name: CI
 
-# 质量门禁：PR 与 push 均可；develop 只检查、不部署。
-# 部署见 deploy-pages.yml（仅 main / 手动）。
+# 质量门禁（不部署 Pages）。
+# - push：main / develop 均可跑检查（develop 推送不会触发 Deploy）
+# - pull_request：针对 main / develop 的 PR
+# - 部署见 deploy-pages.yml（仅 main 或手动且必须在 main）
 on:
   pull_request:
     branches: [main, develop]
@@ -33,7 +35,11 @@ jobs:
           run-install: true
 
       - name: Check
-        run: vp check
+        run: |
+          set -euo pipefail
+          echo "node=$(node -v)"
+          vp --version || true
+          vp check
 
       - name: Test
         run: vp test

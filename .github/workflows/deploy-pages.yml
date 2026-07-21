@@ -1,7 +1,7 @@
 name: Deploy GitHub Pages
 
-# 仅 main 自动发版；develop 永不由此 workflow 部署。
-# 也可在 Actions 页手动 workflow_dispatch。
+# 硬约束：仅 main 自动发版；develop 任意 push 都不应出现在此 workflow。
+# workflow_dispatch 也仅允许在 main 引用上执行（防止从 develop 手动误发）。
 on:
   push:
     branches: [main]
@@ -22,6 +22,7 @@ env:
 jobs:
   build:
     name: Build site
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -44,6 +45,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:
