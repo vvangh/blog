@@ -7,9 +7,11 @@ alwaysApply: true
 
 ## Node
 
-- 项目级 Node = **当前最新 LTS**，用 Vite+：`vp env pin lts --target node-version`
-- 真相源：`.node-version`；`package.json` 的 `engines.node` 与 `devEngines.runtime` 对齐
-- 日常：`vp install` / `vp run` / `vp check` 会按 pin 解析运行时
+- 项目级 Node = **当前最新 LTS**
+- **仅**通过 Vite+ 写入 `package.json`：`vp env pin lts --target dev-engines`
+- 真相源：`package.json#devEngines.runtime`（可另有 `engines.node` 作消费者下限；`vp pin` 不改 `engines`）
+- **不使用** `.node-version` / `.nvmrc`（有则删；否则 `vp env pin` 会优先改它们）
+- 日常：`vp install` / `vp run` / `vp check` 按 pin 解析；核对：`vp env current`
 
 ## 依赖
 
