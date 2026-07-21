@@ -23,7 +23,7 @@ export type BgConfig = {
   items: BgItem[];
 };
 
-/** 默认关闭：无素材时不渲染层；有素材时改 enabled 与 items */
+/** 默认关闭：无素材时不渲染层；有素材时改 enabled 与 items。用法见 docs/background.md */
 export const BACKGROUND_CONFIG: BgConfig = {
   enabled: false,
   mode: "carousel",
@@ -31,7 +31,7 @@ export const BACKGROUND_CONFIG: BgConfig = {
   intervalMs: 12_000,
   opacity: 0.22,
   items: [
-    // 示例（放入 public/bg/ 后启用）：
+    // 示例：将文件放入 public/bg/ 后取消注释并设 enabled: true
     // { type: "image", src: "bg/signal-1.webp", alt: "" },
     // { type: "video", src: "bg/signal-loop.webm" },
   ],

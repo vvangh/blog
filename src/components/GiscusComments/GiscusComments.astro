@@ -1,0 +1,44 @@
+---
+/**
+ * Giscus 评论：环境变量齐全时注入；否则不渲染（优雅降级）。
+ */
+import type { Locale } from "@/lib/i18n";
+import { readGiscusEnvFromImportMeta, resolveGiscusConfig } from "@/lib/giscus";
+
+interface Props {
+  locale: Locale;
+  heading: string;
+}
+
+const { locale, heading } = Astro.props;
+const config = resolveGiscusConfig(readGiscusEnvFromImportMeta(), locale);
+---
+
+{
+  config ? (
+    <section class="mt-12 border-t border-hl-border pt-8" aria-labelledby="giscus-heading">
+      <h2 id="giscus-heading" class="mb-4 text-xl font-semibold tracking-tight">
+        {heading}
+      </h2>
+      <div class="giscus" />
+      <script
+        is:inline
+        src="https://giscus.app/client.js"
+        data-repo={config.repo}
+        data-repo-id={config.repoId}
+        data-category={config.category}
+        data-category-id={config.categoryId}
+        data-mapping={config.mapping}
+        data-strict="0"
+        data-reactions-enabled={config.reactionsEnabled}
+        data-emit-metadata={config.emitMetadata}
+        data-input-position={config.inputPosition}
+        data-theme={config.theme}
+        data-lang={config.lang}
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      />
+    </section>
+  ) : null
+}

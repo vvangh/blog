@@ -47,7 +47,10 @@ export type MessageKey =
   | "tags.title"
   | "tags.empty"
   | "splash.skip"
-  | "splash.brand";
+  | "splash.brand"
+  | "toc.title"
+  | "progress.label"
+  | "comments.title";
 
 type Catalog = Record<MessageKey, string>;
 
@@ -95,6 +98,9 @@ const zhHans: Catalog = {
   "tags.empty": "暂无标签。",
   "splash.skip": "跳过",
   "splash.brand": "衡录",
+  "toc.title": "本页目录",
+  "progress.label": "阅读进度",
+  "comments.title": "评论",
 };
 
 const zhHant: Catalog = {
@@ -142,6 +148,9 @@ const zhHant: Catalog = {
   "tags.empty": "暫無標籤。",
   "splash.skip": "跳過",
   "splash.brand": "衡錄",
+  "toc.title": "本頁目錄",
+  "progress.label": "閱讀進度",
+  "comments.title": "留言",
 };
 
 const en: Catalog = {
@@ -190,6 +199,9 @@ const en: Catalog = {
   "tags.empty": "No tags yet.",
   "splash.skip": "Skip",
   "splash.brand": "Henglu",
+  "toc.title": "On this page",
+  "progress.label": "Reading progress",
+  "comments.title": "Comments",
 };
 
 const de: Catalog = {
@@ -238,6 +250,9 @@ const de: Catalog = {
   "tags.empty": "Noch keine Tags.",
   "splash.skip": "Überspringen",
   "splash.brand": "Henglu",
+  "toc.title": "Inhalt",
+  "progress.label": "Lesefortschritt",
+  "comments.title": "Kommentare",
 };
 
 const ja: Catalog = {
@@ -286,6 +301,9 @@ const ja: Catalog = {
   "tags.empty": "まだタグがありません。",
   "splash.skip": "スキップ",
   "splash.brand": "衡録",
+  "toc.title": "目次",
+  "progress.label": "読書進捗",
+  "comments.title": "コメント",
 };
 
 const ko: Catalog = {
@@ -316,6 +334,9 @@ const ko: Catalog = {
   "theme.heading": "모양",
   "lang.heading": "언어",
   "lang.switched": "{label}(으)로 전환됨",
+  "toc.title": "목차",
+  "progress.label": "읽기 진행률",
+  "comments.title": "댓글",
 };
 
 const fr: Catalog = {
@@ -361,6 +382,9 @@ const fr: Catalog = {
   "lang.heading": "Langue",
   "lang.hint": "Choisissez la langue de l’interface ; nous la mémorisons.",
   "lang.switched": "Basculé vers {label}",
+  "toc.title": "Sommaire",
+  "progress.label": "Progression de lecture",
+  "comments.title": "Commentaires",
 };
 
 const es: Catalog = {
@@ -406,6 +430,9 @@ const es: Catalog = {
   "lang.heading": "Idioma",
   "lang.hint": "Elige el idioma de la interfaz; lo recordaremos.",
   "lang.switched": "Cambiado a {label}",
+  "toc.title": "Contenido",
+  "progress.label": "Progreso de lectura",
+  "comments.title": "Comentarios",
 };
 
 const ru: Catalog = {
@@ -451,6 +478,9 @@ const ru: Catalog = {
   "lang.heading": "Язык",
   "lang.hint": "Выберите язык интерфейса; мы запомним выбор.",
   "lang.switched": "Переключено на {label}",
+  "toc.title": "Содержание",
+  "progress.label": "Прогресс чтения",
+  "comments.title": "Комментарии",
 };
 
 export const MESSAGES: Record<Locale, Catalog> = {

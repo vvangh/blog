@@ -6,7 +6,11 @@ import { getCollection, render } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
 import { publishedSorted } from "@/content/_helpers";
 import { formatDate } from "@/lib/date";
-import { LOCALES, isLocale, localePath, type Locale } from "@/lib/i18n";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
+import { filterTocHeadings } from "@/lib/toc";
+import { PostToc } from "@/components/PostToc";
+import { ReadingProgress } from "@/components/ReadingProgress";
+import { GiscusComments } from "@/components/GiscusComments";
 
 export async function getStaticPaths() {
   const entries = publishedSorted(await getCollection("build-log"));
@@ -22,7 +26,8 @@ const raw = Astro.params.locale ?? "zh-Hans";
 if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const tocItems = filterTocHeadings(headings);
 ---
 
 <SiteLayout
@@ -31,29 +36,42 @@ const { Content } = await render(entry);
   locale={locale}
   ogSlug="build"
 >
-  <article class="prose-henglu">
-    <p class="mb-4 text-sm">
-      <a class="text-hl-accent" href={localePath(locale, "build")}>← 从零到一</a>
-    </p>
-    <header class="mb-8 space-y-3">
-      <h1 class="text-3xl font-semibold tracking-tight">{entry.data.title}</h1>
-      <p class="text-sm text-hl-muted">
-        <time datetime={entry.data.pubDate.toISOString()}>
-          {formatDate(entry.data.pubDate, locale)}
-        </time>
-        {
-          entry.data.milestone ? (
-            <>
-              <span aria-hidden="true"> · </span>
-              <span>{entry.data.milestone}</span>
-            </>
-          ) : null
-        }
+  <ReadingProgress client:load label={translate(locale, "progress.label")} />
+  <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-10" data-reading-root>
+    <article class="prose-henglu">
+      <p class="mb-4 text-sm">
+        <a class="text-hl-accent" href={localePath(locale, "build")}>← {translate(locale, "nav.build")}</a>
       </p>
-      {entry.data.description ? <p class="text-hl-muted">{entry.data.description}</p> : null}
-    </header>
-    <div class="content-body space-y-4 leading-relaxed">
-      <Content />
-    </div>
-  </article>
+      <header class="mb-8 space-y-3">
+        <h1 class="text-3xl font-semibold tracking-tight">{entry.data.title}</h1>
+        <p class="text-sm text-hl-muted">
+          <time datetime={entry.data.pubDate.toISOString()}>
+            {formatDate(entry.data.pubDate, locale)}
+          </time>
+          {
+            entry.data.milestone ? (
+              <>
+                <span aria-hidden="true"> · </span>
+                <span>{entry.data.milestone}</span>
+              </>
+            ) : null
+          }
+        </p>
+        {entry.data.description ? <p class="text-hl-muted">{entry.data.description}</p> : null}
+      </header>
+      <div class="content-body space-y-4 leading-relaxed">
+        <Content />
+      </div>
+      <GiscusComments locale={locale} heading={translate(locale, "comments.title")} />
+    </article>
+    {
+      tocItems.length > 0 ? (
+        <aside class="mt-10 lg:mt-0" data-pagefind-ignore>
+          <div class="lg:sticky lg:top-28">
+            <PostToc client:load title={translate(locale, "toc.title")} items={tocItems} />
+          </div>
+        </aside>
+      ) : null
+    }
+  </div>
 </SiteLayout>

@@ -89,6 +89,16 @@ test.describe("衡录关键路径", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText("欢迎来到衡录");
   });
 
+  test("长文有目录与阅读进度条", async ({ page }) => {
+    await page.goto("./zh-Hans/blog/welcome-henglu/");
+    const toc = page.getByRole("navigation", { name: "本页目录" });
+    await expect(toc).toBeVisible();
+    await expect(toc.getByRole("link", { name: "这是什么站" })).toBeVisible();
+    await expect(page.getByRole("progressbar", { name: "阅读进度" })).toBeVisible();
+    // 缺 Giscus env 时不渲染评论区（优雅降级）
+    await expect(page.locator(".giscus")).toHaveCount(0);
+  });
+
   test("RSS 可获取", async ({ request }) => {
     const res = await request.get("./zh-Hans/rss.xml");
     expect(res.ok()).toBeTruthy();

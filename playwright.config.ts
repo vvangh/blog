@@ -11,8 +11,10 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  // 本地并行过多会把 preview 打满导致 goto 超时；CI 单 worker 更稳
+  workers: process.env.CI ? 1 : 4,
   reporter: process.env.CI ? "github" : "list",
+  timeout: 45_000,
   use: {
     baseURL: BASE,
     trace: "on-first-retry",

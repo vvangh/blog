@@ -1,0 +1,2 @@
+# 素材放这里后，在 src/lib/bg/config.ts 启用 BACKGROUND_CONFIG
+# 详见 docs/background.md

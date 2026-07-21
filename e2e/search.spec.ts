@@ -12,6 +12,8 @@ test.describe("站点搜索", () => {
 
   test("Ctrl+K 打开搜索对话框", async ({ page }) => {
     await page.goto("./zh-Hans/");
+    // 等搜索岛挂载后再发快捷键，避免 listener 未绑定
+    await expect(page.getByRole("button", { name: "打开搜索" })).toBeVisible();
     await page.keyboard.press("Control+KeyK");
     const dialog = page.getByRole("dialog", { name: "搜索站点" });
     await expect(dialog).toBeVisible();

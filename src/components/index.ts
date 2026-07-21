@@ -3,8 +3,11 @@
  */
 export * from "./Analytics";
 export * from "./BackgroundLayer";
+export * from "./GiscusComments";
 export * from "./LanguageSwitcher";
 export * from "./PostCard";
+export * from "./PostToc";
+export * from "./ReadingProgress";
 export * from "./SiteHeader";
 export * from "./SiteSearch";
 export * from "./SplashScreen";

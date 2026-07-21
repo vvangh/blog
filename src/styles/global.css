@@ -196,6 +196,7 @@
     margin-top: 1.75rem;
     margin-bottom: 0.75rem;
     font-weight: 600;
+    scroll-margin-top: 6rem;
   }
   .content-body p {
     margin: 0.75rem 0;

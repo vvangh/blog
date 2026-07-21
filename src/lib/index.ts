@@ -8,3 +8,5 @@ export * from "./og";
 export * from "./date";
 export * from "./bg";
 export * from "./friends";
+export * from "./toc";
+export * from "./giscus";
