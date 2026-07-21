@@ -6,3 +6,5 @@ export * from "./theme";
 export * from "./i18n";
 export * from "./og";
 export * from "./date";
+export * from "./bg";
+export * from "./friends";

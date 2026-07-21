@@ -18,9 +18,16 @@ export function normalizeLanguageTag(tag: string): Locale | null {
   }
 
   const primary = raw.split("-")[0] ?? "";
-  if (primary === "en") return "en";
-  if (primary === "de") return "de";
-  if (primary === "ja") return "ja";
+  const primaryMap: Record<string, Locale> = {
+    en: "en",
+    de: "de",
+    ja: "ja",
+    ko: "ko",
+    fr: "fr",
+    es: "es",
+    ru: "ru",
+  };
+  if (primary in primaryMap) return primaryMap[primary]!;
   if (isLocale(raw)) return raw;
   return null;
 }

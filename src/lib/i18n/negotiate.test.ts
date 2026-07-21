@@ -11,6 +11,8 @@ describe("normalizeLanguageTag", () => {
     expect(normalizeLanguageTag("zh-CN")).toBe("zh-Hans");
     expect(normalizeLanguageTag("zh-TW")).toBe("zh-Hant");
     expect(normalizeLanguageTag("ja-JP")).toBe("ja");
+    expect(normalizeLanguageTag("ko-KR")).toBe("ko");
+    expect(normalizeLanguageTag("fr")).toBe("fr");
   });
 });
 
@@ -20,7 +22,8 @@ describe("negotiateLocale", () => {
   });
 
   it("falls back to default", () => {
-    expect(negotiateLocale(null, ["fr-FR"])).toBe(DEFAULT_LOCALE);
+    expect(negotiateLocale(null, ["fr-FR"])).toBe("fr");
+    expect(negotiateLocale(null, ["xx-YY"])).toBe(DEFAULT_LOCALE);
   });
 
   it("picks from accept list", () => {

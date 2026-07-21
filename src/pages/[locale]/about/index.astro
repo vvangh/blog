@@ -1,0 +1,22 @@
+---
+/**
+ * 关于页。
+ */
+import SiteLayout from "@/layouts/SiteLayout";
+import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+---
+
+<SiteLayout title={translate(locale, "about.title")} locale={locale} ogSlug="home">
+  <header class="mb-8 space-y-2">
+    <h1 class="text-3xl font-semibold">{translate(locale, "about.title")}</h1>
+  </header>
+  <p class="max-w-prose leading-relaxed text-hl-muted">{translate(locale, "about.body")}</p>
+</SiteLayout>

@@ -1,0 +1,43 @@
+---
+/**
+ * 友链页。
+ */
+import SiteLayout from "@/layouts/SiteLayout";
+import { FRIENDS } from "@/lib/friends";
+import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+---
+
+<SiteLayout title={translate(locale, "friends.title")} locale={locale} ogSlug="home">
+  <header class="mb-8 space-y-2">
+    <h1 class="text-3xl font-semibold">{translate(locale, "friends.title")}</h1>
+  </header>
+  {
+    FRIENDS.length === 0 ? (
+      <p class="text-hl-muted">{translate(locale, "friends.empty")}</p>
+    ) : (
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {FRIENDS.map((f) => (
+          <li class="rounded-lg border border-hl-border bg-hl-panel/60 p-4">
+            <a
+              class="font-display text-lg font-semibold text-hl-accent no-underline hover:underline"
+              href={f.url}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {f.name}
+            </a>
+            {f.description ? <p class="mt-2 text-sm text-hl-muted">{f.description}</p> : null}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</SiteLayout>

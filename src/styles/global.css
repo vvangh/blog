@@ -155,10 +155,39 @@
   animation: glow-pulse 8s ease-in-out infinite alternate;
 }
 
+.motion-safe-nav-link {
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.motion-safe-nav-link:hover {
+  transform: translateY(-1px);
+}
+
+.motion-safe-card {
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.motion-safe-card:hover {
+  transform: translateY(-2px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .motion-safe-rise,
   .motion-safe-glow {
     animation: none !important;
+  }
+
+  .motion-safe-nav-link,
+  .motion-safe-card,
+  .motion-safe-nav-link:hover,
+  .motion-safe-card:hover {
+    transition: none !important;
+    transform: none !important;
   }
 }
 

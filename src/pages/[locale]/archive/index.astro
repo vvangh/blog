@@ -1,0 +1,57 @@
+---
+/**
+ * 归档：技术 + 从零到一 按时间倒序。
+ */
+import { getCollection } from "astro:content";
+import SiteLayout from "@/layouts/SiteLayout";
+import { publishedSorted } from "@/content/_helpers";
+import { formatDate } from "@/lib/date";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
+
+export async function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+
+const blog = publishedSorted(await getCollection("blog")).map((e) => ({
+  href: localePath(locale, `blog/${e.id}`),
+  title: e.data.title,
+  date: e.data.pubDate,
+  section: translate(locale, "nav.blog"),
+}));
+const build = publishedSorted(await getCollection("build-log")).map((e) => ({
+  href: localePath(locale, `build/${e.id}`),
+  title: e.data.title,
+  date: e.data.pubDate,
+  section: translate(locale, "nav.build"),
+}));
+const entries = [...blog, ...build].sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+
+<SiteLayout title={translate(locale, "archive.title")} locale={locale} ogSlug="blog">
+  <header class="mb-8 space-y-2">
+    <h1 class="text-3xl font-semibold">{translate(locale, "archive.title")}</h1>
+  </header>
+  {
+    entries.length === 0 ? (
+      <p class="text-hl-muted">{translate(locale, "archive.empty")}</p>
+    ) : (
+      <ol class="space-y-3">
+        {entries.map((e) => (
+          <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-hl-border py-3">
+            <time class="shrink-0 font-mono text-sm text-hl-muted" datetime={e.date.toISOString()}>
+              {formatDate(e.date, locale)}
+            </time>
+            <span class="text-xs text-hl-muted">{e.section}</span>
+            <a class="text-hl-accent no-underline hover:underline" href={e.href}>
+              {e.title}
+            </a>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</SiteLayout>

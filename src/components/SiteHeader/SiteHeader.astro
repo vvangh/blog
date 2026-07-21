@@ -15,8 +15,9 @@ const links = [
   { href: localePath(locale), label: translate(locale, "nav.home") },
   { href: localePath(locale, "blog"), label: translate(locale, "nav.blog") },
   { href: localePath(locale, "build"), label: translate(locale, "nav.build") },
-  { href: localePath(locale, "life"), label: translate(locale, "nav.life") },
-  { href: localePath(locale, "fun"), label: translate(locale, "nav.fun") },
+  { href: localePath(locale, "archive"), label: translate(locale, "nav.archive") },
+  { href: localePath(locale, "about"), label: translate(locale, "nav.about") },
+  { href: localePath(locale, "friends"), label: translate(locale, "nav.friends") },
 ];
 ---
 
@@ -42,7 +43,7 @@ const links = [
               <li>
                 <a
                   href={link.href}
-                  class="inline-flex min-h-10 items-center rounded-md px-3 text-hl-fg no-underline transition-colors hover:bg-hl-soft hover:text-hl-accent"
+                  class="motion-safe-nav-link inline-flex min-h-10 items-center rounded-md px-3 text-hl-fg no-underline transition-colors hover:bg-hl-soft hover:text-hl-accent"
                 >
                   {link.label}
                 </a>

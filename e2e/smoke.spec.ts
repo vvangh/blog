@@ -5,9 +5,15 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.describe("衡录关键路径", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      sessionStorage.setItem("henglu-splash-seen", "1");
+    });
+  });
+
   test("根路径最终落到带语言前缀的首页", async ({ page }) => {
     await page.goto("./");
-    await page.waitForURL(/\/blog\/(zh-Hans|zh-Hant|en|de|ja)\/$/);
+    await page.waitForURL(/\/blog\/(zh-Hans|zh-Hant|en|de|ja|ko|fr|es|ru)\/$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText("衡录");
   });
 
@@ -26,6 +32,23 @@ test.describe("衡录关键路径", () => {
       .click();
     await expect(page).toHaveURL(/\/blog\/zh-Hans\/build\/$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText("从零到一");
+  });
+
+  test("关于与友链页可达", async ({ page }) => {
+    await page.goto("./zh-Hans/");
+    await page
+      .getByRole("navigation", { name: "主导航" })
+      .getByRole("link", { name: "关于" })
+      .click();
+    await expect(page).toHaveURL(/\/blog\/zh-Hans\/about\/$/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("关于");
+
+    await page
+      .getByRole("navigation", { name: "主导航" })
+      .getByRole("link", { name: "友链" })
+      .click();
+    await expect(page).toHaveURL(/\/blog\/zh-Hans\/friends\/$/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("友链");
   });
 
   test("英文首页导航文案切换", async ({ page }) => {

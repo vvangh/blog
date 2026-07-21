@@ -3,8 +3,8 @@
  * 目录外请经 `@/lib/i18n` 导入。
  */
 
-/** 首批五语种（BCP 47） */
-export const LOCALES = ["zh-Hans", "zh-Hant", "en", "de", "ja"] as const;
+/** 界面语种（BCP 47）；缺文案时回退 zh-Hans */
+export const LOCALES = ["zh-Hans", "zh-Hant", "en", "de", "ja", "ko", "fr", "es", "ru"] as const;
 
 export type Locale = (typeof LOCALES)[number];
 
@@ -21,6 +21,10 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   en: "English",
   de: "Deutsch",
   ja: "日本語",
+  ko: "한국어",
+  fr: "Français",
+  es: "Español",
+  ru: "Русский",
 };
 
 export function isLocale(value: string): value is Locale {

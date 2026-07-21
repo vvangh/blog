@@ -4,6 +4,12 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("站点搜索", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      sessionStorage.setItem("henglu-splash-seen", "1");
+    });
+  });
+
   test("Ctrl+K 打开搜索对话框", async ({ page }) => {
     await page.goto("./zh-Hans/");
     await page.keyboard.press("Control+KeyK");

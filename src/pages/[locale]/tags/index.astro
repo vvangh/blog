@@ -1,0 +1,53 @@
+---
+/**
+ * 标签云：聚合 blog / build-log 的 tags。
+ */
+import { getCollection } from "astro:content";
+import SiteLayout from "@/layouts/SiteLayout";
+import { publishedSorted } from "@/content/_helpers";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
+
+export async function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+
+const counts = new Map<string, number>();
+for (const col of ["blog", "build-log"] as const) {
+  for (const e of publishedSorted(await getCollection(col))) {
+    for (const t of e.data.tags ?? []) {
+      counts.set(t, (counts.get(t) ?? 0) + 1);
+    }
+  }
+}
+const tags = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "zh"));
+---
+
+<SiteLayout title={translate(locale, "tags.title")} locale={locale} ogSlug="blog">
+  <header class="mb-8 space-y-2">
+    <h1 class="text-3xl font-semibold">{translate(locale, "tags.title")}</h1>
+  </header>
+  {
+    tags.length === 0 ? (
+      <p class="text-hl-muted">{translate(locale, "tags.empty")}</p>
+    ) : (
+      <ul class="flex flex-wrap gap-2">
+        {tags.map(([tag, n]) => (
+          <li>
+            <a
+              class="inline-flex min-h-10 items-center rounded-md bg-hl-soft px-3 text-sm text-hl-fg no-underline hover:text-hl-accent"
+              href={localePath(locale, "archive")}
+              title={`${tag} (${n})`}
+            >
+              {tag}
+              <span class="ml-2 font-mono text-xs text-hl-muted">{n}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</SiteLayout>
