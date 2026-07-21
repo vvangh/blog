@@ -54,11 +54,6 @@ function applyAndAnnounce(): void {
   liveMessage.value = `主题已设为${modeLabel}，当前为${resolved === "dark" ? "暗色" : "浅色"}外观`;
 }
 
-function onModeChange(mode: ThemeMode): void {
-  preference.value = { ...preference.value, mode };
-  applyAndAnnounce();
-}
-
 function onScheduleChange(): void {
   applyAndAnnounce();
 }
@@ -68,6 +63,7 @@ function onSystemChange(): void {
 }
 
 onMounted(() => {
+  // 与 head boot 对齐；勿在用户已操作后再强行覆盖
   preference.value = readThemePreference();
   applyAndAnnounce();
   media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -77,6 +73,13 @@ onMounted(() => {
 onUnmounted(() => {
   media?.removeEventListener("change", onSystemChange);
 });
+
+watch(
+  () => preference.value.mode,
+  () => {
+    applyAndAnnounce();
+  },
+);
 
 watch(
   () => [preference.value.schedule.lightStart, preference.value.schedule.lightEnd],
@@ -95,11 +98,10 @@ watch(
       <legend class="sr-only">主题模式</legend>
       <label v-for="item in modes" :key="item.value" class="theme-settings__option">
         <input
+          v-model="preference.mode"
           type="radio"
           name="henglu-theme-mode"
           :value="item.value"
-          :checked="preference.mode === item.value"
-          @change="onModeChange(item.value)"
         />
         <span class="theme-settings__option-label">{{ item.label }}</span>
         <span class="theme-settings__option-hint">{{ item.hint }}</span>
@@ -139,10 +141,9 @@ watch(
   display: grid;
   gap: 0.75rem;
   max-width: 28rem;
-  padding: 1rem;
-  border: 1px solid color-mix(in oklab, var(--henglu-fg) 18%, transparent);
-  border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--henglu-bg) 92%, var(--henglu-accent));
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--henglu-border);
+  background: color-mix(in oklab, var(--henglu-bg) 70%, var(--henglu-accent-soft));
 }
 
 .theme-settings__title {

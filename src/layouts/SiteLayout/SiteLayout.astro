@@ -56,6 +56,12 @@ const ogImageAbs = new URL(ogImagePath(ogSlug), "https://vvangh.github.io").href
     <meta name="theme-color" content="#2f5d50" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
     <script is:inline set:html={themeBoot} />
     <Analytics />
   </head>
@@ -67,12 +73,14 @@ const ogImageAbs = new URL(ogImagePath(ogSlug), "https://vvangh.github.io").href
       {translate(locale, "skip.toMain")}
     </a>
     <SiteHeader locale={locale} />
-    <main id="main" class="mx-auto w-full max-w-3xl px-4 py-10">
+    <main id="main" class="mx-auto w-full max-w-5xl px-4 py-8">
       <slot />
     </main>
-    <footer class="mx-auto w-full max-w-3xl px-4 pb-12 text-sm text-[var(--henglu-muted)]">
-      <p>{translate(locale, "footer.rights", { year })}</p>
-      <p class="mt-1">{translate(locale, "footer.license")}</p>
+    <footer class="mx-auto w-full max-w-5xl px-4 pb-14 pt-4 text-sm text-[var(--henglu-muted)]">
+      <div class="border-t border-[var(--henglu-border)] pt-8">
+        <p>{translate(locale, "footer.rights", { year })}</p>
+        <p class="mt-1">{translate(locale, "footer.license")}</p>
+      </div>
     </footer>
   </body>
 </html>

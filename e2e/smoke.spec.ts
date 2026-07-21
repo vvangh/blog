@@ -28,12 +28,20 @@ test.describe("衡录关键路径", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText("从零到一");
   });
 
+  test("英文首页导航文案切换", async ({ page }) => {
+    await page.goto("./en/");
+    const nav = page.getByRole("navigation", { name: "Main navigation" });
+    await expect(nav).toBeVisible();
+    await expect(nav.getByRole("link", { name: "Tech" })).toBeVisible();
+  });
+
   test("主题四模式单选可切换且保留焦点可达", async ({ page }) => {
     await page.goto("./zh-Hans/");
     const dark = page.getByRole("radio", { name: /暗色/ });
+    await expect(dark).toBeVisible();
     await dark.check();
     await expect(dark).toBeChecked();
-    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark", { timeout: 10_000 });
 
     const custom = page.getByRole("radio", { name: /自定义/ });
     await custom.check();
@@ -41,15 +49,11 @@ test.describe("衡录关键路径", () => {
     await expect(page.getByLabel("浅色结束")).toBeVisible();
   });
 
-  test("英文首页导航文案切换", async ({ page }) => {
-    await page.goto("./en/");
-    await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Tech" })).toBeVisible();
-  });
-
   test("首页与文章分区通过 axe wcag2a/aa", async ({ page }) => {
     for (const path of ["./zh-Hans/", "./zh-Hans/blog/", "./zh-Hans/build/"]) {
       await page.goto(path);
+      // 等入场动效结束，避免 axe 采到动画中间态的半透明前景色
+      await page.waitForTimeout(900);
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
       expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
     }

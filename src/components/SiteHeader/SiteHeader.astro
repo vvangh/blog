@@ -1,6 +1,6 @@
 ---
 /**
- * 站点顶栏：品牌 + 分区导航（带语言前缀）。
+ * 站点顶栏：印章式品牌 + 墨线下划线导航。
  */
 import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 import { localePath, translate, type Locale } from "@/lib/i18n";
@@ -19,28 +19,18 @@ const links = [
 ];
 ---
 
-<header class="border-b border-[var(--henglu-border)]">
-  <div class="mx-auto flex max-w-3xl flex-wrap items-baseline justify-between gap-4 px-4 py-5">
+<header class="site-header">
+  <div class="mx-auto flex max-w-5xl flex-wrap items-end justify-between gap-4 px-4 py-5">
     <div>
-      <a
-        href={localePath(locale)}
-        class="text-2xl font-semibold tracking-wide text-[var(--henglu-accent)] no-underline"
-      >
-        {SITE_NAME_ZH}
-      </a>
-      <p class="mt-1 text-sm text-[var(--henglu-muted)]">{SITE_TAGLINE}</p>
+      <a href={localePath(locale)} class="site-brand">{SITE_NAME_ZH}</a>
+      <p class="mt-1 max-w-xs text-sm text-[var(--henglu-muted)]">{SITE_TAGLINE}</p>
     </div>
-    <nav aria-label={translate(locale, "nav.main")}>
-      <ul class="flex flex-wrap gap-4 text-sm">
+    <nav class="site-nav" aria-label={translate(locale, "nav.main")}>
+      <ul class="flex flex-wrap gap-5 text-sm tracking-wide">
         {
           links.map((link) => (
             <li>
-              <a
-                class="underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--henglu-focus)]"
-                href={link.href}
-              >
-                {link.label}
-              </a>
+              <a href={link.href}>{link.label}</a>
             </li>
           ))
         }

@@ -1,11 +1,11 @@
 ---
 /**
- * 语言首页：品牌 + 主题 + 语言切换。
+ * 首页：墨衡英雄构图（品牌主导）+ 设置岛收在首屏外。
  */
 import SiteLayout from "@/layouts/SiteLayout";
 import { ThemeSettings } from "@/components/ThemeSettings";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 
 export function getStaticPaths() {
@@ -20,23 +20,38 @@ const locale: Locale = raw;
 ---
 
 <SiteLayout locale={locale} ogSlug="home">
-  <section class="space-y-8">
-    <div class="space-y-4">
-      <h1 class="text-4xl font-semibold tracking-tight text-[var(--henglu-accent)]">{SITE_NAME_ZH}</h1>
-      <p class="text-lg text-[var(--henglu-muted)]">{SITE_TAGLINE}</p>
-      <p class="max-w-prose leading-relaxed">{translate(locale, "home.intro")}</p>
+  <section class="hero-stage" aria-labelledby="hero-brand">
+    <p class="text-sm tracking-[0.35em] text-[var(--henglu-accent)]">HENGLU</p>
+    <h1 id="hero-brand" class="hero-brand">{SITE_NAME_ZH}</h1>
+    <p class="hero-tagline">{SITE_TAGLINE}</p>
+    <div class="hero-actions">
+      <a class="btn-ink" href={localePath(locale, "blog")}>{translate(locale, "nav.blog")}</a>
+      <a class="btn-ghost" href={localePath(locale, "build")}>{translate(locale, "nav.build")}</a>
     </div>
+    <div class="hero-scale" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      衡
+    </div>
+  </section>
+
+  <section class="mt-8 grid gap-6 border-t border-[var(--henglu-border)] pt-10 md:grid-cols-2" aria-label="站点设置">
     <ThemeSettings
-      client:visible
+      client:load
       heading={translate(locale, "theme.heading")}
       hint={translate(locale, "theme.hint")}
     />
     <LanguageSwitcher
-      client:visible
+      client:load
       locale={locale}
       heading={translate(locale, "lang.heading")}
       hint={translate(locale, "lang.hint")}
       switchedTemplate={translate(locale, "lang.switched")}
     />
   </section>
+
+  <p class="mt-10 max-w-prose text-[var(--henglu-muted)] leading-relaxed">
+    {translate(locale, "home.intro")}
+  </p>
 </SiteLayout>

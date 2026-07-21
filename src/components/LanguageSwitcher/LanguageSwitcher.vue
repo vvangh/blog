@@ -63,9 +63,9 @@ onMounted(() => {
   display: grid;
   gap: 0.75rem;
   max-width: 28rem;
-  padding: 1rem;
-  border: 1px solid color-mix(in oklab, var(--henglu-fg) 18%, transparent);
-  border-radius: 0.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--henglu-border);
+  background: color-mix(in oklab, var(--henglu-bg) 70%, var(--henglu-accent-soft));
 }
 
 .lang-switcher__title {
