@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # Cursor 临时文件（不提交）
 .cursor/tmp/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

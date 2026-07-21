@@ -40,3 +40,11 @@ jobs:
 
       - name: Build
         run: vp run build
+
+      - name: Install Playwright Chromium
+        run: vp exec playwright install chromium --with-deps
+
+      - name: E2E + axe
+        run: vp run test:e2e
+        env:
+          CI: true
