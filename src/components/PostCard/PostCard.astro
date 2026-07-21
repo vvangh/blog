@@ -1,0 +1,29 @@
+---
+/**
+ * 文章/日志列表卡片（纯展示）。
+ */
+import { formatDate } from "@/lib/date";
+
+interface Props {
+  href: string;
+  title: string;
+  description?: string;
+  date: Date;
+  locale?: string;
+  meta?: string;
+}
+
+const { href, title, description, date, locale = "zh-Hans", meta } = Astro.props;
+---
+
+<article class="border-b border-[var(--henglu-border)] py-5 first:pt-0">
+  <h2 class="text-xl font-semibold tracking-tight">
+    <a class="text-[var(--henglu-accent)] no-underline hover:underline" href={href}>{title}</a>
+  </h2>
+  <p class="mt-1 text-sm text-[var(--henglu-muted)]">
+    <time datetime={date.toISOString()}>{formatDate(date, locale)}</time>
+    {meta ? <span aria-hidden="true"> · </span> : null}
+    {meta ? <span>{meta}</span> : null}
+  </p>
+  {description ? <p class="mt-2 max-w-prose leading-relaxed text-[var(--henglu-muted)]">{description}</p> : null}
+</article>

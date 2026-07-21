@@ -1,18 +1,45 @@
 ---
-/** 建站日志列表（M5 填内容）。 */
+/**
+ * 建站日志列表：按语言前缀展示已发布 build-log。
+ */
+import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
-import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+import { PostCard } from "@/components/PostCard";
+import { publishedSorted } from "@/content/_helpers";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
 }
 
 const raw = Astro.params.locale ?? "zh-Hans";
 if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
+
+const entries = publishedSorted(await getCollection("build-log"));
 ---
 
 <SiteLayout title={translate(locale, "build.title")} locale={locale} ogSlug="build">
-  <h1 class="text-3xl font-semibold">{translate(locale, "build.title")}</h1>
-  <p class="mt-4 text-[var(--henglu-muted)]">{translate(locale, "build.empty")}</p>
+  <header class="mb-8 space-y-2">
+    <h1 class="text-3xl font-semibold">{translate(locale, "build.title")}</h1>
+    <p class="text-[var(--henglu-muted)]">公开记录衡录从 0 到 1 的搭建过程。</p>
+  </header>
+  {
+    entries.length === 0 ? (
+      <p class="text-[var(--henglu-muted)]">{translate(locale, "build.empty")}</p>
+    ) : (
+      <div>
+        {entries.map((entry) => (
+          <PostCard
+            href={localePath(locale, `build/${entry.id}`)}
+            title={entry.data.title}
+            description={entry.data.description}
+            date={entry.data.pubDate}
+            locale={locale}
+            meta={entry.data.milestone}
+          />
+        ))}
+      </div>
+    )
+  }
 </SiteLayout>

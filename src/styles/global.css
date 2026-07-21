@@ -62,14 +62,23 @@ body {
   outline-offset: 2px;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+.content-body :is(h2, h3) {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.content-body p {
+  margin: 0.75rem 0;
+}
+
+.content-body ul {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.content-body a {
+  color: var(--henglu-accent);
+  text-underline-offset: 3px;
 }
