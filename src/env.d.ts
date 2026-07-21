@@ -1,8 +1,18 @@
 /// <reference types="astro/client" />
+/// <reference types="vite-plugin-pwa/vanillajs" />
+/// <reference types="vite-plugin-pwa/info" />
+
+interface ImportMetaEnv {
+  readonly PUBLIC_UMAMI_SRC?: string;
+  readonly PUBLIC_UMAMI_WEBSITE_ID?: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
 
 /**
  * 环境与模块声明：供 barrel 再导出 `.astro` / `.vue` 时类型检查使用。
- * Vite+ typeAware 不会总是自动带上 Astro 生成类型，故在此显式声明。
  */
 
 declare module "*.astro" {

@@ -54,4 +54,18 @@ test.describe("衡录关键路径", () => {
       expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
     }
   });
+
+  test("PWA manifest 可达且 scope 指向 /blog/", async ({ request }) => {
+    const res = await request.get("./manifest.webmanifest");
+    expect(res.ok()).toBeTruthy();
+    const manifest = await res.json();
+    expect(manifest.start_url).toContain("/blog");
+    expect(manifest.scope).toContain("/blog");
+  });
+
+  test("OG 自动图可访问", async ({ request }) => {
+    const res = await request.get("./og/home.png");
+    expect(res.ok()).toBeTruthy();
+    expect(res.headers()["content-type"]).toMatch(/image\/png/);
+  });
 });

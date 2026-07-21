@@ -1,29 +1,36 @@
 ---
 /**
- * 全站默认布局：主题 boot、语言属性、顶栏与页脚。
+ * 全站默认布局：主题 boot、语言、OG、分析、顶栏与页脚。
  * 页面外请经 `@/layouts/SiteLayout` 导入。
  */
 import "@/styles/global.css";
 import { SITE_DESCRIPTION, SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 import { getThemeBootScript } from "@/lib/theme";
 import { DEFAULT_LOCALE, translate, type Locale } from "@/lib/i18n";
+import { absolutePageUrl, ogImagePath } from "@/lib/og";
 import { SiteHeader } from "@/components/SiteHeader";
+import { Analytics } from "@/components/Analytics";
 
 interface Props {
   title?: string;
   description?: string;
   locale?: Locale;
+  /** OG 卡片 slug，对应 /og/<slug>.png */
+  ogSlug?: string;
 }
 
 const {
   title,
   description = SITE_DESCRIPTION,
   locale = DEFAULT_LOCALE,
+  ogSlug = "home",
 } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE_NAME_ZH}` : `${SITE_NAME_ZH} · ${SITE_TAGLINE}`;
 const base = import.meta.env.BASE_URL;
 const themeBoot = getThemeBootScript();
 const year = new Date().getFullYear();
+const canonical = absolutePageUrl(Astro.url.pathname);
+const ogImageAbs = new URL(ogImagePath(ogSlug), "https://vvangh.github.io").href;
 ---
 
 <!doctype html>
@@ -32,10 +39,25 @@ const year = new Date().getFullYear();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME_ZH} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageAbs} />
+    <meta property="og:image:alt" content={pageTitle} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbs} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="apple-touch-icon" href={`${base}og-default.png`} />
+    <meta name="theme-color" content="#2f5d50" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     <script is:inline set:html={themeBoot} />
+    <Analytics />
   </head>
   <body class="min-h-screen antialiased">
     <a

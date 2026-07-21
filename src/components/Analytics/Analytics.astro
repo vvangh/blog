@@ -1,0 +1,21 @@
+---
+/**
+ * 可选 Umami（或兼容脚本）分析：仅当环境变量齐全时注入，不挡读屏、不抢焦点。
+ */
+const src = import.meta.env.PUBLIC_UMAMI_SRC as string | undefined;
+const websiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID as string | undefined;
+const enabled = Boolean(src && websiteId);
+---
+
+{
+  enabled ? (
+    <script
+      is:inline
+      defer
+      src={src}
+      data-website-id={websiteId}
+      data-auto-track="true"
+      data-do-not-track="true"
+    />
+  ) : null
+}
