@@ -52,7 +52,13 @@ const more = [
           class="site-header__brand-shell no-underline transition-opacity hover:opacity-70"
           aria-label={SITE_NAME_ZH}
         >
-          {/* 两枚 v 分轨动效：对撞 / 升空；可读名在 aria-label */}
+          {/* 两幕：合拢点火（Splash 回声）→ 升空尾焰；可读名在 aria-label */}
+          <span class="site-header__ignite" aria-hidden="true">
+            <span class="site-header__ring site-header__ring--1"></span>
+            <span class="site-header__ring site-header__ring--2"></span>
+            <span class="site-header__flash"></span>
+            <span class="site-header__streak"></span>
+          </span>
           <span class="brand-mark site-header__brand text-[1.35rem]" aria-hidden="true">
             <span class="site-header__v site-header__v--a">v</span><span
               class="site-header__v site-header__v--b">v</span>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 /**
  * 进站 Splash：点火亮相（全站动效峰值）。
- * 极光铺场 → 光柱收束 → 双 v 从纵深合拢 → 闪光/扩环 → 字面扫光 → 副标 → 揭幕。
- * 不做拖尾粒子；对撞只是一瞬，不拖长对峙。
- * 开发态 / ?splash=1：播完钉住终帧，点「跳过」才揭幕。
+ * 极光铺场 → 合拢闪光 → 副标 → 序曲结束自动揭幕交棒首页。
+ * 揭幕一开始写 data-splash=exit，首页 rise / 打字机与遮罩叠化。
+ * 开发态 / ?splash=1：每次进站仍播（不写 session），但播完同样自动揭幕；「跳过」可提前。
  * vue API 由 unplugin-auto-import 注入。
  */
 import {
@@ -64,6 +64,10 @@ function beginExit() {
   if (exiting.value || !visible.value) return;
   exiting.value = true;
   clearTimers();
+  /* 先放行首页入场，再播揭幕，形成叠化交棒 */
+  const root = document.documentElement;
+  root.dataset.splashHandoff = "1";
+  root.dataset.splash = "exit";
   exitTimer = setTimeout(finishDismiss, SPLASH_EXIT_MS);
 }
 
@@ -97,9 +101,8 @@ onMounted(() => {
   visible.value = true;
   void nextTick(() => hideStaticCover());
 
-  if (!forceShow) {
-    choreoTimer = setTimeout(beginExit, SPLASH_CHOREO_MS);
-  }
+  /* 序曲结束自动揭幕（强制展示也不钉死） */
+  choreoTimer = setTimeout(beginExit, SPLASH_CHOREO_MS);
 });
 
 onUnmounted(() => {

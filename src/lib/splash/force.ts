@@ -1,6 +1,7 @@
 /**
- * Splash 是否强制展示：开发态默认每次都出，便于打磨；
+ * Splash 是否强制每次展示：开发态默认每次都出，便于打磨；
  * `?splash=1` 生产也可强制；`?splash=0` 开发也可关掉。
+ * 强制只影响「是否忽略 session / 每次都播」，播完仍自动揭幕。
  */
 export type SplashQueryMode = "force" | "off" | "default";
 

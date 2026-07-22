@@ -174,7 +174,7 @@
   /* 顶栏外壳透明；玻璃在并列层 .site-header__glass，勿包住文字冒泡 backdrop-filter */
   .site-header {
     --header-lift: 0;
-    /* 小 vv / 尾焰 / 描边流光同拍 */
+    /* 小 vv 两幕剧 / 描边流光同拍 */
     --header-motion-period: 14s;
     /* 须始终高于 main/Hero：透明态若 z-index:auto，后续同层 Hero 会吞掉顶栏点击 */
     z-index: 40;
@@ -311,41 +311,85 @@
   }
 
   /*
-   * 顶栏 vv 小剧场 + 描边流光：共用 14s 节拍。
-   * 流光先亮蓄势 → 对撞峰 → 升空再亮 → 长静默；转圈仍 2.8s（恰 5 圈/拍）。
+   * 顶栏 vv 两幕小剧场 + 描边流光：共用 14s 线性总谱（见 base.css 键帧注释）。
+   * ① 合拢闪光/细环 ↔ 流光第一峰 → ② 升空尾焰 ↔ 流光第二峰 → 长静默。
    */
   .site-header__brand-shell {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     vertical-align: top;
-    /* 给竖向尾焰留一点向下空间；顶栏 frame 仍会裁切过大溢出 */
     overflow: visible;
   }
 
-  .site-header__brand {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    align-items: baseline;
+  .site-header__ignite {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2.4em;
+    height: 2.4em;
+    pointer-events: none;
+    z-index: 0;
   }
 
-  .site-header__v {
-    display: inline-block;
-    transform-origin: 50% 85%;
-    will-change: transform;
+  .site-header__ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1.15em;
+    height: 1.15em;
+    border: 1px solid color-mix(in oklab, #fff 70%, transparent);
+    border-radius: 9999px;
+    box-shadow: 0 0 0.35em color-mix(in oklab, #fff 35%, transparent);
+    opacity: 0;
+    animation: site-header-ring-burst var(--header-motion-period, 14s) linear infinite;
   }
 
-  .site-header__v--a {
-    animation: site-header-v-a var(--header-motion-period, 14s) cubic-bezier(0.45, 0.05, 0.25, 1)
-      infinite;
+  .site-header__ring--2 {
+    /* 第二环错峰写在键帧外会破坏 14s 对齐；用略淡描边区分层次即可 */
+    border-color: color-mix(in oklab, #fff 45%, transparent);
+    width: 1.28em;
+    height: 1.28em;
   }
 
-  .site-header__v--b {
-    animation: site-header-v-b var(--header-motion-period, 14s) cubic-bezier(0.45, 0.05, 0.25, 1)
-      infinite;
+  .site-header__flash {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2.2em;
+    height: 2.2em;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, #fff 80%, transparent) 0%,
+      transparent 68%
+    );
+    transform: translate3d(-50%, -50%, 0);
+    opacity: 0;
+    mix-blend-mode: plus-lighter;
+    animation: site-header-flash var(--header-motion-period, 14s) linear infinite;
   }
 
-  /* 升空尾焰：字下方一道由亮到淡的竖向余烬 */
+  .site-header__streak {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2.8em;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, #fff 85%, transparent),
+      transparent
+    );
+    box-shadow: 0 0 0.4em color-mix(in oklab, #fff 40%, transparent);
+    opacity: 0;
+    mix-blend-mode: plus-lighter;
+    animation: site-header-streak var(--header-motion-period, 14s) linear infinite;
+  }
+
+  /* 升空尾焰：字下方竖向余烬 */
   .site-header__brand-shell::after {
     content: "";
     position: absolute;
@@ -367,15 +411,36 @@
     transform: translate3d(0, 0, 0) scaleY(0.35);
     transform-origin: 50% 0%;
     mix-blend-mode: plus-lighter;
-    animation: site-header-brand-trail var(--header-motion-period, 14s)
-      cubic-bezier(0.45, 0.05, 0.2, 1) infinite;
+    animation: site-header-brand-trail var(--header-motion-period, 14s) linear infinite;
   }
 
-  /* 覆盖通用 border-sheen-fade(7s)，改与 vv 同拍 */
+  .site-header__brand {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: baseline;
+    animation: site-header-mark-glow var(--header-motion-period, 14s) linear infinite;
+  }
+
+  .site-header__v {
+    display: inline-block;
+    transform-origin: 50% 85%;
+    will-change: transform, filter;
+  }
+
+  .site-header__v--a {
+    animation: site-header-v-a var(--header-motion-period, 14s) linear infinite;
+  }
+
+  .site-header__v--b {
+    animation: site-header-v-b var(--header-motion-period, 14s) linear infinite;
+  }
+
+  /* 覆盖通用 2.8s 自转：改与 vv 同 14s 总谱 */
   .site-header__sheen.motion-safe-border-sheen::before {
     animation:
-      border-sheen-spin 2.8s linear infinite,
-      site-header-sheen-fade var(--header-motion-period, 14s) ease-in-out infinite;
+      site-header-sheen-spin var(--header-motion-period, 14s) linear infinite,
+      site-header-sheen-fade var(--header-motion-period, 14s) linear infinite;
   }
 
   /* 「更多」菜单项：中性浅衬，勿用 hl-soft 蓝底 */
