@@ -1,0 +1,42 @@
+---
+description: vv UI 原子化分层：shadcn-vue / molecules / 业务岛、令牌与状态约定
+alwaysApply: true
+---
+
+# vv · UI 原子化与组件底座
+
+详细说明见 `docs/ui-kit.md`。改 UI / 新增组件时必须遵守。
+
+## 分层（禁止反向依赖）
+
+| 层 | 路径 | 规则 |
+| --- | --- | --- |
+| 原子 | `src/components/ui/*` | shadcn-vue（reka-ui）；只依赖 `reka-ui` / `@/lib/utils` / VueUse；**禁止**依赖 molecules 与业务组件 |
+| 分子 | `src/components/molecules/*` | 仅组合原子；无 content collection、无页面业务数据 |
+| 有机体 | `src/components/Site*` 等 | 业务岛 / 布局；可依赖 ui + molecules + `@/lib/*` |
+
+- 目录外导入经该目录 `index` barrel + `@/` 或 `~/`
+- 新增原子优先：`pnpm dlx shadcn-vue@latest add <name>`，装完核对勿另起色板
+- 首页 Hero / 壁纸 / `ink-invert` 顶栏：**自研**，勿用 Card 硬套首屏
+
+## 令牌与图标
+
+- 品牌色真相源：`src/styles/tokens.css`（`--hl-*`）
+- shadcn 语义色桥接：`src/styles/shadcn.css`（`--primary` 等 → `--hl-*`）
+- 图标：`@lucide/vue`（与 `components.json` 的 `iconLibrary` 一致）
+- **禁止** Element Plus / Vuetify / Naive 作全站 UI
+
+## 状态
+
+| 场景 | 方案 |
+| --- | --- |
+| 单岛内 | `ref` / composable / VueUse（已 auto-import） |
+| 跨岛共享 | `nanostores`（`@/lib/stores`）+ `@nanostores/vue` |
+| 默认不用 | Pinia、vue-router |
+
+## 封装习惯
+
+- 组件 PascalCase；中文描述性注释；做减法
+- **单文件 ≤ 500 行**；超限则拆 composable / 子组件 / 样式进 `styles/`
+- **样式优先 Tailwind**（布局、间距、字色、圆角）；共享琉璃用已有 `glass-*`；仅 `:deep` / mark / 伪元素等再写少量 CSS
+- 分子示例：`IconButton`、`LabeledInput`——新组合放 `molecules/`，不要跨层塞进 `ui/`

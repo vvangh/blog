@@ -1,6 +1,7 @@
 # vv UI 组件分层（原子化）
 
-> 底座：shadcn-vue（reka-ui）+ Tailwind v4 + `@vueuse/core` + nanostores。
+> 底座：shadcn-vue（reka-ui）+ Tailwind v4 + `@vueuse/core` + nanostores。  
+> Agent 硬约束同步：`.cursor/rules/henglu-blog-ui-kit.mdc`。
 
 ## 分层
 
@@ -25,6 +26,11 @@
 | 单岛内 UI              | `ref` / composable / VueUse                       |
 | 跨岛共享（如设置抽屉） | `nanostores`（`@/lib/stores`）+ `@nanostores/vue` |
 | 不默认使用             | Pinia、vue-router                                 |
+
+## 封装习惯
+
+- 单文件 ≤ 500 行；超限拆 composable / 子组件
+- 样式优先 Tailwind + 现有 `glass-*`；少写大块 scoped CSS
 
 ## 新增原子
 

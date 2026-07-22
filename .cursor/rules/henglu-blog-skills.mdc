@@ -17,6 +17,7 @@ alwaysApply: true
 | UX / 无障碍审计 | `jezweb-claude-skills-ux-audit` |
 | Playwright / e2e / axe | `jeffallan-claude-skills-playwright-expert` 或 `playwright-testing` |
 | `.cursor/rules` 落盘 | `create-rule` |
+| UI 原子/分子/shadcn | 遵守 `henglu-blog-ui-kit.mdc` + `docs/ui-kit.md` |
 | 差分挑错 | `review-bugbot`（有实质代码变更时优先） |
 | 安全相关 | `review-security` |
 
