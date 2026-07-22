@@ -3,7 +3,7 @@
  * 进站 Splash：点火亮相（全站动效峰值）。
  * 极光铺场 → 合拢闪光 → 副标 → 序曲结束自动揭幕交棒首页。
  * 揭幕一开始写 data-splash=exit，首页 rise / 打字机与遮罩叠化。
- * 开发态 / ?splash=1：每次进站仍播（不写 session），但播完同样自动揭幕；「跳过」可提前。
+ * 默认本会话只播一次；`?splash=1` 强制每次播，`?splash=0` 跳过；「跳过」可提前揭幕。
  * vue API 由 unplugin-auto-import 注入。
  */
 import {
@@ -25,7 +25,7 @@ let choreoTimer: ReturnType<typeof setTimeout> | undefined;
 let exitTimer: ReturnType<typeof setTimeout> | undefined;
 
 const forceShow = import.meta.env.SSR
-  ? import.meta.env.DEV
+  ? false
   : shouldForceSplashShow(import.meta.env.DEV, window.location.search);
 
 /** 拆成单字，便于双翼合拢；品牌一般为 vv */

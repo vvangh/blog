@@ -16,13 +16,15 @@ describe("parseSplashQuery", () => {
 });
 
 describe("shouldForceSplashShow", () => {
-  it("开发态默认强制，可被 ?splash=0 关掉", () => {
-    expect(shouldForceSplashShow(true, "")).toBe(true);
-    expect(shouldForceSplashShow(true, "?splash=0")).toBe(false);
+  it("默认不强制（开发/生产相同），仅 ?splash=1 强制", () => {
+    expect(shouldForceSplashShow(true, "")).toBe(false);
+    expect(shouldForceSplashShow(false, "")).toBe(false);
+    expect(shouldForceSplashShow(true, "?splash=1")).toBe(true);
+    expect(shouldForceSplashShow(false, "?splash=1")).toBe(true);
   });
 
-  it("生产默认不强制，?splash=1 可开", () => {
-    expect(shouldForceSplashShow(false, "")).toBe(false);
-    expect(shouldForceSplashShow(false, "?splash=1")).toBe(true);
+  it("?splash=0 不强制", () => {
+    expect(shouldForceSplashShow(true, "?splash=0")).toBe(false);
+    expect(shouldForceSplashShow(false, "?splash=0")).toBe(false);
   });
 });

@@ -458,7 +458,7 @@
   }
 }
 
-/* 字标：合拢冷光 + 升空轻亮（两峰对齐流光） */
+/* 字标：仅合拢冷光；升空不加光晕，避免两个 v 突然开灯 */
 @keyframes site-header-mark-glow {
   0%,
   17% {
@@ -467,13 +467,7 @@
   20% {
     filter: drop-shadow(0 0 10px color-mix(in oklab, #fff 70%, transparent));
   }
-  28% {
-    filter: drop-shadow(0 0 0 transparent);
-  }
-  50% {
-    filter: drop-shadow(0 0 6px color-mix(in oklab, #fff 45%, transparent));
-  }
-  62%,
+  28%,
   100% {
     filter: drop-shadow(0 0 0 transparent);
   }

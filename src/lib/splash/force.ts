@@ -1,7 +1,6 @@
 /**
- * Splash 是否强制每次展示：开发态默认每次都出，便于打磨；
- * `?splash=1` 生产也可强制；`?splash=0` 开发也可关掉。
- * 强制只影响「是否忽略 session / 每次都播」，播完仍自动揭幕。
+ * Splash 强制展示：默认跟生产一样，本会话只播一次。
+ * `?splash=1` 可强制每次都出（打磨用）；`?splash=0` 强制跳过。
  */
 export type SplashQueryMode = "force" | "off" | "default";
 
@@ -14,13 +13,10 @@ export function parseSplashQuery(search: string): SplashQueryMode {
 }
 
 /**
- * 是否忽略 sessionStorage / 固定展示。
- * @param isDev 是否开发构建（`import.meta.env.DEV`）
+ * 是否忽略 sessionStorage、每次进站都播。
+ * @param _isDev 保留参数以兼容调用方（不再因开发态默认强制）
  * @param search `location.search`
  */
-export function shouldForceSplashShow(isDev: boolean, search: string): boolean {
-  const mode = parseSplashQuery(search);
-  if (mode === "off") return false;
-  if (mode === "force") return true;
-  return isDev;
+export function shouldForceSplashShow(_isDev: boolean, search: string): boolean {
+  return parseSplashQuery(search) === "force";
 }
