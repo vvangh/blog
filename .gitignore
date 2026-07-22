@@ -5,8 +5,8 @@ dist/
 .astro/
 
 # unplugin generated dts (written by Vite plugins on dev/build)
-src/auto-imports.d.ts
-src/components.d.ts
+src/types/auto-imports.d.ts
+src/types/components.d.ts
 
 # dependencies
 node_modules/

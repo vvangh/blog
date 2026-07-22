@@ -42,4 +42,4 @@ import { x } from "@/lib/site";
 
 ## 生成类型
 
-- `src/auto-imports.d.ts`、`src/components.d.ts` 为 unplugin 生成物，已 gitignore；本地 `vp run dev` / `vp run build` 会重新写出。
+- `src/types/auto-imports.d.ts`、`src/types/components.d.ts` 为 unplugin 生成物，已 gitignore；本地 `vp run dev` / `vp run build` 会重新写出。手写环境声明见 `src/types/env.d.ts`。

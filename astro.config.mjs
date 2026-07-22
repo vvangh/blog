@@ -148,7 +148,7 @@ export default defineConfig({
           fileFilter: (file) => !/(^|[/\\])index\.ts$/.test(file),
         },
         include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.astro$/],
-        dts: path.resolve(srcDir, "auto-imports.d.ts"),
+        dts: path.resolve(srcDir, "types/auto-imports.d.ts"),
         vueTemplate: true,
       }),
       Components({
@@ -158,7 +158,7 @@ export default defineConfig({
           path.resolve(srcDir, "components/molecules"),
         ],
         extensions: ["vue"],
-        dts: path.resolve(srcDir, "components.d.ts"),
+        dts: path.resolve(srcDir, "types/components.d.ts"),
         include: [/\.vue$/, /\.vue\?vue/],
       }),
       ...(isDev ? [vueDevTools()] : []),

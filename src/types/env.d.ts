@@ -20,7 +20,9 @@ interface ImportMeta {
 }
 
 /**
- * 环境与模块声明：供 barrel 再导出 `.astro` / `.vue` 时类型检查使用。
+ * 环境与模块声明（手写，置于 `src/types/`）。
+ * 供 barrel 再导出 `.astro` / `.vue` 时类型检查使用。
+ * 生成物：`auto-imports.d.ts` / `components.d.ts` 同目录，已 gitignore。
  */
 
 declare module "*.astro" {
