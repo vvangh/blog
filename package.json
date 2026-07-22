@@ -17,6 +17,7 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/vue": "^7.0.1",
+    "@lucide/vue": "^1.25.0",
     "@tailwindcss/vite": "^4.3.3",
     "@vite-pwa/astro": "^1.2.0",
     "astro": "^7.1.3",
