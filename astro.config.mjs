@@ -142,7 +142,12 @@ export default defineConfig({
       tailwindcss(),
       AutoImport({
         imports: ["vue", "@vueuse/core"],
+        // 扫 composables 供岛内免导入；排除 barrel，避免与具体文件重复注册
         dirs: [path.resolve(srcDir, "composables")],
+        dirsScanOptions: {
+          fileFilter: (file) => !/(^|[/\\])index\.ts$/.test(file),
+        },
+        include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.astro$/],
         dts: path.resolve(srcDir, "auto-imports.d.ts"),
         vueTemplate: true,
       }),

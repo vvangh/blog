@@ -2,14 +2,12 @@
 /**
  * 全站悬浮坞：返回顶部、站点设置抽屉。
  * 偏好不占用独立页面，避免「博客像后台」的观感。
- * vue API 由 unplugin-auto-import 注入，勿手写 import。
+ * vue / VueUse / composables 由 unplugin-auto-import 注入，勿手写 import。
  */
-import { useStore } from "@nanostores/vue";
 import { X } from "@lucide/vue";
 import { ThemeSettings } from "@/components/ThemeSettings";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import type { Locale } from "@/lib/i18n";
-import { closePrefs, openPrefs as openPrefsStore, prefsOpenStore } from "@/lib/stores";
 
 const props = withDefaults(
   defineProps<{
@@ -34,8 +32,8 @@ const props = withDefaults(
   { hideTop: false },
 );
 
-/** 跨岛共享：其它岛也可 openPrefsStore() 打开设置 */
-const prefsOpen = useStore(prefsOpenStore);
+/** 跨岛共享：其它岛也可 openPrefs() 打开设置 */
+const { prefsOpen, openPrefs: openPrefsStore, closePrefs } = usePrefsOpen();
 const showTop = ref(false);
 const prefsBtnRef = ref<HTMLButtonElement | null>(null);
 const prefsCloseRef = ref<HTMLButtonElement | null>(null);
