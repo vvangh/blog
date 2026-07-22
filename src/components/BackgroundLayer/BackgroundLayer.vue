@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * 可配置背景层：图/视频、静态/轮播、手动切换；支持仅首页或全站。
- * 首屏不加白色蒙层；首页 scope 下随滚动淡出，正文区回到主题底色。
+ * 首页现为 Hero+页脚，壁纸常驻，不随滚动淡成白底。
  */
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import {
@@ -31,8 +31,6 @@ const props = withDefaults(
 const base = import.meta.env.BASE_URL;
 const playlist = ref<BgItem[]>(resolvePlaylist(BACKGROUND_CONFIG));
 const index = ref(0);
-/** 首页滚动淡出 1→0；全站恒为 1 */
-const scrollFade = ref(1);
 const videoRef = ref<HTMLVideoElement | null>(null);
 let timer: ReturnType<typeof setInterval> | undefined;
 
@@ -40,11 +38,7 @@ const active = computed(() => shouldShowBackground(BACKGROUND_CONFIG, props.isHo
 const current = computed(() => (active.value ? (playlist.value[index.value] ?? null) : null));
 const opacity = BACKGROUND_CONFIG.opacity;
 const showSwitcher = computed(
-  () =>
-    active.value &&
-    BACKGROUND_CONFIG.manualSwitch &&
-    playlist.value.length > 1 &&
-    scrollFade.value > 0.12,
+  () => active.value && BACKGROUND_CONFIG.manualSwitch && playlist.value.length > 1,
 );
 
 function assetUrl(src: string) {
@@ -77,21 +71,10 @@ function go(delta: number) {
   startAutoplay();
 }
 
-function updateScrollFade() {
-  if (!active.value || BACKGROUND_CONFIG.scope !== "home") {
-    scrollFade.value = 1;
-    return;
-  }
-  const hero = document.querySelector<HTMLElement>(".home-hero");
-  const heroH = hero?.offsetHeight ?? window.innerHeight * 0.9;
-  const fadeEnd = Math.max(160, heroH * 0.72);
-  scrollFade.value = Math.min(1, Math.max(0, 1 - window.scrollY / fadeEnd));
-}
-
 function syncVideoPlayback() {
   const el = videoRef.value;
   if (!el) return;
-  if (scrollFade.value < 0.05) {
+  if (!active.value) {
     el.pause();
   } else if (el.paused) {
     void el.play().catch(() => {
@@ -101,24 +84,19 @@ function syncVideoPlayback() {
 }
 
 onMounted(() => {
-  updateScrollFade();
   startAutoplay();
-  window.addEventListener("scroll", updateScrollFade, { passive: true });
-  window.addEventListener("resize", updateScrollFade, { passive: true });
+  syncVideoPlayback();
 });
 
 onUnmounted(() => {
   clearTimer();
-  window.removeEventListener("scroll", updateScrollFade);
-  window.removeEventListener("resize", updateScrollFade);
 });
 
-watch(scrollFade, syncVideoPlayback);
 watch(
   () => props.isHome,
   () => {
-    updateScrollFade();
     startAutoplay();
+    syncVideoPlayback();
   },
 );
 </script>
@@ -128,7 +106,6 @@ watch(
     v-if="current"
     class="bg-layer pointer-events-none fixed inset-0 z-0 overflow-hidden"
     aria-hidden="true"
-    :style="{ opacity: scrollFade }"
   >
     <img
       v-if="current.type === 'image'"

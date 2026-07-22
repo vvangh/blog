@@ -32,7 +32,7 @@ export type BgConfig = {
 };
 
 /**
- * 壁纸来源：本机「哲风壁纸·动漫-卡通-比奇堡」→ public/bg/wallpaper.png。
+ * 壁纸来源：本机「哲风壁纸·休闲-室内-居家」→ public/bg/wallpaper.png。
  * 用法见 docs/background.md。
  */
 export const BACKGROUND_CONFIG: BgConfig = {
