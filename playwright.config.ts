@@ -10,7 +10,8 @@ export default defineConfig({
   testDir: "e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
+  // CI 偶发预览冷启动/动画时序；失败产物由 ci.yml 上传 artifact
+  retries: process.env.CI ? 2 : 0,
   // 本地并行过多会把 preview 打满导致 goto 超时；CI 单 worker 更稳
   workers: process.env.CI ? 1 : 4,
   reporter: process.env.CI ? "github" : "list",

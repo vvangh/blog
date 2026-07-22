@@ -3,6 +3,7 @@
  */
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { clickMoreNavLink, mainNav, openPrefsPanel } from "./helpers";
 
 test.describe("vv 关键路径", () => {
   test.beforeEach(async ({ page }) => {
@@ -17,49 +18,40 @@ test.describe("vv 关键路径", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText("vv");
   });
 
-  test("主导航可进入技术与从零到一", async ({ page }) => {
+  test("主导航可进入技术；从零到一在更多中", async ({ page }) => {
     await page.goto("./zh-Hans/");
-    await page
-      .getByRole("navigation", { name: "主导航" })
-      .getByRole("link", { name: "技术" })
-      .click();
+    await mainNav(page).getByRole("link", { name: "技术" }).click();
     await expect(page).toHaveURL(/\/blog\/zh-Hans\/blog\/$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText("技术");
 
-    await page
-      .getByRole("navigation", { name: "主导航" })
-      .getByRole("link", { name: "从零到一" })
-      .click();
+    await page.goto("./zh-Hans/");
+    await clickMoreNavLink(page, "从零到一");
     await expect(page).toHaveURL(/\/blog\/zh-Hans\/build\/$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText("从零到一");
   });
 
   test("关于与友链页可达", async ({ page }) => {
     await page.goto("./zh-Hans/");
-    await page
-      .getByRole("navigation", { name: "主导航" })
-      .getByRole("link", { name: "关于" })
-      .click();
+    await mainNav(page).getByRole("link", { name: "关于" }).click();
     await expect(page).toHaveURL(/\/blog\/zh-Hans\/about\/$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText("关于");
 
-    await page
-      .getByRole("navigation", { name: "主导航" })
-      .getByRole("link", { name: "友链" })
-      .click();
+    await page.goto("./zh-Hans/");
+    await clickMoreNavLink(page, "友链");
     await expect(page).toHaveURL(/\/blog\/zh-Hans\/friends\/$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText("友链");
   });
 
   test("英文首页导航文案切换", async ({ page }) => {
     await page.goto("./en/");
-    const nav = page.getByRole("navigation", { name: "Main navigation" });
+    const nav = page.getByRole("navigation", { name: "Main navigation" }).first();
     await expect(nav).toBeVisible();
     await expect(nav.getByRole("link", { name: "Tech" })).toBeVisible();
   });
 
   test("主题四模式单选可切换且保留焦点可达", async ({ page }) => {
     await page.goto("./zh-Hans/");
+    await openPrefsPanel(page);
     const dark = page.getByRole("radio", { name: /暗色/ });
     await expect(dark).toBeVisible();
     await dark.check();
@@ -77,7 +69,11 @@ test.describe("vv 关键路径", () => {
       await page.goto(path);
       // 等入场动效结束，避免 axe 采到动画中间态的半透明前景色
       await page.waitForTimeout(900);
-      const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+      const results = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa"])
+        // ink-invert 用 mix-blend-mode:difference，axe 只看到源色 #fff，无法评估真实对比度
+        .exclude(".ink-invert")
+        .analyze();
       expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
     }
   });
