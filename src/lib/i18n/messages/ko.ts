@@ -1,0 +1,45 @@
+/**
+ * UI 文案：ko。
+ */
+import type { Catalog } from "./keys";
+import { zhHans } from "./zh-Hans";
+
+export const ko: Catalog = {
+  ...zhHans,
+  "nav.home": "홈",
+  "nav.blog": "기술",
+  "nav.build": "제로에서",
+  "nav.life": "생활",
+  "nav.fun": "취미",
+  "nav.main": "주 탐색",
+  "nav.about": "소개",
+  "nav.archive": "아카이브",
+  "nav.friends": "친구",
+  "nav.tags": "태그",
+  "home.lead": "기술과 삶의 조각을, 여백 속에서 천천히.",
+  "home.scrollCue": "계속 보기",
+  "home.eyebrow": "vvangh",
+  "home.viewAll": "전체 보기",
+  "skip.toMain": "본문으로 건너뛰기",
+  "search.open": "검색 열기",
+  "search.title": "사이트 검색",
+  "search.placeholder": "글과 페이지 검색…",
+  "search.empty": "결과 없음",
+  "search.clear": "지우기",
+  "search.noIndex": "검색 인덱스가 없습니다 (vp run build)",
+  "search.close": "닫기",
+  "about.title": "소개",
+  "archive.title": "아카이브",
+  "friends.title": "친구 링크",
+  "tags.title": "태그",
+  "splash.skip": "건너뛰기",
+  "splash.brand": "vv",
+  "theme.heading": "모양",
+  "lang.heading": "언어",
+  "lang.switched": "{label}(으)로 전환됨",
+  "lang.filterPlaceholder": "언어 필터…",
+  "lang.filterEmpty": "일치하는 언어 없음",
+  "toc.title": "목차",
+  "progress.label": "읽기 진행률",
+  "comments.title": "댓글",
+};
