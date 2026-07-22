@@ -58,8 +58,9 @@ test.describe("vv 关键路径", () => {
     await expect(dark).toBeChecked();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark", { timeout: 10_000 });
 
+    // 「自定义」进入时段子页，确认前不会 aria-checked，不能用 check()
     const custom = page.getByRole("radio", { name: /自定义/ });
-    await custom.check();
+    await custom.click();
     await expect(page.getByLabel("浅色开始")).toBeVisible();
     await expect(page.getByLabel("浅色结束")).toBeVisible();
   });
