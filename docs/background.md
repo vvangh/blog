@@ -2,7 +2,7 @@
 
 配置驱动的图/视频背景：静态或轮播、顺序或乱序、手动切换，以及「仅首页 / 全站」。
 
-当前默认：`scope: "home"` + `public/bg/wallpaper.png`（源自「哲风壁纸·动漫-卡通-比奇堡」）。非首页与首页滚过 Hero 后，回到主题底色。
+当前默认：`scope: "home"` + `public/bg/wallpaper.png`（源自「哲风壁纸·休闲-室内-居家」）。首页壁纸常驻（Hero+页脚）；非首页用主题底色。
 
 ## 怎么用
 
@@ -28,11 +28,11 @@
 
 ## 行为说明
 
-- **仅首页**：`scope: "home"` 时只在首页挂载；滚出 Hero 区域后背景淡出，下方正文用正常 `--hl-bg`。
+- **仅首页**：`scope: "home"` 时只在首页挂载；壁纸常驻，不随滚动淡成白底。
 - **全站**：`scope: "site"` 时各页面都显示，且不随滚动淡出。
 - **静态 + 手动**：`mode: "static"` 且 `manualSwitch: true` 时保留完整列表，只停自动切。
 - **静态且无手动**：只显示第一项。
-- **视频**：须静音循环；滚出首屏时会暂停以省资源。
+- **视频**：须静音循环；离开首页或背景关闭时暂停。
 
 ## 最小示例（多图轮播 + 手动）
 
@@ -56,7 +56,14 @@ export const BACKGROUND_CONFIG: BgConfig = {
 
 - 背景层必须用 **非负** `z-index`（当前 `z-0`）。在 `body { isolation: isolate }` 下，负 z-index 会被 `html` 底色盖住。
 - 正文包在 `.site-chrome.relative.z-10` 里。
-- 琉璃控件类名：`glass-panel` / `glass-chip`（顶栏、频道卡、背景切换条等）。
+- 琉璃控件类名：`glass-panel` / `glass-chip`（频道卡、下拉等）。
+
+## 可读性（换图/视频也稳）
+
+- `.ink-invert`：源色白 + `difference`，**自动**随背后明暗反色（不是固定白/黑字）。
+- `BackgroundLayer` 必须与文案同属 `.site-chrome`，否则混不到壁纸。
+- 顶栏滚入内容后变为悬浮玻璃（`--header-lift`），玻璃上的字改回主题色。
+- 实色按钮不走反色；次按钮用 `.btn-ghost--on-media`。
 
 ## 无障碍与性能
 
