@@ -21,16 +21,18 @@
 
 ## 状态
 
-| 场景                   | 方案                                              |
-| ---------------------- | ------------------------------------------------- |
-| 单岛内 UI              | `ref` / composable / VueUse                       |
-| 跨岛共享（如设置抽屉） | `nanostores`（`@/lib/stores`）+ `@nanostores/vue` |
-| 不默认使用             | Pinia、vue-router                                 |
+| 场景                   | 方案                                                                                          |
+| ---------------------- | --------------------------------------------------------------------------------------------- |
+| 单岛内 UI              | `ref` / composable / VueUse（**auto-import，禁止手写 `vue` / `@vueuse/core` 运行时 import**） |
+| 跨岛共享（如设置抽屉） | `nanostores`（`@/lib/stores`）+ `@nanostores/vue`                                             |
+| 不默认使用             | Pinia、vue-router                                                                             |
 
 ## 封装习惯
 
 - 单文件 ≤ 500 行；超限拆 composable / 子组件
 - 样式优先 Tailwind + 现有 `glass-*`；少写大块 scoped CSS
+- 关闭 / 清除图标悬停旋转：统一 `motion-safe-icon-spin`，禁止组件私写 rotate
+- 多选项下拉：统一分子 `FilterableSelect`（触发框内 Combobox 过滤），禁止业务岛私写长列表 / 面板内另开搜索条
 
 ## 新增原子
 

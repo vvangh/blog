@@ -4,7 +4,6 @@
  */
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useId } from "vue";
 
 const props = defineProps<{
   label: string;

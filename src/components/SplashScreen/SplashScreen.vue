@@ -2,8 +2,8 @@
 /**
  * 首次进站 Splash：品牌字标入场；可跳过；prefers-reduced-motion 时立即结束。
  * 关闭后把 html[data-splash]=done，让首页 Hero 错落入场在可见时再播。
+ * vue API 由 unplugin-auto-import 注入。
  */
-import { nextTick, onMounted, ref } from "vue";
 import { SPLASH_STORAGE_KEY } from "@/lib/splash";
 
 defineProps<{
