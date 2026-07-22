@@ -9,12 +9,19 @@ export function mainNav(page: Page): Locator {
   return page.getByRole("navigation", { name: "主导航" }).first();
 }
 
-/** 若存在可见的「更多」summary 则展开，再点目标链接 */
+/** 若存在桌面「更多」菜单则展开，再点目标链接 */
 export async function clickMoreNavLink(page: Page, linkName: string | RegExp): Promise<void> {
   const nav = mainNav(page);
-  const moreSummary = nav.locator("summary").filter({ hasText: "更多" });
-  if (await moreSummary.isVisible()) {
-    await moreSummary.click();
+  const details = nav.locator("details.site-header__more");
+  // 精细指针下 pointerenter 已会 open；再点 summary 会 toggle 关掉
+  if (await details.isVisible()) {
+    await details.evaluate((el: HTMLDetailsElement) => {
+      el.open = true;
+    });
+    const link = details.getByRole("link", { name: linkName });
+    await link.waitFor({ state: "visible" });
+    await link.click();
+    return;
   }
   await nav.getByRole("link", { name: linkName }).click();
 }
