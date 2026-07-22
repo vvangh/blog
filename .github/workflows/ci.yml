@@ -3,7 +3,7 @@ name: CI
 # 质量门禁（不部署 Pages）。
 # - push：main / develop 均可跑检查（develop 推送不会触发 Deploy）
 # - pull_request：针对 main / develop 的 PR
-# - 部署见 deploy-pages.yml（仅 main 或手动且必须在 main）
+# - 部署见 deploy-pages.yml（仅 main，且须本 workflow 成功后才发版）
 on:
   pull_request:
     branches: [main, develop]
@@ -54,3 +54,15 @@ jobs:
         run: vp run test:e2e
         env:
           CI: true
+
+      # 失败时保留 trace / 报告，避免「只见 exit 1」无法复盘
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-e2e-${{ github.run_id }}
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 14

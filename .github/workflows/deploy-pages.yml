@@ -1,9 +1,12 @@
 name: Deploy GitHub Pages
 
 # 硬约束：仅 main 自动发版；develop 任意 push 都不应出现在此 workflow。
+# 须等 CI（push 到 main）成功后再构建上传，避免「CI 红灯但站点已上线」。
 # workflow_dispatch 也仅允许在 main 引用上执行（防止从 develop 手动误发）。
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -15,6 +18,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
 env:
   VITE_GIT_HOOKS: "0"
@@ -22,11 +26,19 @@ env:
 jobs:
   build:
     name: Build site
-    if: github.ref == 'refs/heads/main'
+    if: >
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          # workflow_run 默认不一定对准触发 SHA；显式对齐 CI 成功那次提交
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup Vite+
         uses: voidzero-dev/setup-vp@v1
@@ -45,7 +57,12 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
-    if: github.ref == 'refs/heads/main'
+    if: >
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'main')
     needs: build
     runs-on: ubuntu-latest
     environment:
