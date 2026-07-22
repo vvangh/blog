@@ -43,7 +43,7 @@
 2. 链 hover 细下划线；CTA / 列表轻抬升（0.3s）
 3. 英雄区文案错落入场 `rise`（首页无下滚引导；Splash 未关时 `data-splash=pending` 按住，关闭后再播）
 
-辅刀（仍克制）：壁纸 `media-drift` 极慢漂移；标题旁墨白光标闪烁；页脚随 Splash 后入场；顶栏胶囊偶发柔光扫边（旋转与显隐分轨，避免固定起点）。
+辅刀（仍克制）：壁纸 `media-drift` 极慢漂移；副标题打字机逐字 + 墨白光标闪烁（Splash 门控后播）；页脚随 Splash 后入场；顶栏胶囊偶发柔光扫边（旋转与显隐分轨，避免固定起点）。
 
 关闭 / 清除类图标（设置抽屉 X、搜索清空等）：统一 `motion-safe-icon-spin`，悬停内层 svg 转 90°；新按钮禁止另写一套。
 
@@ -55,7 +55,7 @@
 
 `.ink-invert` = 源色 `#fff` + `mix-blend-mode: difference`：与背后像素做差值，亮底变深、暗底变浅——**不是**固定展示成白色。壁纸须与文字同属 `.site-chrome`。
 
-搜索弹层（Ctrl+K）：墨色 Spotlight（`.site-search-panel`）+ 半透明黑遮罩（**不** blur）；选中行用中性浅铺（白 9%），不用链接蓝淡铺。
+搜索弹层（Ctrl+K）：跟随外观主题（`.site-search-panel` 用 `--hl-*`）+ 半透明黑遮罩（**不** blur）；选中行中性浅铺；输入光标用墨色，不用链接蓝。
 
 ## Figma
 

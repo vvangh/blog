@@ -41,26 +41,39 @@
   }
 
   /*
-   * 搜索弹层：墨色 Spotlight（叠壁纸不「粉笔白」）。
-   * 字色/边框用面板内变量；强调用暗色主题链接蓝 #2997ff。
-   * 遮罩不模糊（组件里只铺半透明黑）。
+   * 搜索弹层：跟随外观设置（html[data-theme] → --hl-*）。
+   * 全站共用，勿再写死墨色 Spotlight；光标用墨色，禁止链接蓝 caret。
+   * 遮罩不模糊（组件里半透明黑）。
    */
   .site-search-panel {
-    --search-fg: #f5f5f7;
-    --search-muted: color-mix(in oklab, #f5f5f7 52%, transparent);
-    --search-line: color-mix(in oklab, #fff 10%, transparent);
-    --search-accent: #2997ff;
+    --search-fg: var(--hl-fg);
+    --search-muted: var(--hl-muted);
+    --search-line: var(--hl-border);
+    --search-surface: var(--hl-panel);
+    --search-hit: color-mix(in oklab, var(--hl-fg) 6%, transparent);
+    --search-mark: color-mix(in oklab, var(--hl-fg) 10%, transparent);
+    --search-clear-hover: color-mix(in oklab, var(--hl-fg) 6%, transparent);
     border: 1px solid var(--search-line);
-    background: color-mix(in oklab, #1d1d1f 94%, #000 6%);
+    background: var(--search-surface);
     color: var(--search-fg);
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, #fff 55%, transparent),
+      0 28px 72px -24px color-mix(in oklab, #000 35%, transparent);
+  }
+
+  html[data-theme="dark"] .site-search-panel {
     box-shadow:
       inset 0 1px 0 color-mix(in oklab, #fff 8%, transparent),
       0 28px 72px -24px color-mix(in oklab, #000 65%, transparent);
   }
 
+  .site-search-panel__head {
+    border-bottom: 1px solid var(--search-line);
+  }
+
   .site-search-panel input {
     color: var(--search-fg);
-    caret-color: var(--search-accent);
+    caret-color: var(--search-fg);
   }
 
   .site-search-panel input::placeholder {
@@ -72,14 +85,18 @@
   }
 
   .site-search-panel .site-search-clear:hover {
-    background: color-mix(in oklab, #fff 10%, transparent);
+    background: var(--search-clear-hover);
     color: var(--search-fg);
   }
 
-  /* 选中/悬停：中性浅铺，不用链接蓝淡铺（叠墨色面板发飘） */
+  /* 选中/悬停：中性浅铺，跟随主题，不用链接蓝 */
+  .site-search-hit {
+    color: var(--search-fg);
+  }
+
   .site-search-hit.is-active,
   .site-search-hit:hover {
-    background: color-mix(in oklab, #fff 9%, transparent);
+    background: var(--search-hit);
   }
 
   .site-search-excerpt {
@@ -88,9 +105,60 @@
 
   .site-search-excerpt mark {
     border-radius: 0.2rem;
-    background: color-mix(in oklab, #fff 16%, transparent);
+    background: var(--search-mark);
     color: inherit;
     padding: 0 0.15em;
+  }
+
+  /*
+   * 顶栏搜索触发：默认仅图标；悬停用 0fr→1fr 拉开快捷键。
+   * 不用 delay / max-width / 改 padding——那几项叠在一起会像卡一下再动。
+   */
+  .site-search__trigger {
+    gap: 0;
+    overflow: hidden;
+    transition:
+      color 0.25s ease,
+      gap 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .site-search__hint-slot {
+    display: grid;
+    grid-template-columns: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-columns 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.45s ease;
+  }
+
+  .site-search__hint-slot > .site-search__hint {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .site-search__trigger:hover,
+  .site-search__trigger:focus-visible {
+    gap: 0.4rem;
+  }
+
+  .site-search__trigger:hover .site-search__hint-slot,
+  .site-search__trigger:focus-visible .site-search__hint-slot {
+    grid-template-columns: 1fr;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-search__trigger,
+    .site-search__hint-slot {
+      transition: none;
+    }
+
+    .site-search__trigger:hover .site-search__hint-slot,
+    .site-search__trigger:focus-visible .site-search__hint-slot {
+      grid-template-columns: 1fr;
+      opacity: 1;
+    }
   }
 
   /*
@@ -472,25 +540,38 @@
   }
 
   /*
-   * 站点偏好抽屉：干净实色（纯白/纯墨），禁止半透明叠壁纸、禁止蓝灰脏色混色。
+   * 站点偏好抽屉（vv Air · 克制极简）：
+   * - 关闭钮：无圆圈、无悬停底色，仅图标
+   * - 未选控件：透明底，不要灰井背景色
+   * - 选中磁贴：纯墨填充作唯一强信号
    */
   .prefs-drawer-scrim {
-    background: color-mix(in oklab, #000 42%, transparent);
+    background: color-mix(in oklab, #000 40%, transparent);
   }
 
   .prefs-drawer {
-    border-left: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    --prefs-surface: #ffffff;
+    --prefs-ink: #1d1d1f;
+    --prefs-ink-inv: #ffffff;
+    --prefs-line: #e8e8ed;
+    --prefs-muted: #86868b;
+    border-left: 1px solid var(--prefs-line);
     border-radius: 1.75rem 0 0 1.75rem;
-    background: #ffffff;
-    box-shadow: -20px 0 48px -28px color-mix(in oklab, #000 28%, transparent);
+    background: var(--prefs-surface);
+    color: var(--prefs-ink);
+    box-shadow: -24px 0 56px -32px rgb(0 0 0 / 22%);
   }
 
   html[data-theme="dark"] .prefs-drawer {
-    background: #1d1d1f;
+    --prefs-surface: #1c1c1e;
+    --prefs-ink: #f5f5f7;
+    --prefs-ink-inv: #1c1c1e;
+    --prefs-line: #3a3a3c;
+    --prefs-muted: #98989d;
   }
 
   .prefs-drawer__header {
-    border-bottom: 1px solid color-mix(in oklab, var(--hl-fg) 8%, transparent);
+    border-bottom: 1px solid var(--prefs-line);
   }
 
   .prefs-drawer__close {
@@ -499,39 +580,26 @@
     min-width: 2.5rem;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
-    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
-    background: #ffffff;
-    color: var(--hl-fg);
+    border: 0;
+    border-radius: 0.65rem;
+    background: transparent;
+    color: var(--prefs-ink);
     cursor: pointer;
-    transition:
-      background 0.2s ease,
-      border-color 0.2s ease,
-      color 0.2s ease;
-  }
-
-  html[data-theme="dark"] .prefs-drawer__close {
-    background: #1d1d1f;
   }
 
   .prefs-drawer__close:hover {
-    border-color: color-mix(in oklab, var(--hl-fg) 28%, transparent);
-    background: #f5f5f7;
+    background: transparent;
+    opacity: 0.55;
   }
 
-  html[data-theme="dark"] .prefs-drawer__close:hover {
-    background: #2c2c2e;
-  }
-
-  /* 设置壳层焦点用墨色，勿用链接蓝 --hl-focus */
   .prefs-drawer__close:focus-visible {
-    outline: 2px solid var(--hl-fg);
+    outline: 2px solid var(--prefs-ink);
     outline-offset: 2px;
   }
 
   .prefs-section {
     padding-block: 1.1rem;
-    border-bottom: 1px solid var(--hl-rule);
+    border-bottom: 1px solid var(--prefs-line);
   }
 
   .prefs-section:first-child {
@@ -554,7 +622,7 @@
     font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: -0.02em;
-    color: var(--hl-fg);
+    color: var(--prefs-ink);
   }
 
   .prefs-subhead {
@@ -570,22 +638,22 @@
     min-width: 2.25rem;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--hl-border);
-    border-radius: 9999px;
+    border: 0;
+    border-radius: 0.65rem;
     background: transparent;
-    color: var(--hl-fg);
+    color: var(--prefs-ink);
     cursor: pointer;
-    transition: background 0.2s ease;
   }
 
   .prefs-back:hover {
-    background: color-mix(in oklab, var(--hl-fg) 6%, transparent);
+    background: transparent;
+    opacity: 0.55;
   }
 
   .prefs-tiles {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.6rem;
+    gap: 0.55rem;
     margin-top: 0.95rem;
   }
 
@@ -597,53 +665,41 @@
     justify-content: space-between;
     gap: 0.65rem;
     padding: 0.95rem 1rem;
-    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
-    border-radius: 1.1rem;
-    background: #ffffff;
-    color: var(--hl-fg);
+    border: 1px solid var(--prefs-line);
+    border-radius: 1rem;
+    background: transparent;
+    color: var(--prefs-ink);
     text-align: left;
     cursor: pointer;
     box-shadow: none;
     transition:
-      background 0.15s ease,
       border-color 0.15s ease,
-      color 0.15s ease;
-  }
-
-  html[data-theme="dark"] .prefs-tile {
-    background: #1d1d1f;
+      color 0.15s ease,
+      background 0.15s ease;
   }
 
   .prefs-tile:hover {
-    border-color: color-mix(in oklab, var(--hl-fg) 28%, transparent);
-    background: #f5f5f7;
-  }
-
-  html[data-theme="dark"] .prefs-tile:hover {
-    background: #2c2c2e;
+    border-color: color-mix(in oklab, var(--prefs-ink) 28%, transparent);
+    background: transparent;
   }
 
   .prefs-tile[aria-checked="true"] {
     border-color: transparent;
-    background: #1d1d1f;
-    color: #ffffff;
-  }
-
-  html[data-theme="dark"] .prefs-tile[aria-checked="true"] {
-    background: #f5f5f7;
-    color: #1d1d1f;
+    background: var(--prefs-ink);
+    color: var(--prefs-ink-inv);
   }
 
   .prefs-tile:focus-visible {
-    outline: 2px solid var(--hl-fg);
+    outline: 2px solid var(--prefs-ink);
     outline-offset: 2px;
   }
 
   .prefs-tile__icon {
-    opacity: 0.72;
+    color: var(--prefs-muted);
   }
 
   .prefs-tile[aria-checked="true"] .prefs-tile__icon {
+    color: inherit;
     opacity: 1;
   }
 
@@ -660,7 +716,11 @@
     font-size: 0.7rem;
     line-height: 1.35;
     font-weight: 400;
-    opacity: 0.68;
+    color: var(--prefs-muted);
+  }
+
+  .prefs-tile[aria-checked="true"] .prefs-tile__hint {
+    color: color-mix(in oklab, var(--prefs-ink-inv) 68%, transparent);
   }
 
   .prefs-schedule {
@@ -668,13 +728,9 @@
     gap: 0.65rem;
     margin-top: 0.95rem;
     padding: 0.95rem 1rem;
-    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    border: 1px solid var(--prefs-line);
     border-radius: 1rem;
-    background: #ffffff;
-  }
-
-  html[data-theme="dark"] .prefs-schedule {
-    background: #1d1d1f;
+    background: transparent;
   }
 
   .prefs-schedule label {
@@ -684,15 +740,16 @@
     justify-content: space-between;
     gap: 0.5rem;
     font-size: 0.8125rem;
+    color: var(--prefs-ink);
   }
 
   .prefs-schedule input[type="time"] {
     min-height: 2.25rem;
-    border: 1px solid var(--hl-border);
+    border: 1px solid var(--prefs-line);
     border-radius: 0.65rem;
-    background: var(--hl-bg);
+    background: transparent;
     padding: 0 0.65rem;
-    color: var(--hl-fg);
+    color: var(--prefs-ink);
   }
 
   .prefs-actions {
@@ -713,29 +770,30 @@
     font-weight: 600;
     cursor: pointer;
     transition:
-      background 0.2s ease,
-      border-color 0.2s ease,
-      color 0.2s ease;
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
   }
 
   .prefs-action--ghost {
-    border: 1px solid var(--hl-border);
+    border: 1px solid var(--prefs-line);
     background: transparent;
-    color: var(--hl-fg);
+    color: var(--prefs-ink);
   }
 
   .prefs-action--ghost:hover {
-    background: color-mix(in oklab, var(--hl-fg) 5%, transparent);
+    border-color: color-mix(in oklab, var(--prefs-ink) 28%, transparent);
+    background: transparent;
   }
 
   .prefs-action--solid {
-    border: 1px solid transparent;
-    background: var(--hl-cta-bg);
-    color: var(--hl-cta-fg);
+    border: 0;
+    background: var(--prefs-ink);
+    color: var(--prefs-ink-inv);
   }
 
   .prefs-action--solid:hover {
-    opacity: 0.9;
+    opacity: 0.88;
   }
 
   .filterable-select {
@@ -748,32 +806,26 @@
     min-height: 2.75rem;
     align-items: center;
     gap: 0.35rem;
-    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    border: 1px solid var(--prefs-line);
     border-radius: 0.9rem;
-    background: #ffffff;
+    background: transparent;
     padding: 0 0.35rem 0 0.95rem;
     cursor: pointer;
-    transition:
-      background 0.15s ease,
-      border-color 0.15s ease,
-      box-shadow 0.15s ease;
-  }
-
-  html[data-theme="dark"] .filterable-select__trigger {
-    background: #1d1d1f;
+    transition: border-color 0.15s ease;
   }
 
   .filterable-select__trigger:hover,
   .filterable-select__trigger--open {
-    border-color: color-mix(in oklab, var(--hl-fg) 28%, transparent);
+    border-color: color-mix(in oklab, var(--prefs-ink) 28%, transparent);
+    background: transparent;
   }
 
-  /* 聚焦/展开：墨色描边，禁止链接蓝焦点环 */
   .filterable-select__trigger:focus-within,
   .filterable-select__trigger--open {
-    border-color: color-mix(in oklab, var(--hl-fg) 42%, transparent);
     outline: none;
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--hl-fg) 18%, transparent);
+    border-color: var(--prefs-ink);
+    box-shadow: none;
+    background: transparent;
   }
 
   .filterable-select__input {
@@ -784,13 +836,13 @@
     padding: 0;
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--hl-fg);
+    color: var(--prefs-ink);
     cursor: text;
     outline: none;
   }
 
   .filterable-select__input::placeholder {
-    color: var(--hl-muted);
+    color: var(--prefs-muted);
     font-weight: 400;
   }
 
@@ -802,14 +854,15 @@
     align-items: center;
     justify-content: center;
     border: 0;
-    border-radius: 9999px;
+    border-radius: 0.5rem;
     background: transparent;
-    color: var(--hl-muted);
+    color: var(--prefs-muted);
     cursor: pointer;
   }
 
   .filterable-select__chevron-btn:hover {
-    background: color-mix(in oklab, var(--hl-fg) 5%, transparent);
+    background: transparent;
+    color: var(--prefs-ink);
   }
 
   .filterable-select__chevron {
@@ -827,14 +880,10 @@
     right: 0;
     left: 0;
     overflow: hidden;
-    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    border: 1px solid var(--prefs-line);
     border-radius: 1rem;
-    background: #ffffff;
-    box-shadow: 0 16px 36px -18px color-mix(in oklab, #000 28%, transparent);
-  }
-
-  html[data-theme="dark"] .filterable-select__panel {
-    background: #1d1d1f;
+    background: var(--prefs-surface);
+    box-shadow: 0 18px 40px -20px rgb(0 0 0 / 28%);
   }
 
   .filterable-select__list {
@@ -848,7 +897,7 @@
   .filterable-select__empty {
     padding: 0.85rem 0.75rem;
     font-size: 0.8125rem;
-    color: var(--hl-muted);
+    color: var(--prefs-muted);
     text-align: center;
   }
 
@@ -864,13 +913,14 @@
     background: transparent;
     padding: 0 0.75rem;
     font-size: 0.875rem;
-    color: var(--hl-fg);
+    color: var(--prefs-ink);
     text-align: left;
     cursor: pointer;
   }
 
   .filterable-select__option:hover {
-    background: color-mix(in oklab, var(--hl-fg) 6%, transparent);
+    background: transparent;
+    color: var(--prefs-muted);
   }
 
   .filterable-select__option[aria-selected="true"] {
@@ -879,7 +929,7 @@
 
   .filterable-select__check {
     flex-shrink: 0;
-    color: var(--hl-fg);
+    color: var(--prefs-ink);
   }
 
   /* 首页页脚叠壁纸：细线淡反差，勿铺白底 */

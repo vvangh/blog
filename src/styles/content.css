@@ -183,17 +183,24 @@
     }
   }
 
+  .home-hero__tagline {
+    margin: 0;
+  }
+
+  .home-hero__typewriter {
+    display: inline;
+  }
+
   .home-hero__cursor {
     display: inline-block;
     width: 0.08em;
     height: 0.8em;
-    margin-left: 0.1em;
+    margin-left: 0.06em;
     vertical-align: -0.04em;
-    /* 墨白光标：叠媒体上可读，不用链接蓝淡 */
     background: #fff;
     isolation: isolate;
     mix-blend-mode: normal;
-    animation: cursor-blink 1.1s step-end infinite;
+    animation: cursor-blink 1.05s step-end infinite;
   }
 
   /* 首页正文甲板：与首屏同系留白与分区节奏 */

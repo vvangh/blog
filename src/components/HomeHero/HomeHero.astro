@@ -5,12 +5,14 @@
  */
 import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 import { localePath, translate, type Locale } from "@/lib/i18n";
+import HeroTypewriter from "./HeroTypewriter.vue";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
+const lead = translate(locale, "home.lead");
 ---
 
 <section class="home-hero" aria-labelledby="hero-brand">
@@ -33,17 +35,14 @@ const { locale } = Astro.props;
 
       <div class="motion-safe-rise mt-7" style="animation-delay: 0.3s">
         <p
-          class="max-w-lg text-[1.65rem] leading-snug font-medium tracking-tight md:text-[2rem]"
+          class="home-hero__tagline max-w-lg text-[1.65rem] leading-snug font-medium tracking-tight md:text-[2rem]"
         >
-          <span class="ink-invert">{SITE_TAGLINE}</span>
-          <span class="home-hero__cursor" aria-hidden="true"></span>
+          <HeroTypewriter client:load text={SITE_TAGLINE} />
         </p>
       </div>
 
       <div class="motion-safe-rise mt-4" style="animation-delay: 0.42s">
-        <p class="home-hero__lead ink-invert">
-          {translate(locale, "home.lead")}
-        </p>
+        <p class="home-hero__lead ink-invert">{lead}</p>
       </div>
 
       <div class="motion-safe-rise mt-10 flex flex-wrap gap-3" style="animation-delay: 0.54s">

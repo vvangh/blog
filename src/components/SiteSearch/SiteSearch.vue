@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Ctrl/Cmd+K 搜索岛。
- * 墨色 Spotlight 面板（.site-search-panel），叠壁纸不粉笔白；选中用链接蓝淡铺。
+ * 面板跟随外观主题（.site-search-panel → --hl-*）；全站共用。
  */
 import { toRef } from "vue";
 import { LoaderCircle, Search, X } from "@lucide/vue";
@@ -33,12 +33,14 @@ defineExpose({ openDialog });
   <div class="site-search">
     <button
       type="button"
-      class="site-search__trigger glass-chip inline-flex min-h-10 items-center gap-2 px-3 text-sm text-hl-muted transition hover:text-hl-fg"
+      class="site-search__trigger glass-chip inline-flex min-h-10 min-w-10 cursor-pointer items-center justify-center px-2.5 text-sm text-hl-muted hover:text-hl-fg"
       :aria-label="openLabel"
       @click="openDialog"
     >
       <Search class="size-4 shrink-0" :stroke-width="1.75" aria-hidden="true" />
-      <kbd class="hidden font-mono text-xs sm:inline">Ctrl K</kbd>
+      <span class="site-search__hint-slot" aria-hidden="true">
+        <kbd class="site-search__hint font-mono text-xs">Ctrl K</kbd>
+      </span>
     </button>
 
     <div
@@ -53,7 +55,7 @@ defineExpose({ openDialog });
         :aria-label="title"
         class="site-search-panel w-full max-w-md overflow-hidden rounded-2xl motion-safe:animate-rise"
       >
-        <div class="flex items-center gap-3 border-b border-white/10 px-4 py-3">
+        <div class="site-search-panel__head flex items-center gap-3 px-4 py-3">
           <Search
             class="site-search-muted size-4 shrink-0"
             :stroke-width="1.75"
