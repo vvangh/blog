@@ -1,0 +1,209 @@
+/*
+ * 底层：文档基线、滚动条、动效关键帧与 motion-safe 工具类。
+ */
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background: var(--hl-bg);
+    color: var(--hl-fg);
+    /* 页面级滚动条隐藏；仍可滚轮/触控滚动 */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    position: relative;
+    isolation: isolate;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  /* 内部滚动区：细轨 + 圆角滑块（不含页面级 html/body） */
+  *:not(html):not(body)::-webkit-scrollbar {
+    width: 0.55rem;
+    height: 0.55rem;
+  }
+
+  *:not(html):not(body)::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *:not(html):not(body)::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+    background-color: color-mix(in oklab, var(--hl-fg) 22%, transparent);
+  }
+
+  *:not(html):not(body)::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in oklab, var(--hl-fg) 38%, transparent);
+  }
+
+  /*
+   * 柔光叠在壁纸之上：不再铺实色底，否则会完全盖住 BackgroundLayer。
+   * 实色底色留给 html { background }。
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    /* 叠在壁纸（z-0）之上、.site-chrome（z-10）之下 */
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 45% at 85% -10%, var(--hl-glow-a), transparent 60%),
+      radial-gradient(ellipse 45% 40% at 5% 90%, var(--hl-glow-b), transparent 55%);
+  }
+
+  body::after {
+    content: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--hl-focus);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--hl-accent) 28%, transparent);
+    color: var(--hl-fg);
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(1.25rem);
+    opacity: 0.001;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes glow-pulse {
+  from {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes brand-underline {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cursor-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.motion-safe-rise {
+  animation: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motion-safe-glow {
+  animation: glow-pulse 14s ease-in-out infinite alternate;
+}
+
+.motion-safe-underline {
+  transform-origin: center;
+  animation: brand-underline 1s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+}
+
+.motion-safe-nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.motion-safe-nav-link::after {
+  content: "";
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.4rem;
+  left: 0.75rem;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.motion-safe-nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.motion-safe-card {
+  transition:
+    color 0.25s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.motion-safe-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px -28px color-mix(in oklab, var(--hl-fg) 45%, transparent);
+}
+
+.motion-safe-panel {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    background-color 0.35s ease;
+}
+
+.motion-safe-panel:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, #fff 55%, transparent),
+    0 20px 50px -28px color-mix(in oklab, var(--hl-fg) 28%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-rise,
+  .motion-safe-glow,
+  .motion-safe-underline,
+  .home-hero__cursor {
+    animation: none !important;
+  }
+
+  .motion-safe-nav-link,
+  .motion-safe-nav-link::after,
+  .motion-safe-card,
+  .motion-safe-card:hover,
+  .motion-safe-panel,
+  .motion-safe-panel:hover,
+  .site-header,
+  .site-header__frame,
+  .site-header__glass {
+    transition: none !important;
+    transform: none !important;
+  }
+}

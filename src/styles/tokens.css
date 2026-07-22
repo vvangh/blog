@@ -1,0 +1,123 @@
+/*
+ * 设计令牌：@theme 映射、浅/暗色、高对比与字号密度。
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --font-sans: "Instrument Sans", "Noto Sans SC", "Segoe UI", sans-serif;
+  --font-display: "Instrument Sans", "Noto Sans SC", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, monospace;
+
+  --color-hl-fg: var(--hl-fg);
+  --color-hl-bg: var(--hl-bg);
+  --color-hl-muted: var(--hl-muted);
+  --color-hl-accent: var(--hl-accent);
+  --color-hl-accent-2: var(--hl-accent-2);
+  --color-hl-soft: var(--hl-soft);
+  --color-hl-border: var(--hl-border);
+  --color-hl-focus: var(--hl-focus);
+  --color-hl-panel: var(--hl-panel);
+  --color-hl-cta: var(--hl-cta-bg);
+  --color-hl-cta-fg: var(--hl-cta-fg);
+
+  --animate-rise: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-glow: glow-pulse 14s ease-in-out infinite alternate;
+  --animate-cursor-blink: cursor-blink 1.1s step-end infinite;
+}
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --hl-fg: #1d1d1f;
+  --hl-bg: #fbfbfd;
+  /* 相对 --hl-bg (#fbfbfd) ≥ 4.5:1，满足 WCAG AA 正文辅色 */
+  --hl-muted: #6e6e73;
+  --hl-accent: #0071e3;
+  --hl-accent-2: #c4849a;
+  --hl-soft: #e8f1ff;
+  --hl-border: color-mix(in oklab, #1d1d1f 10%, transparent);
+  --hl-focus: #0071e3;
+  --hl-panel: #ffffff;
+  --hl-cta-bg: #1d1d1f;
+  --hl-cta-fg: #ffffff;
+  --hl-glow-a: color-mix(in oklab, #0071e3 14%, transparent);
+  --hl-glow-b: color-mix(in oklab, #c4849a 12%, transparent);
+  --hl-rule: color-mix(in oklab, #1d1d1f 8%, transparent);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --hl-fg: #f5f5f7;
+  --hl-bg: #000000;
+  --hl-muted: #a1a1a6;
+  --hl-accent: #2997ff;
+  --hl-accent-2: #e8a0b5;
+  --hl-soft: #142033;
+  --hl-border: color-mix(in oklab, #f5f5f7 14%, transparent);
+  --hl-focus: #2997ff;
+  --hl-panel: #1d1d1f;
+  --hl-cta-bg: #f5f5f7;
+  --hl-cta-fg: #1d1d1f;
+  --hl-glow-a: color-mix(in oklab, #2997ff 18%, transparent);
+  --hl-glow-b: color-mix(in oklab, #e8a0b5 10%, transparent);
+  --hl-rule: color-mix(in oklab, #f5f5f7 12%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --hl-fg: #f5f5f7;
+    --hl-bg: #000000;
+    --hl-muted: #a1a1a6;
+    --hl-accent: #2997ff;
+    --hl-accent-2: #e8a0b5;
+    --hl-soft: #142033;
+    --hl-border: color-mix(in oklab, #f5f5f7 14%, transparent);
+    --hl-focus: #2997ff;
+    --hl-panel: #1d1d1f;
+    --hl-cta-bg: #f5f5f7;
+    --hl-cta-fg: #1d1d1f;
+    --hl-glow-a: color-mix(in oklab, #2997ff 18%, transparent);
+    --hl-glow-b: color-mix(in oklab, #e8a0b5 10%, transparent);
+    --hl-rule: color-mix(in oklab, #f5f5f7 12%, transparent);
+  }
+}
+
+html[data-density="comfortable"] {
+  font-size: 112.5%;
+}
+
+html[data-density="comfortable"] .content-body {
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+}
+
+html[data-contrast="high"][data-theme="light"],
+html[data-contrast="high"]:not([data-theme="dark"]) {
+  --hl-fg: #000000;
+  --hl-bg: #ffffff;
+  --hl-muted: #333333;
+  --hl-accent: #0058b0;
+  --hl-accent-2: #8a3a55;
+  --hl-soft: #dbeaff;
+  --hl-border: #000000;
+  --hl-focus: #000000;
+  --hl-panel: #ffffff;
+  --hl-cta-bg: #000000;
+  --hl-cta-fg: #ffffff;
+}
+
+html[data-contrast="high"][data-theme="dark"] {
+  --hl-fg: #ffffff;
+  --hl-bg: #000000;
+  --hl-muted: #e0e0e0;
+  --hl-accent: #66b3ff;
+  --hl-accent-2: #ffb3c7;
+  --hl-soft: #0a1a33;
+  --hl-border: #ffffff;
+  --hl-focus: #ffffff;
+  --hl-panel: #0a0a0a;
+  --hl-cta-bg: #ffffff;
+  --hl-cta-fg: #000000;
+}
