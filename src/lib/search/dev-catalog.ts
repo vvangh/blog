@@ -40,23 +40,32 @@ function staticPages(locale: Locale): DevSearchEntry[] {
   }));
 }
 
+function pushEntries(
+  out: DevSearchEntry[],
+  locale: Locale,
+  collection: keyof typeof COLLECTION_PATH,
+  entries: Array<{ id: string; data: { title: string; description?: string } }>,
+): void {
+  const segment = COLLECTION_PATH[collection];
+  for (const entry of entries) {
+    out.push({
+      id: `${collection}:${locale}:${entry.id}`,
+      url: localePath(locale, `${segment}/${entry.id}`),
+      title: entry.data.title,
+      excerpt: entry.data.description ?? "",
+    });
+  }
+}
+
 /** @param locale 只编当前语言目录，减轻噪音与体积 */
 export async function buildDevSearchCatalog(locale: Locale): Promise<DevSearchEntry[]> {
   const out: DevSearchEntry[] = [...staticPages(locale)];
 
-  for (const [collection, segment] of Object.entries(COLLECTION_PATH) as Array<
-    [keyof typeof COLLECTION_PATH, string]
-  >) {
-    const entries = publishedSorted(await getCollection(collection));
-    for (const entry of entries) {
-      out.push({
-        id: `${collection}:${locale}:${entry.id}`,
-        url: localePath(locale, `${segment}/${entry.id}`),
-        title: entry.data.title,
-        excerpt: entry.data.description ?? "",
-      });
-    }
-  }
+  // 字面量分别取集：避免 getCollection(变量) 被 tsgolint 收成无 title 的交叉类型
+  pushEntries(out, locale, "blog", publishedSorted(await getCollection("blog")));
+  pushEntries(out, locale, "build-log", publishedSorted(await getCollection("build-log")));
+  pushEntries(out, locale, "life", publishedSorted(await getCollection("life")));
+  pushEntries(out, locale, "fun", publishedSorted(await getCollection("fun")));
 
   return out;
 }
