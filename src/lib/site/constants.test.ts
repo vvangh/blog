@@ -8,7 +8,7 @@ describe("site constants", () => {
   it("exposes vv brand strings", () => {
     expect(SITE_NAME_ZH).toBe("vv");
     expect(SITE_NAME_EN).toBe("vv");
-    expect(SITE_TAGLINE).toBe("技术 · 生活 · 趣味");
+    expect(SITE_TAGLINE).toBe("记录值得留下的事");
   });
 
   it("uses GitHub Pages project base", () => {

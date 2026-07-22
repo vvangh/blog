@@ -9,8 +9,8 @@ export const SITE_NAME_ZH = "vv";
 /** 英文标识（与展示名一致） */
 export const SITE_NAME_EN = "vv";
 
-/** 副标题 */
-export const SITE_TAGLINE = "技术 · 生活 · 趣味";
+/** 副标题：苹果式短句，避免「栏目枚举」观感 */
+export const SITE_TAGLINE = "记录值得留下的事";
 
 /** 默认 SEO 描述 */
 export const SITE_DESCRIPTION = "vvangh 的个人站点：技术、生活与趣味，含公开建站手记。";

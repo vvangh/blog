@@ -57,16 +57,12 @@ onMounted(() => {
         class="motion-safe-glow absolute top-1/3 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-hl-accent/25 blur-3xl"
       />
     </div>
-    <p class="brand-mark motion-safe-rise relative text-7xl text-hl-fg md:text-8xl">
+    <p class="brand-mark motion-safe-rise relative text-6xl font-semibold text-hl-fg md:text-7xl">
       {{ brand }}
     </p>
-    <span
-      class="motion-safe-underline relative mt-3 block h-[3px] w-16 bg-hl-accent"
-      aria-hidden="true"
-    />
     <p
       v-if="tagline"
-      class="motion-safe-rise relative mt-5 text-sm tracking-[0.2em] text-hl-muted"
+      class="motion-safe-rise relative mt-6 max-w-xs text-center text-base text-hl-muted"
       style="animation-delay: 0.15s"
     >
       {{ tagline }}
