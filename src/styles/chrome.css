@@ -185,6 +185,7 @@
 
   /* 开搜 / 展开「更多」再抬一层，盖住页面其它浮层 */
   .site-header.is-search-open,
+  .site-header:has(.site-header__more:focus-within),
   .site-header:has(details[open]) {
     z-index: 80;
   }
@@ -192,8 +193,13 @@
   .site-header__frame {
     position: relative;
     border-radius: 9999px;
-    /* 裁切边框流光伪元素，否则大正方形会撑出横/纵滚动条 */
+    /* 裁切边框流光 / 品牌尾焰；展开「更多」时放开，避免下拉被裁 */
     overflow: hidden;
+  }
+
+  .site-header__frame:has(.site-header__more:focus-within),
+  .site-header__frame:has(.site-header__more[open]) {
+    overflow: visible;
   }
 
   /* 流光叠在描边上、文字之下（不跟 lift 消隐，否则首页透明顶永远看不见） */
