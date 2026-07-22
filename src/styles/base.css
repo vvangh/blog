@@ -144,6 +144,17 @@
   }
 }
 
+/* 首页眉题：字距轻呼吸（不动 transform，避免干扰 ink-invert） */
+@keyframes hero-eyebrow-track {
+  0%,
+  100% {
+    letter-spacing: 0.12em;
+  }
+  50% {
+    letter-spacing: 0.2em;
+  }
+}
+
 .motion-safe-rise {
   animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -451,7 +462,8 @@ html[data-splash="pending"] .motion-safe-rise--after-splash {
   .site-header__v--b,
   .home-hero__cursor,
   .site-fab__gear,
-  .site-footer__inner::before {
+  .site-footer__inner::before,
+  .home-hero__eyebrow {
     animation: none !important;
   }
 
