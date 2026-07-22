@@ -2,6 +2,7 @@
 /**
  * 全站悬浮坞：返回顶部、站点设置抽屉。
  * 偏好不占用独立页面，避免「博客像后台」的观感。
+ * 空闲后收到右侧只露边；悬停/聚焦再展开。
  * vue / VueUse / composables 由 unplugin-auto-import 注入，勿手写 import。
  */
 import { X } from "@lucide/vue";
@@ -41,6 +42,31 @@ const prefsCloseRef = ref<HTMLButtonElement | null>(null);
 const restorePrefsFocus = ref(true);
 /** 打开瞬间忽略遮罩点击，避免「同一次 click」穿透把抽屉立刻关掉 */
 const ignoreScrimClickUntil = ref(0);
+/** 空闲收到右侧；抽屉打开时强制展开 */
+const docked = ref(false);
+
+/** 无操作多久后收起（毫秒） */
+const FAB_IDLE_MS = 3600;
+
+const { start: armIdleHide, stop: clearIdleHide } = useTimeoutFn(
+  () => {
+    if (!prefsOpen.value) docked.value = true;
+  },
+  FAB_IDLE_MS,
+  { immediate: false },
+);
+
+function revealFab(): void {
+  docked.value = false;
+  clearIdleHide();
+  if (!prefsOpen.value) armIdleHide();
+}
+
+function onDockLeave(): void {
+  if (prefsOpen.value) return;
+  clearIdleHide();
+  armIdleHide();
+}
 
 function isTypingTarget(el: EventTarget | null): boolean {
   if (!(el instanceof HTMLElement)) return false;
@@ -63,6 +89,8 @@ function scrollTop(): void {
 }
 
 function openPrefs(): void {
+  docked.value = false;
+  clearIdleHide();
   ignoreScrimClickUntil.value = Date.now() + 320;
   openPrefsStore();
 }
@@ -88,6 +116,12 @@ function onKey(e: KeyboardEvent): void {
 
 watch(prefsOpen, async (open) => {
   document.body.style.overflow = open ? "hidden" : "";
+  if (open) {
+    docked.value = false;
+    clearIdleHide();
+  } else {
+    armIdleHide();
+  }
   await nextTick();
   if (open) {
     prefsCloseRef.value?.focus();
@@ -103,9 +137,11 @@ onMounted(() => {
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("keydown", onKey);
+  armIdleHide();
 });
 
 onUnmounted(() => {
+  clearIdleHide();
   window.removeEventListener("scroll", onScroll);
   window.removeEventListener("keydown", onKey);
   document.body.style.overflow = "";
@@ -116,7 +152,11 @@ onUnmounted(() => {
   <div class="site-fab" data-pagefind-ignore>
     <div
       v-show="!prefsOpen"
-      class="fixed right-4 bottom-4 z-50 flex flex-col-reverse items-center gap-2"
+      class="site-fab__dock fixed right-4 bottom-4 z-50 flex flex-col-reverse items-center gap-2"
+      :class="{ 'is-docked': docked }"
+      @pointerenter="revealFab"
+      @pointerleave="onDockLeave"
+      @focusin="revealFab"
     >
       <button
         ref="prefsBtnRef"

@@ -21,7 +21,10 @@ export async function clickMoreNavLink(page: Page, linkName: string | RegExp): P
 
 /** 打开右下角设置抽屉，等待对话框出现 */
 export async function openPrefsPanel(page: Page): Promise<void> {
-  await page.getByRole("button", { name: "打开设置" }).click();
+  const prefsBtn = page.getByRole("button", { name: "打开设置" });
+  // 空闲可能已收到右侧：先悬停展开再点
+  await prefsBtn.hover({ force: true });
+  await prefsBtn.click();
   // 对话框名来自 about.prefs（简中为「设置」）
   await page.getByRole("dialog", { name: "设置" }).waitFor({ state: "visible" });
 }

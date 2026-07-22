@@ -155,6 +155,17 @@
   }
 }
 
+/* 主 CTA 箭头：待机轻点头，幅度小于悬停右移 */
+@keyframes btn-cta-arrow-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.1em);
+  }
+}
+
 .motion-safe-rise {
   animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -195,6 +206,41 @@
     opacity: 0.75;
   }
   90%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 顶栏流光显隐：与 vv 14s 同拍——先亮蓄势 → 对撞峰 → 升空再亮 → 长静默 */
+@keyframes site-header-sheen-fade {
+  0%,
+  6% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.55;
+  }
+  /* 对撞前夕～弹开：流光最亮，托住小剧场 */
+  18%,
+  28% {
+    opacity: 1;
+  }
+  36% {
+    opacity: 0.35;
+  }
+  /* 蓄力蹲起时略暗，给升空让位 */
+  46% {
+    opacity: 0.2;
+  }
+  /* 升空 + 尾焰：第二波流光 */
+  54%,
+  64% {
+    opacity: 0.9;
+  }
+  74% {
+    opacity: 0.35;
+  }
+  82%,
   100% {
     opacity: 0;
   }
@@ -463,7 +509,8 @@ html[data-splash="pending"] .motion-safe-rise--after-splash {
   .home-hero__cursor,
   .site-fab__gear,
   .site-footer__inner::before,
-  .home-hero__eyebrow {
+  .home-hero__eyebrow,
+  .btn-cta::after {
     animation: none !important;
   }
 

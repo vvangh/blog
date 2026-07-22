@@ -174,6 +174,8 @@
   /* 顶栏外壳透明；玻璃在并列层 .site-header__glass，勿包住文字冒泡 backdrop-filter */
   .site-header {
     --header-lift: 0;
+    /* 小 vv / 尾焰 / 描边流光同拍 */
+    --header-motion-period: 14s;
     /* 须始终高于 main/Hero：透明态若 z-index:auto，后续同层 Hero 会吞掉顶栏点击 */
     z-index: 40;
     border: none;
@@ -309,8 +311,8 @@
   }
 
   /*
-   * 顶栏 vv 小剧场：两枚 v 对撞弹开 → 蓄力升空 → 落地。
-   * 位移控制在 em 内；尾焰不用 soft-light，避免被 isolation 吃掉。
+   * 顶栏 vv 小剧场 + 描边流光：共用 14s 节拍。
+   * 流光先亮蓄势 → 对撞峰 → 升空再亮 → 长静默；转圈仍 2.8s（恰 5 圈/拍）。
    */
   .site-header__brand-shell {
     position: relative;
@@ -334,11 +336,13 @@
   }
 
   .site-header__v--a {
-    animation: site-header-v-a 14s cubic-bezier(0.45, 0.05, 0.25, 1) infinite;
+    animation: site-header-v-a var(--header-motion-period, 14s) cubic-bezier(0.45, 0.05, 0.25, 1)
+      infinite;
   }
 
   .site-header__v--b {
-    animation: site-header-v-b 14s cubic-bezier(0.45, 0.05, 0.25, 1) infinite;
+    animation: site-header-v-b var(--header-motion-period, 14s) cubic-bezier(0.45, 0.05, 0.25, 1)
+      infinite;
   }
 
   /* 升空尾焰：字下方一道由亮到淡的竖向余烬 */
@@ -363,7 +367,34 @@
     transform: translate3d(0, 0, 0) scaleY(0.35);
     transform-origin: 50% 0%;
     mix-blend-mode: plus-lighter;
-    animation: site-header-brand-trail 14s cubic-bezier(0.45, 0.05, 0.2, 1) infinite;
+    animation: site-header-brand-trail var(--header-motion-period, 14s)
+      cubic-bezier(0.45, 0.05, 0.2, 1) infinite;
+  }
+
+  /* 覆盖通用 border-sheen-fade(7s)，改与 vv 同拍 */
+  .site-header__sheen.motion-safe-border-sheen::before {
+    animation:
+      border-sheen-spin 2.8s linear infinite,
+      site-header-sheen-fade var(--header-motion-period, 14s) ease-in-out infinite;
+  }
+
+  /* 「更多」菜单项：中性浅衬，勿用 hl-soft 蓝底 */
+  .site-header__more-link {
+    display: block;
+    border-radius: 0.7rem;
+    padding: 0.5rem 0.75rem;
+    color: var(--hl-fg);
+    text-decoration: none;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .site-header__more-link:hover,
+  .site-header__more-link:focus-visible {
+    background: color-mix(in oklab, var(--hl-fg) 7%, transparent);
+    color: var(--hl-fg);
+    outline: none;
   }
 
   /* 透明顶且无玻璃模糊：自动反色；一旦抬起玻璃改回主题字色 */
@@ -415,8 +446,8 @@
   }
 
   .site-footer--on-media {
-    /* 首页页脚只做轻收束，勿再堆大块留白 */
-    padding-block: 0.85rem 1.25rem;
+    /* 首页叠壁纸：比正文页脚略紧，但仍要够呼吸 */
+    padding-block: 1.2rem 1.75rem;
   }
 
   .site-footer__inner {
@@ -524,6 +555,29 @@
   /* 右下角设置：齿轮常转；悬停只放大图标（外层缩放，不抢旋转 transform） */
   .site-fab button {
     cursor: pointer;
+  }
+
+  .site-fab__dock {
+    position: relative;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* 空闲收起：只留右侧一缝，便于再唤出 */
+  .site-fab__dock.is-docked {
+    transform: translateX(calc(100% - 0.7rem));
+  }
+
+  /* 扩大收起态可点/可悬停区域 */
+  .site-fab__dock.is-docked::before {
+    content: "";
+    position: absolute;
+    inset: -0.35rem 0 -0.35rem -1.35rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-fab__dock {
+      transition: none;
+    }
   }
 
   .site-fab__prefs {
