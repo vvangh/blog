@@ -178,6 +178,100 @@
   }
 }
 
+/* 顶栏 vv 左字：逼近 → 对撞 → 弹开 → 蹲起 → 升空 → 落地 */
+@keyframes site-header-v-a {
+  0%,
+  12% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  18% {
+    transform: translate(0.12em, 0.02em) rotate(8deg) scale(1.02);
+  }
+  22% {
+    transform: translate(0.22em, 0) rotate(0deg) scale(0.92, 1.06);
+  }
+  28% {
+    transform: translate(-0.08em, 0) rotate(-12deg) scale(1.04);
+  }
+  36% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  48% {
+    transform: translate(0, 0.06em) scale(1.05, 0.88);
+  }
+  56% {
+    transform: translate(0, -0.32em) rotate(-4deg) scale(1.08);
+  }
+  64% {
+    transform: translate(0, -0.38em) rotate(0deg) scale(1.04);
+  }
+  74% {
+    transform: translate(0, 0.04em) scale(1.06, 0.9);
+  }
+  82%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+/* 顶栏 vv 右字：镜像对撞，升空略滞后 */
+@keyframes site-header-v-b {
+  0%,
+  12% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  18% {
+    transform: translate(-0.12em, 0.02em) rotate(-8deg) scale(1.02);
+  }
+  22% {
+    transform: translate(-0.22em, 0) rotate(0deg) scale(0.92, 1.06);
+  }
+  28% {
+    transform: translate(0.08em, 0) rotate(12deg) scale(1.04);
+  }
+  36% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate(0, 0.06em) scale(1.05, 0.88);
+  }
+  58% {
+    transform: translate(0, -0.34em) rotate(5deg) scale(1.1);
+  }
+  66% {
+    transform: translate(0, -0.4em) rotate(0deg) scale(1.05);
+  }
+  76% {
+    transform: translate(0, 0.04em) scale(1.06, 0.9);
+  }
+  84%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+/* 与升空同步：字下尾焰拉长再熄 */
+@keyframes site-header-brand-trail {
+  0%,
+  48% {
+    opacity: 0;
+    transform: translate3d(0, 0.05em, 0) scaleY(0.2);
+  }
+  54% {
+    opacity: 0.95;
+    transform: translate3d(0, 0.02em, 0) scaleY(1);
+  }
+  62% {
+    opacity: 0.55;
+    transform: translate3d(0, 0.08em, 0) scaleY(1.15);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0.16em, 0) scaleY(0.4);
+  }
+}
+
 .motion-safe-border-sheen {
   position: absolute;
   inset: 0;
@@ -314,12 +408,21 @@ html[data-splash="pending"] .motion-safe-rise--after-splash {
   .motion-safe-underline,
   .motion-safe-media-drift,
   .motion-safe-border-sheen::before,
+  .site-header__brand-shell::after,
+  .site-header__v--a,
+  .site-header__v--b,
   .home-hero__cursor {
     animation: none !important;
   }
 
-  .motion-safe-border-sheen::before {
+  .motion-safe-border-sheen::before,
+  .site-header__brand-shell::after {
     opacity: 0 !important;
+  }
+
+  .site-header__v--a,
+  .site-header__v--b {
+    transform: none !important;
   }
 
   html[data-splash="pending"] .home-hero .motion-safe-rise,

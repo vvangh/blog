@@ -234,6 +234,64 @@
     padding: 0.35rem 0.65rem 0.35rem 1.1rem;
   }
 
+  /*
+   * 顶栏 vv 小剧场：两枚 v 对撞弹开 → 蓄力升空 → 落地。
+   * 位移控制在 em 内；尾焰不用 soft-light，避免被 isolation 吃掉。
+   */
+  .site-header__brand-shell {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    /* 给竖向尾焰留一点向下空间；顶栏 frame 仍会裁切过大溢出 */
+    overflow: visible;
+  }
+
+  .site-header__brand {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .site-header__v {
+    display: inline-block;
+    transform-origin: 50% 85%;
+    will-change: transform;
+  }
+
+  .site-header__v--a {
+    animation: site-header-v-a 14s cubic-bezier(0.45, 0.05, 0.25, 1) infinite;
+  }
+
+  .site-header__v--b {
+    animation: site-header-v-b 14s cubic-bezier(0.45, 0.05, 0.25, 1) infinite;
+  }
+
+  /* 升空尾焰：字下方一道由亮到淡的竖向余烬 */
+  .site-header__brand-shell::after {
+    content: "";
+    position: absolute;
+    left: 18%;
+    right: 18%;
+    top: 55%;
+    z-index: 0;
+    height: 1.15em;
+    pointer-events: none;
+    border-radius: 999px;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, #fff 85%, transparent) 0%,
+      color-mix(in oklab, #fff 35%, transparent) 45%,
+      transparent 100%
+    );
+    box-shadow: 0 0 0.35em color-mix(in oklab, #fff 45%, transparent);
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scaleY(0.35);
+    transform-origin: 50% 0%;
+    mix-blend-mode: plus-lighter;
+    animation: site-header-brand-trail 14s cubic-bezier(0.45, 0.05, 0.2, 1) infinite;
+  }
+
   /* 透明顶且无玻璃模糊：自动反色；一旦抬起玻璃改回主题字色 */
   .site-header--transparent:not(.has-glass-blur) .site-header__brand,
   .site-header--transparent:not(.has-glass-blur) .site-header__link {
