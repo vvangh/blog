@@ -1,5 +1,5 @@
 ---
-description: vv 博客：技能对照 + 最严边改边审（方案 §15 / §6.4）
+description: vv 博客：技能对照 + 最严边改边审
 alwaysApply: true
 ---
 
@@ -7,39 +7,53 @@ alwaysApply: true
 
 ## 动手前先读 Skill
 
-讨论方案或写/改本仓代码前，必须先 Read 相关 Agent Skill，禁止凭印象硬写。
+写/改本仓代码前，先 Read 相关 Skill，禁止凭印象硬写。
+
+### 本仓技能（`.cursor/skills/`）
+
+| 场景 | 技能 |
+| --- | --- |
+| 发文 / 改 frontmatter / 日记胶片 | `vv-add-content` |
+| 多语言文案 / `localePath` / MessageKey | `vv-i18n-ui` |
+| 新 `[locale]` 页 / Vue 岛 / molecules | `vv-add-page-island` |
+| 单元收口自审 | `vv-self-review` |
+
+### 外部 / 通用技能（有则读；缺失则跳过，勿空转搜仓）
 
 | 场景 | 优先技能 |
 | --- | --- |
 | 架构 / 分层 / ADR | `jeffallan-claude-skills-architecture-designer` |
-| Vue 岛 / SFC / 组合式 API | `jeffallan-claude-skills-vue-expert` |
-| 页面视觉 / 首屏 / 品牌 | `anthropics-skills-frontend-design` |
+| Vue 岛 / SFC | `jeffallan-claude-skills-vue-expert` |
+| 页面视觉 / 首屏 | `anthropics-skills-frontend-design` + 规则 `henglu-blog-brand` |
 | UX / 无障碍审计 | `jezweb-claude-skills-ux-audit` |
 | Playwright / e2e / axe | `jeffallan-claude-skills-playwright-expert` 或 `playwright-testing` |
 | `.cursor/rules` 落盘 | `create-rule` |
-| UI 原子/分子/shadcn | 遵守 `henglu-blog-ui-kit.mdc` + `docs/ui-kit.md` |
-| 差分挑错 | `review-bugbot`（有实质代码变更时优先） |
+| 本仓技能落盘 | `create-skill` |
+| UI 原子/分子 | 规则 `henglu-blog-ui-kit` + `docs/ui-kit.md` |
+| 差分挑错 | `review-bugbot` |
 | 安全相关 | `review-security` |
 
 不做：与 Element Plus 后台强绑的技能；无关技能不硬凑。  
 规则只放本仓 `blog/.cursor/rules/`，禁止写入 `repository/.cursor`。
 
-## 最严边改边审
+## 边改边审
 
-每完成一个可审单元（单文件关键改动、一个组件、一条用例、一块配置）即自审，**不通过不做下一块**；里程碑结束再总审。
+每完成一个可审单元即执行 `vv-self-review`，**不通过不做下一块**。
 
-自审清单：
+## 规则地图
 
-1. §6.4：strict、PascalCase 组件、行数上限、做减法、中文描述性注释、barrel
-2. §12：语义、焦点、可访问名、alt、`lang`
-3. 有测试则同步补测并跑绿；无覆盖逻辑不进里程碑
-4. Vue / a11y / e2e / 安全：先调 §15 技能再改，改完用同一标准复检
-5. 实质代码变更优先 `review-bugbot`
+| 规则 | always | 管什么 |
+| --- | --- | --- |
+| `henglu-blog-toolchain` | 是 | Node LTS、`vp`、别名与 barrel |
+| `henglu-blog-deps-vp` | 是 | 增删改依赖只许 `vp`（禁裸包管理器/手改） |
+| `henglu-blog-scope` | 是 | BACKLOG、分支、不做清单 |
+| `henglu-blog-i18n-routing` | 是 | `base`、`localePath`、messages |
+| `henglu-blog-skills` | 是 | 本表 |
+| `henglu-blog-dev-dx` | 是 | 开发态搜索与验证入口（短） |
+| `henglu-blog-ui-kit` | 否 | 原子/分子/岛、令牌、auto-import |
+| `henglu-blog-content` | 否 | Content Collections 与发文 |
+| `henglu-blog-brand` | 否 | vv Air 视觉（不含 UI 控件细则） |
+| `henglu-blog-astro-islands` | 否 | Astro vs 岛、boot、BASE_URL |
+| `henglu-blog-testing` | 否 | Vitest / Playwright / axe |
 
-## 工程硬约束（摘要）
-
-- 入口：`vp`（`vp run` / `vp install` / `vp check` / `vp test`）；Astro **禁止**裸 `vp dev`
-- Node：仅 `vp env pin lts --target dev-engines` → `package.json#devEngines.runtime`；**不用** `.node-version`；依赖取最新稳定；Vue **3.5.x** 不上 3.6 RC
-- 导入：`@/` → `src/`，`~/` → 项目根；目录外经 barrel；禁止 `../../../`
-- `base: '/blog/'`；Tailwind 优先；BACKLOG 未升格不实现
-- 面向人的文本用简体中文
+面向人的文本用简体中文。细节以各规则正文为准。

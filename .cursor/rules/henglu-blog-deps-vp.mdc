@@ -1,0 +1,33 @@
+---
+description: vv：增删改依赖必须经 vp，禁止裸包管理器与手改依赖字段
+alwaysApply: true
+---
+
+# vv · 依赖变更硬约束（vp only）
+
+## 唯一入口
+
+| 动作 | 命令 |
+| --- | --- |
+| 安装 / 对齐锁文件 | `vp install` |
+| 新增 | `vp add <pkg>`；开发依赖 `vp add -D <pkg>` |
+| 删除 | `vp remove <pkg>` |
+| 升级 | `vp update` 或 `vp add <pkg>@latest`（取 **latest 稳定**） |
+
+- Vue 仍锁 **`~3.5`**；Node 仍只走 `vp env pin`（见 toolchain）
+
+## 禁止（无例外凑合）
+
+- 裸 `npm` / `pnpm` / `yarn` / `bun` 做 `add` / `remove` / `update` / `install` / `dlx` 当日常依赖入口
+- **手改** `package.json` 的 `dependencies` / `devDependencies` / `peerDependencies`（含直接删行「当卸载」）
+- **手改** `pnpm-lock.yaml` 充当增删依赖
+- `vp` 超时或失败后改用裸包管理器旁路；应 **重试 `vp …`** 或停手汇报网络/超时，不得「先改 JSON 再说」
+
+```text
+❌ BAD：编辑器删掉 package.json 里的 "sass"，再 pnpm install
+✅ GOOD：vp remove sass
+```
+
+## 允许的手改
+
+- 仅改非依赖字段（如 `scripts` 文案）；**一旦触及包名或版本，必须改回并用 vp 执行**

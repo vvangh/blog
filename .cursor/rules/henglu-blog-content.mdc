@@ -1,0 +1,41 @@
+---
+description: vv：Content Collections 字段、草稿过滤与发文约定
+globs: src/content/**/*,src/content.config.ts
+alwaysApply: false
+---
+
+# vv · 内容集合
+
+## 集合
+
+| id | 目录 | 路由前缀 |
+| --- | --- | --- |
+| `blog` | `src/content/blog` | `/[locale]/blog/` |
+| `build-log` | `src/content/build-log` | `/[locale]/build/` |
+| `life` | `src/content/life` | `/[locale]/life/` |
+| `fun` | `src/content/fun` | `/[locale]/fun/`（可空；无文勿造假列表数据） |
+
+Schema：`src/content.config.ts`。列表/详情一律 `publishedSorted`（`@/content/_helpers`），勿自己 `filter(draft)`。
+
+## Frontmatter（共用）
+
+必填：`title`、`pubDate`。常用：`description`、`tags`、`draft`、`series`+`seriesOrder`、`revisions[{date,summary}]`。
+
+`life` 另有：`kind: diary|photo`、`image`/`caption`、`location`/`lat`/`lng`（城市级，勿精确到住址）。
+
+`build-log` 另有：`milestone`/`commit`/`tag`。
+
+## 静态资源
+
+- 文件进 `public/…`
+- 写入 frontmatter / 正文的站内 URL **必须含 base**：`/blog/images/…`（与 `SITE_BASE` 一致）
+- ❌ `/images/…`（缺 base）
+
+## 文件名
+
+- 博客 / build-log：稳定 slug，如 `welcome.md`、`m6-blog-mvp.md`
+- 生活：`YYYY-MM-DD-kind.md`（例 `2025-07-21-diary.md`）
+
+## 列表页
+
+改集合或新分区页时，同步考虑：RSS、归档/标签、开发态搜索目录（`@/lib/search`）、`on-this-day` 等聚合。

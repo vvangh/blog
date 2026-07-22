@@ -1,0 +1,25 @@
+---
+description: vv：Vitest 同居测试与 Playwright/axe e2e 约定
+globs: **/*.test.ts,**/*.spec.ts,e2e/**/*,playwright.config.ts
+alwaysApply: false
+---
+
+# vv · 测试约定
+
+## 单测（Vitest）
+
+- 与实现同居：`foo.ts` → `foo.test.ts`
+- 纯函数 / 协商 / schema 辅助优先单测；入口：`vp test`
+
+## E2E（Playwright）
+
+- 目录：`e2e/`；共享：`e2e/helpers.ts`（`mainNav` / `clickMoreNavLink` / `openPrefsPanel`）
+- 入口：`vp run test:e2e`
+- 本地：`playwright.config` 的 `webServer` 已含 `vp run build && preview`；CI 假定产物已就绪
+- 跳过闪屏：`sessionStorage.setItem("vv-splash-seen", "1")`（与 `siteStorageKey` 一致）
+- 断言优先 **角色 + 可访问名**（中文 UI 名来自 `messages`）
+- 无障碍：`@axe-core/playwright`；读屏手测路径见 `docs/a11y-screen-reader.md`
+
+## 补测门槛
+
+有行为变更的逻辑 / 交互须同步补测并跑绿；无覆盖的新逻辑不进里程碑收口。

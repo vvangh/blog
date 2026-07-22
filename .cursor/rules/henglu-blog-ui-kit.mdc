@@ -1,6 +1,7 @@
 ---
 description: vv UI 原子化分层：shadcn-vue / molecules / 业务岛、令牌与状态约定
-alwaysApply: true
+globs: src/components/**/*,src/composables/**/*,docs/ui-kit.md,components.json
+alwaysApply: false
 ---
 
 # vv · UI 原子化与组件底座
@@ -17,7 +18,7 @@ alwaysApply: true
 
 - 目录外导入经该目录 `index` barrel + `@/` 或 `~/`
 - 新增原子优先：`pnpm dlx shadcn-vue@latest add <name>`，装完核对勿另起色板
-- 首页 Hero / 壁纸 / `ink-invert` 顶栏：**自研**，勿用 Card 硬套首屏
+- 首屏 Hero / 壁纸视觉约束见 `henglu-blog-brand`（此处只管组件分层）
 
 ## 令牌与图标
 
@@ -48,6 +49,6 @@ alwaysApply: true
 - 组件 PascalCase；中文描述性注释；做减法
 - **单文件 ≤ 500 行**；超限则拆 composable / 子组件 / 样式进 `styles/`
 - **样式优先 Tailwind**（布局、间距、字色、圆角）；共享琉璃用已有 `glass-*`；仅 `:deep` / mark / 伪元素等再写少量 CSS
-- **关闭 / 清除图标悬停旋转**：统一挂 `motion-safe-icon-spin`（`base.css`）；**禁止**组件内私写 `rotate` 悬停
+- **关闭 / 清除图标悬停旋转**：统一挂 `motion-safe-icon-spin`（定义在 `src/styles/motion/ambient.css`，降级见 `reduced-motion.css`）；**禁止**组件内私写 `rotate` 悬停
 - **多选项下拉**：统一用分子 `FilterableSelect`（`@/components/molecules`）；**在触发框内录入筛选**（Combobox），禁止面板内另开搜索条、禁止不可过滤长列表
 - 分子示例：`IconButton`、`LabeledInput`、`FilterableSelect`——新组合放 `molecules/`，不要跨层塞进 `ui/`

@@ -1,0 +1,37 @@
+---
+description: vv：多语言路由、localePath、UI 文案与 base=/blog/
+alwaysApply: true
+---
+
+# vv · i18n 与站内路径
+
+## 硬事实
+
+- 部署：`base: '/blog/'`（`astro.config` 与 `@/lib/site` 的 `SITE_BASE` 一致）
+- 页面：几乎全在 `src/pages/[locale]/…`；`LOCALES` 见 `@/lib/i18n`
+- 默认 / 回退语：`zh-Hans`
+
+## 路径
+
+- 站内链接 **必须** `localePath(locale, path)`（`@/lib/i18n`）
+- `path` 不要前导 `/`：`'blog'` / `'blog/welcome'` / `''`（首页）
+- **禁止**手写 `/blog/zh-Hans/...` 或漏掉 locale / base
+
+```ts
+// ❌ BAD：缺 locale，或漏 base
+<a href="/blog/welcome/">
+<a href="/zh-Hans/blog/welcome/">
+
+// ✅ GOOD
+<a href={localePath(locale, "blog/welcome")}>
+```
+
+## UI 文案
+
+- 壳文案走 `translate(locale, key)` / `MessageKey`（经 `@/lib/i18n`；键在 `src/lib/i18n/messages/keys.ts`，各语目录在 `messages/*.ts`）
+- 新增 key：先扩 `MessageKey`，再为 **全部** `LOCALES` 补各 locale 文件；缺译可暂回退中文，但 key 必须存在
+- 正文 Markdown 可暂单语；导航/按钮/空态/aria 必须可译
+
+## 静态路径
+
+`getStaticPaths` 对内容页：`LOCALES.flatMap` × `publishedSorted(getCollection(...))`

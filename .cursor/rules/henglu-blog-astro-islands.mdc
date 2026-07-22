@@ -1,0 +1,28 @@
+---
+description: vv：Astro 页面与 Vue 岛边界、client 指令与 boot 脚本
+globs: src/pages/**/*.astro,src/layouts/**/*.astro,src/components/**/*.astro,src/components/**/*.vue,src/lib/**/boot-script.ts
+alwaysApply: false
+---
+
+# vv · Astro 与 Vue 岛
+
+分层 / auto-import / nanostores → 见 `henglu-blog-ui-kit`，此处不重复。
+
+## 分工
+
+| 用 Astro | 用 Vue 岛（`client:*`） |
+| --- | --- |
+| 布局、SEO、内容渲染、静态导航 | 主题/语言设置、搜索、TOC、进度、听读、胶片交互等 |
+
+- 业务岛：`src/components/Site*` 或功能目录；经 barrel 导出
+- 静态块优先 `.astro`；不要为纯展示再挂岛
+
+## client 指令
+
+- 交互岛默认 `client:load`（与现仓一致）
+- 避免无必要 `client:only`
+
+## boot 与资源
+
+- 主题 / a11y / splash 的防闪脚本：`src/lib/*/boot-script.ts`；改偏好须同步 boot + `siteStorageKey`
+- 客户端拼静态资源用 `import.meta.env.BASE_URL`（已含 `/blog/`），勿写死根路径

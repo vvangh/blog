@@ -1,0 +1,29 @@
+---
+description: vv Air 品牌与视觉硬约束（首屏、字体例外、动效克制）
+globs: src/styles/**/*,src/layouts/**/*,src/components/HomeHero/**/*,src/components/BackgroundLayer/**/*,src/components/SiteHeader/**/*,docs/design-modern.md
+alwaysApply: false
+---
+
+# vv · vv Air 视觉
+
+真相源：`docs/design-modern.md` + `src/styles/tokens.css`。  
+组件分层与交互控件约定 → 见 `henglu-blog-ui-kit`，此处不重复。
+
+## 品牌信号
+
+- 站名 `vv`；副标题 `记录值得留下的事`（`SITE_TAGLINE`）
+- 首屏：巨型字标是英雄信号；首页 = Hero + 页脚（列表再用 `home-deck`）
+- 壁纸上的字/顶栏：`.ink-invert`（差值反色），勿整页白蒙挡壁纸
+- Hero / 壁纸 / `ink-invert` 顶栏：**自研**，勿用 Card 硬套
+
+## 要 / 不要
+
+| 要 | 不要 |
+| --- | --- |
+| UI 字体：Instrument Sans + Noto Sans SC | 厚展示体抢品牌；UI 正文改用 Inter |
+| 链接蓝强调（`--hl-*`） | 信号橙、石墨网格、第二套色板 |
+| 2–3 处克制动效 + `prefers-reduced-motion` | 粒子轰炸、海岸线波浪、emoji 导航墙 |
+
+## 字体例外
+
+- **OG PNG**（`src/lib/og/render-png.ts`）可用 Inter 作拉丁子集；**不**等于全站 UI 改回 Inter。

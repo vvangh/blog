@@ -15,9 +15,11 @@ alwaysApply: true
 
 ## 依赖
 
+- **增删改 / 装锁文件：只许 `vp`**（`vp add` / `vp remove` / `vp update` / `vp install`）
+- 细则与禁令见始终生效规则 `henglu-blog-deps-vp`
 - 安装/升级取 **latest 稳定**，不故意锁旧大版本
 - **Vue 固定 3.5.x**（`~3.5`）；**禁止**升级到 3.6 RC，除非计划改口
-- 用 `vp add` / `vp install`，不要裸 npm 当日常入口
+- **禁止**裸 npm/pnpm/yarn、手改 `package.json` 依赖字段或手改 lock 充当卸包
 
 ## 导入路径
 

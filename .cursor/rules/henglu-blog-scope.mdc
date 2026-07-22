@@ -1,0 +1,27 @@
+---
+description: vv：BACKLOG 升格门禁、分支部署与不做清单
+alwaysApply: true
+---
+
+# vv · 产品边界
+
+## BACKLOG
+
+- 想法真相源：`docs/BACKLOG.md`
+- **未**改为 `planned`（并写入里程碑）前 **不实现**
+- 骨架能力（webmentions / newsletter / 独立域名）缺外部账号时只维护文档与开关，勿假装已接通
+
+## 分支
+
+| 分支 | 用途 |
+| --- | --- |
+| `develop` | 日常集成；推送只跑 CI |
+| `main` | 可部署；**仅** main 触发 Pages |
+| `feature/<主题>` | 功能分支 |
+
+## 明确不做（除非改口）
+
+- 把 Element Plus / Naive 等后台库当全站 UI
+- Vue 升 3.6 RC；引入 Pinia / vue-router 作默认方案
+- 纯装饰性 Figma 换皮冲刺（见路线图排除项）
+- 规则写入 `repository/.cursor`（只放本仓 `blog/.cursor/rules/`）
