@@ -1,19 +1,35 @@
 <script setup lang="ts">
 /**
- * 首次进站 Splash：品牌字标入场；可跳过；prefers-reduced-motion 时立即结束。
- * 关闭后把 html[data-splash]=done，让首页 Hero 错落入场在可见时再播。
+ * 进站 Splash：点火亮相（全站动效峰值）。
+ * 极光铺场 → 光柱收束 → 双 v 从纵深合拢 → 闪光/扩环 → 字面扫光 → 副标 → 揭幕。
+ * 不做拖尾粒子；对撞只是一瞬，不拖长对峙。
+ * 开发态 / ?splash=1：播完钉住终帧，点「跳过」才揭幕。
  * vue API 由 unplugin-auto-import 注入。
  */
-import { SPLASH_STORAGE_KEY } from "@/lib/splash";
+import {
+  SPLASH_CHOREO_MS,
+  SPLASH_EXIT_MS,
+  SPLASH_STORAGE_KEY,
+  shouldForceSplashShow,
+} from "@/lib/splash";
 
-defineProps<{
+const props = defineProps<{
   brand: string;
   skipLabel: string;
   tagline?: string;
 }>();
 
 const visible = ref(false);
-let timer: ReturnType<typeof setTimeout> | undefined;
+const exiting = ref(false);
+let choreoTimer: ReturnType<typeof setTimeout> | undefined;
+let exitTimer: ReturnType<typeof setTimeout> | undefined;
+
+const forceShow = import.meta.env.SSR
+  ? import.meta.env.DEV
+  : shouldForceSplashShow(import.meta.env.DEV, window.location.search);
+
+/** 拆成单字，便于双翼合拢；品牌一般为 vv */
+const glyphs = computed(() => Array.from(props.brand));
 
 function hideStaticCover() {
   document.querySelector<HTMLElement>("[data-splash-cover]")?.setAttribute("hidden", "");
@@ -24,73 +40,111 @@ function markSplashDone() {
   hideStaticCover();
 }
 
-function dismiss() {
-  visible.value = false;
-  markSplashDone();
-  try {
-    sessionStorage.setItem(SPLASH_STORAGE_KEY, "1");
-  } catch {
-    /* ignore */
-  }
-  if (timer) clearTimeout(timer);
+function clearTimers() {
+  if (choreoTimer) clearTimeout(choreoTimer);
+  if (exitTimer) clearTimeout(exitTimer);
+  choreoTimer = undefined;
+  exitTimer = undefined;
 }
 
-onMounted(() => {
-  try {
-    if (sessionStorage.getItem(SPLASH_STORAGE_KEY) === "1") {
-      markSplashDone();
-      return;
-    }
-  } catch {
-    /* ignore */
-  }
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) {
+function finishDismiss() {
+  visible.value = false;
+  exiting.value = false;
+  markSplashDone();
+  if (!forceShow) {
     try {
       sessionStorage.setItem(SPLASH_STORAGE_KEY, "1");
     } catch {
       /* ignore */
     }
-    markSplashDone();
-    return;
   }
+}
+
+function beginExit() {
+  if (exiting.value || !visible.value) return;
+  exiting.value = true;
+  clearTimers();
+  exitTimer = setTimeout(finishDismiss, SPLASH_EXIT_MS);
+}
+
+function dismiss() {
+  beginExit();
+}
+
+onMounted(() => {
+  if (!forceShow) {
+    try {
+      if (sessionStorage.getItem(SPLASH_STORAGE_KEY) === "1") {
+        markSplashDone();
+        return;
+      }
+    } catch {
+      /* ignore */
+    }
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      try {
+        sessionStorage.setItem(SPLASH_STORAGE_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+      markSplashDone();
+      return;
+    }
+  }
+
   document.documentElement.dataset.splash = "pending";
   visible.value = true;
-  // 等富交互层入 DOM 再收静态遮罩，避免中间露白
   void nextTick(() => hideStaticCover());
-  timer = setTimeout(dismiss, 1500);
+
+  if (!forceShow) {
+    choreoTimer = setTimeout(beginExit, SPLASH_CHOREO_MS);
+  }
+});
+
+onUnmounted(() => {
+  clearTimers();
 });
 </script>
 
 <template>
   <div
     v-if="visible"
-    class="splash fixed inset-0 z-[100] flex flex-col items-center justify-center bg-hl-bg"
+    class="splash"
+    :class="{ 'is-exiting': exiting }"
     role="dialog"
     aria-modal="true"
-    :aria-label="brand"
+    :aria-label="props.brand"
   >
-    <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div
-        class="motion-safe-glow absolute top-1/3 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-hl-fg/10 blur-3xl"
-      />
+    <div class="splash__aurora splash__aurora--cool" aria-hidden="true" />
+    <div class="splash__aurora splash__aurora--warm" aria-hidden="true" />
+    <div class="splash__beam" aria-hidden="true" />
+    <div class="splash__rings" aria-hidden="true">
+      <span class="splash__ring splash__ring--1" />
+      <span class="splash__ring splash__ring--2" />
+      <span class="splash__ring splash__ring--3" />
     </div>
-    <p class="brand-mark motion-safe-rise relative text-6xl font-semibold text-hl-fg md:text-7xl">
-      {{ brand }}
+    <div class="splash__flash" aria-hidden="true" />
+    <div class="splash__streak" aria-hidden="true" />
+
+    <p class="splash__mark brand-mark" aria-hidden="true">
+      <span
+        v-for="(g, i) in glyphs"
+        :key="`${g}-${i}`"
+        class="splash__v"
+        :class="i % 2 === 0 ? 'splash__v--a' : 'splash__v--b'"
+        >{{ g }}</span
+      >
     </p>
-    <p
-      v-if="tagline"
-      class="motion-safe-rise relative mt-6 max-w-xs text-center text-base text-hl-muted"
-      style="animation-delay: 0.15s"
-    >
-      {{ tagline }}
+    <span class="sr-only">{{ props.brand }}</span>
+
+    <p v-if="props.tagline" class="splash__tagline">
+      <span class="splash__tagline-text">{{ props.tagline }}</span>
+      <span class="splash__tagline-rule" aria-hidden="true" />
     </p>
-    <button
-      type="button"
-      class="absolute right-4 bottom-6 min-h-11 rounded-full px-4 text-sm text-hl-muted hover:text-hl-fg"
-      @click="dismiss"
-    >
-      {{ skipLabel }}
+
+    <button type="button" class="splash__skip" @click="dismiss">
+      {{ props.skipLabel }}
     </button>
   </div>
 </template>
