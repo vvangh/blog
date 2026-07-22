@@ -1,0 +1,65 @@
+/*
+ * 壳层：右下角设置 FAB。
+ */
+
+@layer components {
+  /* 右下角设置：齿轮常转；悬停只放大图标（外层缩放，不抢旋转 transform） */
+  .site-fab button {
+    cursor: pointer;
+  }
+
+  .site-fab__dock {
+    position: relative;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* 空闲收起：只留右侧一缝，便于再唤出 */
+  .site-fab__dock.is-docked {
+    transform: translateX(calc(100% - 0.7rem));
+  }
+
+  /* 扩大收起态可点/可悬停区域 */
+  .site-fab__dock.is-docked::before {
+    content: "";
+    position: absolute;
+    inset: -0.35rem 0 -0.35rem -1.35rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-fab__dock {
+      transition: none;
+    }
+  }
+
+  .site-fab__prefs {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .site-fab__prefs:focus,
+  .site-fab__prefs:focus-visible {
+    outline: none;
+  }
+
+  .site-fab__gear-wrap {
+    display: inline-flex;
+    transform-origin: 50% 50%;
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .site-fab__prefs:hover .site-fab__gear-wrap {
+    transform: scale(1.28);
+  }
+
+  .site-fab__gear {
+    display: inline-block;
+    transform-origin: 50% 50%;
+    animation: site-fab-gear-spin 5s linear infinite;
+    will-change: transform;
+  }
+
+  /* 悬停只放大，暂停自转 */
+  .site-fab__prefs:hover .site-fab__gear {
+    animation-play-state: paused;
+  }
+}

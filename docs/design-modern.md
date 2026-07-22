@@ -35,7 +35,7 @@
 浅色：`#fbfbfd` 底、`#1d1d1f` 字、`#0071e3` 链接蓝、`#c4849a` 氛围玫瑰、墨色 CTA。  
 暗色：`#000000` 底、`#f5f5f7` 字、`#2997ff` 链接、反白 CTA。
 
-令牌在 `src/styles/tokens.css`（经 `global.css` 入口 `@import`）；`html[data-theme]` 切换浅暗。样式另拆 `base.css` / `chrome.css` / `content.css`。
+令牌在 `src/styles/tokens.css`（经 `index.css` 入口 `@import`）；`html[data-theme]` 切换浅暗。样式另拆 `base.css` / `motion/` / `chrome/` / `content.css`。
 
 ## 动效（克制 · 对齐 POETIZE「可学三刀」）
 
@@ -60,7 +60,7 @@
 ## Figma
 
 - 文件：[vv Air · Brand Redesign](https://www.figma.com/design/TPrsAJ7W3qDTz4N0AN0i5O)
-- 账号席位可能为 View；以代码 `global.css` 为最终真相源。
+- 账号席位可能为 View；以代码 `styles/index.css` 为最终真相源。
 
 ## 废弃
 

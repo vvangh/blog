@@ -1,0 +1,258 @@
+/*
+ * 启动页：双 v 合拢 / 字标 / 副标 / 跳过 / 揭幕键帧与节点。
+ */
+
+/* 左翼：纵深冲入 → 合拢挤压 → 弹开落定 */
+@keyframes splash-v-a {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(-1.65em, 0.08em, -180px) rotate(-14deg) scale(1.55);
+  }
+  10% {
+    opacity: 1;
+  }
+  34% {
+    filter: blur(0);
+    transform: translate3d(0.18em, 0, 0) rotate(0deg) scale(1);
+  }
+  39% {
+    transform: translate3d(0.28em, 0, 0) scale(0.86, 1.14);
+  }
+  46% {
+    transform: translate3d(-0.1em, -0.06em, 0) rotate(-6deg) scale(1.08);
+  }
+  58%,
+  100% {
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+/* 右翼：镜像合拢 */
+@keyframes splash-v-b {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(1.65em, 0.08em, -180px) rotate(14deg) scale(1.55);
+  }
+  10% {
+    opacity: 1;
+  }
+  34% {
+    filter: blur(0);
+    transform: translate3d(-0.18em, 0, 0) rotate(0deg) scale(1);
+  }
+  39% {
+    transform: translate3d(-0.28em, 0, 0) scale(0.86, 1.14);
+  }
+  46% {
+    transform: translate3d(0.1em, -0.06em, 0) rotate(6deg) scale(1.08);
+  }
+  58%,
+  100% {
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes splash-mark-glow {
+  0%,
+  34% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  39% {
+    filter: drop-shadow(0 0 28px color-mix(in oklab, #2997ff 70%, transparent))
+      drop-shadow(0 0 8px #fff);
+  }
+  55%,
+  100% {
+    filter: drop-shadow(0 0 12px color-mix(in oklab, #2997ff 22%, transparent));
+  }
+}
+
+@keyframes splash-tagline-in {
+  0%,
+  52% {
+    opacity: 0;
+    transform: translate3d(0, 0.85em, 0);
+    filter: blur(4px);
+  }
+  72%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes splash-tagline-track {
+  0%,
+  55% {
+    letter-spacing: 0.02em;
+  }
+  100% {
+    letter-spacing: 0.08em;
+  }
+}
+
+@keyframes splash-tagline-rule {
+  0%,
+  66% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  82%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.55;
+  }
+}
+
+@keyframes splash-skip-in {
+  0%,
+  68% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes splash-unveil {
+  0% {
+    opacity: 1;
+    background-color: #000;
+  }
+  55% {
+    opacity: 1;
+    background-color: color-mix(in oklab, #000 55%, transparent);
+  }
+  100% {
+    opacity: 0;
+    background-color: transparent;
+  }
+}
+
+/* 字标交棒：略向 Hero 左位收缩淡出，叠在首页大字上 */
+@keyframes splash-mark-handoff {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate3d(calc(-22vw + 2rem), -8vh, 0) scale(0.68);
+  }
+}
+
+@keyframes splash-tagline-handoff {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(-18vw + 1rem), 1.2rem, 0);
+    filter: blur(4px);
+  }
+}
+
+@keyframes splash-fx-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 交棒瞬间 Hero 从「接住」态落入，比普通 rise 更短、位移更小 */
+
+.splash__mark {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin: 0;
+  font-size: clamp(5rem, 20vw, 8.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  color: #f5f5f7;
+  transform-style: preserve-3d;
+  animation: splash-mark-glow var(--splash-beat) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash__v {
+  display: inline-block;
+  will-change: transform, filter, opacity;
+}
+
+.splash__v--a {
+  animation: splash-v-a var(--splash-beat) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash__v--b {
+  animation: splash-v-b var(--splash-beat) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash__tagline {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.65rem 0 0;
+  max-width: 18rem;
+  font-size: 1.08rem;
+  font-weight: 500;
+  line-height: 1.55;
+  text-align: center;
+  color: #a1a1a6;
+  animation: splash-tagline-in var(--splash-beat) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash__tagline-text {
+  display: inline-block;
+  animation: splash-tagline-track var(--splash-beat) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash__tagline-rule {
+  display: block;
+  width: 3.25rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, #fff 55%, transparent),
+    transparent
+  );
+  transform-origin: center;
+  animation: splash-tagline-rule var(--splash-beat) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash__skip {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.5rem;
+  z-index: 2;
+  min-height: 2.75rem;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  padding-inline: 1rem;
+  font-size: 0.875rem;
+  color: #a1a1a6;
+  cursor: pointer;
+  animation: splash-skip-in var(--splash-beat) ease both;
+}
+
+.splash__skip:hover,
+.splash__skip:focus-visible {
+  color: #f5f5f7;
+  outline: none;
+}

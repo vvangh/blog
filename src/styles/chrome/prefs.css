@@ -1,0 +1,398 @@
+/*
+ * 壳层：偏好抽屉 + FilterableSelect（共用 --prefs-*）。
+ */
+
+@layer components {
+  /*
+   * 站点偏好抽屉（vv Air · 克制极简）：
+   * - 关闭钮：无圆圈、无悬停底色，仅图标
+   * - 未选控件：透明底，不要灰井背景色
+   * - 选中磁贴：纯墨填充作唯一强信号
+   */
+  .prefs-drawer-scrim {
+    background: color-mix(in oklab, #000 40%, transparent);
+  }
+
+  .prefs-drawer {
+    --prefs-surface: #ffffff;
+    --prefs-ink: #1d1d1f;
+    --prefs-ink-inv: #ffffff;
+    --prefs-line: #e8e8ed;
+    --prefs-muted: #86868b;
+    border-left: 1px solid var(--prefs-line);
+    border-radius: 1.75rem 0 0 1.75rem;
+    background: var(--prefs-surface);
+    color: var(--prefs-ink);
+    box-shadow: -24px 0 56px -32px rgb(0 0 0 / 22%);
+  }
+
+  html[data-theme="dark"] .prefs-drawer {
+    --prefs-surface: #1c1c1e;
+    --prefs-ink: #f5f5f7;
+    --prefs-ink-inv: #1c1c1e;
+    --prefs-line: #3a3a3c;
+    --prefs-muted: #98989d;
+  }
+
+  .prefs-drawer__header {
+    border-bottom: 1px solid var(--prefs-line);
+  }
+
+  .prefs-drawer__close {
+    display: inline-flex;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 0.65rem;
+    background: transparent;
+    color: var(--prefs-ink);
+    cursor: pointer;
+  }
+
+  .prefs-drawer__close:hover {
+    background: transparent;
+    opacity: 0.55;
+  }
+
+  .prefs-drawer__close:focus-visible {
+    outline: 2px solid var(--prefs-ink);
+    outline-offset: 2px;
+  }
+
+  .prefs-section {
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--prefs-line);
+  }
+
+  .prefs-section:first-child {
+    padding-top: 0.15rem;
+  }
+
+  .prefs-section:last-child {
+    border-bottom: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .prefs-section--spaced {
+    margin-top: 0.35rem;
+    padding-top: 1.55rem;
+  }
+
+  .prefs-section__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--prefs-ink);
+  }
+
+  .prefs-subhead {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .prefs-back {
+    display: inline-flex;
+    min-height: 2.25rem;
+    min-width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 0.65rem;
+    background: transparent;
+    color: var(--prefs-ink);
+    cursor: pointer;
+  }
+
+  .prefs-back:hover {
+    background: transparent;
+    opacity: 0.55;
+  }
+
+  .prefs-tiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+    margin-top: 0.95rem;
+  }
+
+  .prefs-tile {
+    display: flex;
+    min-height: 4.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.65rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid var(--prefs-line);
+    border-radius: 1rem;
+    background: transparent;
+    color: var(--prefs-ink);
+    text-align: left;
+    cursor: pointer;
+    box-shadow: none;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .prefs-tile:hover {
+    border-color: color-mix(in oklab, var(--prefs-ink) 28%, transparent);
+    background: transparent;
+  }
+
+  .prefs-tile[aria-checked="true"] {
+    border-color: transparent;
+    background: var(--prefs-ink);
+    color: var(--prefs-ink-inv);
+  }
+
+  .prefs-tile:focus-visible {
+    outline: 2px solid var(--prefs-ink);
+    outline-offset: 2px;
+  }
+
+  .prefs-tile__icon {
+    color: var(--prefs-muted);
+  }
+
+  .prefs-tile[aria-checked="true"] .prefs-tile__icon {
+    color: inherit;
+    opacity: 1;
+  }
+
+  .prefs-tile__label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .prefs-tile__hint {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.7rem;
+    line-height: 1.35;
+    font-weight: 400;
+    color: var(--prefs-muted);
+  }
+
+  .prefs-tile[aria-checked="true"] .prefs-tile__hint {
+    color: color-mix(in oklab, var(--prefs-ink-inv) 68%, transparent);
+  }
+
+  .prefs-schedule {
+    display: grid;
+    gap: 0.65rem;
+    margin-top: 0.95rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid var(--prefs-line);
+    border-radius: 1rem;
+    background: transparent;
+  }
+
+  .prefs-schedule label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--prefs-ink);
+  }
+
+  .prefs-schedule input[type="time"] {
+    min-height: 2.25rem;
+    border: 1px solid var(--prefs-line);
+    border-radius: 0.65rem;
+    background: transparent;
+    padding: 0 0.65rem;
+    color: var(--prefs-ink);
+  }
+
+  .prefs-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .prefs-action {
+    display: inline-flex;
+    min-height: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0 1.05rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .prefs-action--ghost {
+    border: 1px solid var(--prefs-line);
+    background: transparent;
+    color: var(--prefs-ink);
+  }
+
+  .prefs-action--ghost:hover {
+    border-color: color-mix(in oklab, var(--prefs-ink) 28%, transparent);
+    background: transparent;
+  }
+
+  .prefs-action--solid {
+    border: 0;
+    background: var(--prefs-ink);
+    color: var(--prefs-ink-inv);
+  }
+
+  .prefs-action--solid:hover {
+    opacity: 0.88;
+  }
+
+  .filterable-select {
+    position: relative;
+  }
+
+  .filterable-select__trigger {
+    display: flex;
+    width: 100%;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid var(--prefs-line);
+    border-radius: 0.9rem;
+    background: transparent;
+    padding: 0 0.35rem 0 0.95rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .filterable-select__trigger:hover,
+  .filterable-select__trigger--open {
+    border-color: color-mix(in oklab, var(--prefs-ink) 28%, transparent);
+    background: transparent;
+  }
+
+  .filterable-select__trigger:focus-within,
+  .filterable-select__trigger--open {
+    outline: none;
+    border-color: var(--prefs-ink);
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .filterable-select__input {
+    width: 100%;
+    min-height: 2.5rem;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--prefs-ink);
+    cursor: text;
+    outline: none;
+  }
+
+  .filterable-select__input::placeholder {
+    color: var(--prefs-muted);
+    font-weight: 400;
+  }
+
+  .filterable-select__chevron-btn {
+    display: inline-flex;
+    min-height: 2.25rem;
+    min-width: 2.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: var(--prefs-muted);
+    cursor: pointer;
+  }
+
+  .filterable-select__chevron-btn:hover {
+    background: transparent;
+    color: var(--prefs-ink);
+  }
+
+  .filterable-select__chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .filterable-select__chevron--open {
+    transform: rotate(180deg);
+  }
+
+  .filterable-select__panel {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + 0.4rem);
+    right: 0;
+    left: 0;
+    overflow: hidden;
+    border: 1px solid var(--prefs-line);
+    border-radius: 1rem;
+    background: var(--prefs-surface);
+    box-shadow: 0 18px 40px -20px rgb(0 0 0 / 28%);
+  }
+
+  .filterable-select__list {
+    margin: 0;
+    max-height: 14rem;
+    overflow: auto;
+    list-style: none;
+    padding: 0.35rem;
+  }
+
+  .filterable-select__empty {
+    padding: 0.85rem 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--prefs-muted);
+    text-align: center;
+  }
+
+  .filterable-select__option {
+    display: flex;
+    width: 100%;
+    min-height: 2.4rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: 0;
+    border-radius: 0.7rem;
+    background: transparent;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    color: var(--prefs-ink);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .filterable-select__option:hover {
+    background: transparent;
+    color: var(--prefs-muted);
+  }
+
+  .filterable-select__option[aria-selected="true"] {
+    font-weight: 600;
+  }
+
+  .filterable-select__check {
+    flex-shrink: 0;
+    color: var(--prefs-ink);
+  }
+}

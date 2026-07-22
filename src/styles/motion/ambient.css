@@ -1,0 +1,263 @@
+/*
+ * 通用动效：入场 / 壁纸漂移 / 边框柔光 / motion-safe 工具类。
+ */
+
+@keyframes rise {
+  from {
+    transform: translateY(1.75rem);
+    opacity: 0.001;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 首页壁纸极慢漂移：有呼吸感，不做强缩放 */
+@keyframes media-drift {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(-1.2%, -0.6%, 0);
+  }
+}
+
+@keyframes glow-pulse {
+  from {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes brand-underline {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cursor-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 页脚顶部分隔线：透明度轻起伏，像缓慢呼吸 */
+@keyframes footer-rule-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* 首页眉题：字距轻呼吸（不动 transform，避免干扰 ink-invert） */
+@keyframes hero-eyebrow-track {
+  0%,
+  100% {
+    letter-spacing: 0.12em;
+  }
+  50% {
+    letter-spacing: 0.2em;
+  }
+}
+
+/* 主 CTA 箭头：待机轻点头，幅度小于悬停右移 */
+@keyframes btn-cta-arrow-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.1em);
+  }
+}
+
+.motion-safe-rise {
+  animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motion-safe-media-drift {
+  /* 首帧前先落到 from 缩放，避免 1.0 → 1.04 跳一下 */
+  transform: scale(1.04);
+  animation: media-drift 22s ease-in-out infinite alternate both;
+  will-change: transform;
+}
+
+/*
+ * 边框偶发柔光：正方形 conic 持续匀速转 + 透明度单独呼吸。
+ * 旋转与显隐拆开，避免「总在上边中点亮灭」（生硬感来源）。
+ */
+@keyframes border-sheen-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes border-sheen-fade {
+  /* 显隐相位错开整圈，亮起/熄灭不落在同一角度 */
+  0%,
+  42% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  68% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 0.75;
+  }
+  90%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.motion-safe-border-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.motion-safe-border-sheen::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(260%, 18rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 78%,
+    color-mix(in oklab, #fff 20%, transparent) 84%,
+    color-mix(in oklab, #fff 75%, transparent) 89%,
+    #fff 92%,
+    color-mix(in oklab, #fff 45%, transparent) 95%,
+    transparent 98% 100%
+  );
+  filter: drop-shadow(0 0 5px color-mix(in oklab, #fff 40%, transparent));
+  /* 转一圈 ~2.8s；显隐 ~7s，公约数小 → 每次亮起位置不同 */
+  animation:
+    border-sheen-spin 2.8s linear infinite,
+    border-sheen-fade 7s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.motion-safe-glow {
+  animation: glow-pulse 14s ease-in-out infinite alternate;
+}
+
+.motion-safe-underline {
+  transform-origin: center;
+  animation: brand-underline 1s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+}
+
+.motion-safe-nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.motion-safe-nav-link::after {
+  content: "";
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.4rem;
+  left: 0.75rem;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.motion-safe-nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.motion-safe-card {
+  transition:
+    color 0.25s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.motion-safe-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px -28px color-mix(in oklab, var(--hl-fg) 45%, transparent);
+}
+
+.motion-safe-panel {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    background-color 0.35s ease;
+}
+
+.motion-safe-panel:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, #fff 55%, transparent),
+    0 20px 50px -28px color-mix(in oklab, var(--hl-fg) 28%, transparent);
+}
+
+/*
+ * 关闭 / 清除类图标：挂在按钮上，悬停时内部 svg 旋转 90°。
+ * 全站统一用此类，禁止各组件私写一套 rotate。
+ * 时长与缓动偏软，避免「啪一下」转过去。
+ */
+.motion-safe-icon-spin svg {
+  transform-origin: 50% 50%;
+  transition: transform 0.48s cubic-bezier(0.22, 1.15, 0.36, 1);
+  will-change: transform;
+}
+
+.motion-safe-icon-spin:hover svg {
+  transform: rotate(90deg);
+}
+
+.motion-safe-icon-spin:not(:hover) svg {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.38s;
+}
+
+/* 设置 FAB：齿轮常转 */
+@keyframes site-fab-gear-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

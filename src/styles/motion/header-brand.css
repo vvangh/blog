@@ -1,0 +1,287 @@
+/*
+ * 顶栏 vv 两幕小剧场键帧（14s 总谱）；样式在 chrome/header.css。
+ */
+
+/*
+ * 顶栏 14s 总谱（小 vv ↔ 边框流光必须同拍、同缓动）：
+ * 0–8% 静 → 10–24% 合拢（流光第一峰）→ 30–40% 歇 → 42–62% 升空（流光第二峰）→ 72–100% 长静。
+ */
+@keyframes site-header-sheen-fade {
+  0%,
+  9% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.35;
+  }
+  /* 合拢蓄势～撞击：流光托住左品牌 */
+  16% {
+    opacity: 0.85;
+  }
+  18%,
+  24% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.2;
+  }
+  38%,
+  44% {
+    opacity: 0.12;
+  }
+  /* 升空：第二峰，与尾焰同窗 */
+  48% {
+    opacity: 0.55;
+  }
+  52%,
+  60% {
+    opacity: 1;
+  }
+  68% {
+    opacity: 0.28;
+  }
+  76%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/*
+ * 流光自转也锁在 14s：两幕高峰时亮弧都偏左侧品牌（约 210° 一带），
+ * 避免 2.8s 匀速转导致「合拢亮在左、升空亮在右」各说各话。
+ */
+@keyframes site-header-sheen-spin {
+  0%,
+  9% {
+    transform: translate(-50%, -50%) rotate(150deg);
+  }
+  16%,
+  24% {
+    transform: translate(-50%, -50%) rotate(210deg);
+  }
+  36% {
+    transform: translate(-50%, -50%) rotate(260deg);
+  }
+  48%,
+  60% {
+    transform: translate(-50%, -50%) rotate(200deg);
+  }
+  76% {
+    transform: translate(-50%, -50%) rotate(320deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(510deg);
+  }
+}
+
+/*
+ * 顶栏 vv 左字两幕剧（百分比对齐上方总谱）：
+ * ① 外侧冲入合拢 → ② 蹲起升空落地 → 长静默。
+ */
+@keyframes site-header-v-a {
+  0%,
+  8% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  9% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  10% {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translate3d(-0.55em, 0.04em, 0) rotate(-10deg) scale(1.2);
+  }
+  11% {
+    opacity: 1;
+    filter: blur(2px);
+    transform: translate3d(-0.55em, 0.04em, 0) rotate(-10deg) scale(1.2);
+  }
+  17% {
+    filter: blur(0);
+    transform: translate3d(0.1em, 0, 0) rotate(0deg) scale(1);
+  }
+  20% {
+    transform: translate3d(0.16em, 0, 0) scale(0.88, 1.12);
+  }
+  24% {
+    transform: translate3d(-0.06em, -0.03em, 0) rotate(-5deg) scale(1.06);
+  }
+  30% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  42% {
+    transform: translate3d(0, 0.06em, 0) scale(1.05, 0.88);
+  }
+  50% {
+    transform: translate3d(0, -0.32em, 0) rotate(-4deg) scale(1.08);
+  }
+  58% {
+    transform: translate3d(0, -0.38em, 0) rotate(0deg) scale(1.04);
+  }
+  68% {
+    transform: translate3d(0, 0.04em, 0) scale(1.06, 0.9);
+  }
+  76%,
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+/* 顶栏 vv 右字：镜像合拢；升空只慢半拍，仍落在同一流光第二峰窗内 */
+@keyframes site-header-v-b {
+  0%,
+  8% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  9% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  10% {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translate3d(0.55em, 0.04em, 0) rotate(10deg) scale(1.2);
+  }
+  11% {
+    opacity: 1;
+    filter: blur(2px);
+    transform: translate3d(0.55em, 0.04em, 0) rotate(10deg) scale(1.2);
+  }
+  17% {
+    filter: blur(0);
+    transform: translate3d(-0.1em, 0, 0) rotate(0deg) scale(1);
+  }
+  20% {
+    transform: translate3d(-0.16em, 0, 0) scale(0.88, 1.12);
+  }
+  24% {
+    transform: translate3d(0.06em, -0.03em, 0) rotate(5deg) scale(1.06);
+  }
+  30% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  43% {
+    transform: translate3d(0, 0.06em, 0) scale(1.05, 0.88);
+  }
+  51% {
+    transform: translate3d(0, -0.34em, 0) rotate(5deg) scale(1.1);
+  }
+  59% {
+    transform: translate3d(0, -0.4em, 0) rotate(0deg) scale(1.05);
+  }
+  69% {
+    transform: translate3d(0, 0.04em, 0) scale(1.06, 0.9);
+  }
+  76%,
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+/* 合拢瞬间：细环外扩（对齐 20% 撞击） */
+@keyframes site-header-ring-burst {
+  0%,
+  18% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(0.35);
+  }
+  20% {
+    opacity: 0.95;
+    transform: translate3d(-50%, -50%, 0) scale(0.7);
+  }
+  28% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(2.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(2.2);
+  }
+}
+
+/* 合拢白闪 */
+@keyframes site-header-flash {
+  0%,
+  18% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.75;
+  }
+  25% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 斜向光痕一瞬 */
+@keyframes site-header-streak {
+  0%,
+  18% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) rotate(-18deg) scaleX(0.15);
+  }
+  20% {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) rotate(-18deg) scaleX(1);
+  }
+  26% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) rotate(-18deg) scaleX(1.2);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 字标：仅合拢冷光；升空不加光晕，避免两个 v 突然开灯 */
+@keyframes site-header-mark-glow {
+  0%,
+  17% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  20% {
+    filter: drop-shadow(0 0 10px color-mix(in oklab, #fff 70%, transparent));
+  }
+  28%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+
+/* 升空尾焰：与流光第二峰、升空窗对齐 */
+@keyframes site-header-brand-trail {
+  0%,
+  48% {
+    opacity: 0;
+    transform: translate3d(0, 0.05em, 0) scaleY(0.2);
+  }
+  52% {
+    opacity: 0.95;
+    transform: translate3d(0, 0.02em, 0) scaleY(1);
+  }
+  60% {
+    opacity: 0.55;
+    transform: translate3d(0, 0.08em, 0) scaleY(1.15);
+  }
+  68%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0.16em, 0) scaleY(0.4);
+  }
+}

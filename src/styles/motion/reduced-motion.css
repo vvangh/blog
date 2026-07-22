@@ -1,0 +1,108 @@
+/*
+ * 减弱动效：汇总关闭 motion / splash / 顶栏小品。
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-rise,
+  .motion-safe-glow,
+  .motion-safe-underline,
+  .motion-safe-media-drift,
+  .motion-safe-border-sheen::before,
+  .site-header__brand-shell::after,
+  .site-header__brand,
+  .site-header__v--a,
+  .site-header__v--b,
+  .site-header__ring,
+  .site-header__flash,
+  .site-header__streak,
+  .home-hero__cursor,
+  .site-fab__gear,
+  .site-footer__inner::before,
+  .home-hero__eyebrow,
+  .btn-cta::after,
+  .splash__aurora,
+  .splash__beam,
+  .splash__ring,
+  .splash__flash,
+  .splash__streak,
+  .splash__mark,
+  .splash__v--a,
+  .splash__v--b,
+  .splash__tagline,
+  .splash__tagline-text,
+  .splash__tagline-rule,
+  .splash__skip,
+  .splash.is-exiting {
+    animation: none !important;
+  }
+
+  .motion-safe-icon-spin:hover svg {
+    transform: none !important;
+  }
+
+  .motion-safe-border-sheen::before,
+  .site-header__brand-shell::after {
+    opacity: 0 !important;
+  }
+
+  .site-header__brand,
+  .site-header__v--a,
+  .site-header__v--b {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  .site-header__ring,
+  .site-header__flash,
+  .site-header__streak {
+    opacity: 0 !important;
+  }
+
+  .splash__aurora {
+    opacity: 0.25 !important;
+  }
+
+  .splash__beam,
+  .splash__ring,
+  .splash__flash,
+  .splash__streak {
+    opacity: 0 !important;
+  }
+
+  .splash__mark,
+  .splash__v--a,
+  .splash__v--b {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  .splash__tagline,
+  .splash__skip {
+    opacity: 1 !important;
+  }
+
+  html[data-splash="pending"] .home-hero .motion-safe-rise,
+  html[data-splash="pending"] .motion-safe-rise--after-splash {
+    opacity: 1;
+    transform: none;
+  }
+
+  .motion-safe-nav-link,
+  .motion-safe-nav-link::after,
+  .motion-safe-card,
+  .motion-safe-card:hover,
+  .motion-safe-panel,
+  .motion-safe-panel:hover,
+  .site-header,
+  .site-header__frame,
+  .site-header__glass,
+  .btn-cta,
+  .btn-cta::after,
+  .btn-cta:hover::after,
+  .btn-ghost {
+    transition: none !important;
+    transform: none !important;
+  }
+}

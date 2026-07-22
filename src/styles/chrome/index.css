@@ -1,0 +1,8 @@
+/*
+ * 壳层索引：琉璃、顶栏、页脚、FAB、偏好抽屉。
+ */
+@import "./glass.css";
+@import "./header.css";
+@import "./footer.css";
+@import "./fab.css";
+@import "./prefs.css";

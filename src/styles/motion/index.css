@@ -1,0 +1,9 @@
+/*
+ * 动效索引：通用 → 顶栏小品 → 启动页 → 交棒；减弱动效必须最后。
+ */
+@import "./ambient.css";
+@import "./header-brand.css";
+@import "./splash-fx.css";
+@import "./splash-mark.css";
+@import "./splash-handoff.css";
+@import "./reduced-motion.css";

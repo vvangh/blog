@@ -1,0 +1,11 @@
+/*
+ * 样式总索引：令牌 → 基线 → 动效 → 壳层 → 正文。
+ * 应用入口请 import 本文件（`@/styles/index.css`）。
+ */
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./shadcn.css";
+@import "./base.css";
+@import "./motion/index.css";
+@import "./chrome/index.css";
+@import "./content.css";
