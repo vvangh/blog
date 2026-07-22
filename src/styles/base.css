@@ -473,6 +473,8 @@ html[data-splash="pending"] .motion-safe-rise--after-splash {
   .site-header__frame,
   .site-header__glass,
   .btn-cta,
+  .btn-cta::after,
+  .btn-cta:hover::after,
   .btn-ghost {
     transition: none !important;
     transform: none !important;
