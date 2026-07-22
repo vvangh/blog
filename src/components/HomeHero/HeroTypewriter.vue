@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * 首页副标题打字机：逐字输入 → 打完停留 → 逐字删除 → 循环。
- * 轮间间隔在「打完」时计时；光标跟在已显示文本后。
+ * 揭开后先显示光标占位，再停顿开打；轮间间隔在「打完」时计时。
  * Splash pending 时等待揭开再播。vue / VueUse 由 auto-import 注入。
  */
 const props = defineProps<{
@@ -11,13 +11,14 @@ const props = defineProps<{
 const shown = ref("");
 const ready = ref(false);
 
-const CHAR_MS = 580;
-const DELETE_MS = 110;
-const START_DELAY_MS = 700;
+const CHAR_MS = 280;
+const DELETE_MS = 100;
+/** 揭开后 / 首轮开打前的停顿（与删完再开打同量级） */
+const START_DELAY_MS = 1600;
 /** 打完一整句后的停留（轮间间隔从这里计，不是删干净后） */
 const HOLD_MS = 2600;
-/** 删完到下一轮开打：只留极短空档，避免空屏硬接 */
-const AFTER_DELETE_MS = 320;
+/** 删完后稍停再开打，避免空屏立刻接下一轮 */
+const AFTER_DELETE_MS = 1600;
 
 let timer: ReturnType<typeof setTimeout> | undefined;
 const signal = { stopped: false };
@@ -54,9 +55,10 @@ async function runLoop(): Promise<void> {
 
   await waitSplashDone();
   if (signal.stopped) return;
+  // 揭开后先亮光标占位，再停顿开打（避免副标题区空着）
+  ready.value = true;
   await sleep(START_DELAY_MS);
   if (signal.stopped) return;
-  ready.value = true;
 
   const chars = [...props.text];
   while (!signal.stopped) {
