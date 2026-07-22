@@ -110,7 +110,7 @@ onUnmounted(() => {
     <div class="fixed right-4 bottom-4 z-50 flex flex-col-reverse items-center gap-2">
       <button
         type="button"
-        class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-hl-border bg-hl-panel text-sm font-semibold text-hl-fg shadow-lg transition hover:border-hl-accent hover:text-hl-accent"
+        class="glass-chip inline-flex min-h-11 min-w-11 items-center justify-center text-sm font-semibold text-hl-fg transition hover:text-hl-accent"
         :aria-label="props.helpOpenLabel"
         :aria-expanded="helpOpen"
         @click="openHelp"
@@ -119,7 +119,7 @@ onUnmounted(() => {
       </button>
       <button
         type="button"
-        class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-hl-border bg-hl-accent text-sm font-semibold text-white shadow-lg transition hover:brightness-110"
+        class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-transparent bg-[var(--hl-cta-bg)] text-sm font-semibold text-[var(--hl-cta-fg)] shadow-lg transition hover:opacity-90"
         :aria-label="props.prefsOpenLabel"
         :aria-expanded="prefsOpen"
         @click="openPrefs"
@@ -129,7 +129,7 @@ onUnmounted(() => {
       <button
         v-show="showTop"
         type="button"
-        class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-hl-border bg-hl-panel text-sm font-semibold text-hl-fg shadow-lg transition hover:border-hl-accent hover:text-hl-accent"
+        class="glass-chip inline-flex min-h-11 min-w-11 items-center justify-center text-sm font-semibold text-hl-fg transition hover:text-hl-accent"
         :aria-label="props.topLabel"
         @click="scrollTop"
       >

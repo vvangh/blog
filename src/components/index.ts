@@ -9,6 +9,7 @@ export * from "./BackgroundLayer";
 export * from "./CiteCopy";
 export * from "./FilmGallery";
 export * from "./GiscusComments";
+export * from "./HomeHero";
 export * from "./LanguageSwitcher";
 export * from "./NewsletterSignup";
 export * from "./NowPlaying";

@@ -19,6 +19,11 @@ export type MessageKey =
   | "home.latest"
   | "home.viewAll"
   | "home.eyebrow"
+  | "home.lead"
+  | "home.scrollCue"
+  | "bg.prev"
+  | "bg.next"
+  | "bg.switcher"
   | "about.prefs"
   | "about.prefsHint"
   | "prefs.open"
@@ -134,8 +139,13 @@ const zhHans: Catalog = {
   "footer.license": "代码 Apache-2.0；文章版权归作者。",
   "home.intro": "vv 是 vvangh 的个人站点：写技术、记生活、收藏一点娱乐；并从零公开搭建过程。",
   "home.latest": "最近在写",
-  "home.viewAll": "全部文章",
-  "home.eyebrow": "个人站点",
+  "home.viewAll": "查看全部",
+  "home.eyebrow": "vvangh",
+  "home.lead": "技术笔记、生活片段与公开建站过程，留白里慢慢写。",
+  "home.scrollCue": "继续浏览",
+  "bg.prev": "上一张背景",
+  "bg.next": "下一张背景",
+  "bg.switcher": "切换背景",
   "about.prefs": "站点偏好",
   "about.prefsHint": "主题、语言与阅读辅助；点右下角设置按钮即可打开。",
   "prefs.open": "打开设置",
@@ -252,8 +262,13 @@ const zhHant: Catalog = {
   "footer.license": "程式碼 Apache-2.0；文章版權歸作者。",
   "home.intro": "vv 是 vvangh 的個人站點：寫技術、記生活、收藏一點娛樂；並從零公開搭建過程。",
   "home.latest": "最近在寫",
-  "home.viewAll": "全部文章",
-  "home.eyebrow": "個人站點",
+  "home.viewAll": "查看全部",
+  "home.eyebrow": "vvangh",
+  "home.lead": "技術筆記、生活片段與公開建站過程，留白裡慢慢寫。",
+  "home.scrollCue": "繼續瀏覽",
+  "bg.prev": "上一張背景",
+  "bg.next": "下一張背景",
+  "bg.switcher": "切換背景",
   "about.prefs": "站點偏好",
   "about.prefsHint": "主題、語言與閱讀輔助；點右下角設定按鈕即可打開。",
   "prefs.open": "打開設定",
@@ -370,8 +385,13 @@ const en: Catalog = {
   "home.intro":
     "vv is vvangh’s personal site: tech notes, life logs, a bit of fun—and an open build diary from day one.",
   "home.latest": "Latest writing",
-  "home.viewAll": "All posts",
-  "home.eyebrow": "Personal site",
+  "home.viewAll": "View all",
+  "home.eyebrow": "vvangh",
+  "home.lead": "Tech notes, life fragments, and an open build diary—written with room to breathe.",
+  "home.scrollCue": "Continue",
+  "bg.prev": "Previous background",
+  "bg.next": "Next background",
+  "bg.switcher": "Switch background",
   "about.prefs": "Site preferences",
   "about.prefsHint":
     "Theme, language, and reading aids — open via the settings button at bottom-right.",
@@ -490,8 +510,13 @@ const de: Catalog = {
   "home.intro":
     "vv ist vvanghs persönliche Seite: Technik, Leben, etwas Unterhaltung—und ein offenes Baulogbuch.",
   "home.latest": "Zuletzt",
-  "home.viewAll": "Alle Beiträge",
-  "home.eyebrow": "Persönliche Seite",
+  "home.viewAll": "Alle ansehen",
+  "home.eyebrow": "vvangh",
+  "home.lead": "Techniknotizen, Lebensfragmente und ein offenes Baulogbuch—mit Luft dazwischen.",
+  "home.scrollCue": "Weiter",
+  "bg.prev": "Vorheriger Hintergrund",
+  "bg.next": "Nächster Hintergrund",
+  "bg.switcher": "Hintergrund wechseln",
   "about.prefs": "Seiteneinstellungen",
   "about.prefsHint": "Theme, Sprache und Lesehilfen — über die Einstellungen unten rechts.",
   "prefs.open": "Einstellungen öffnen",
@@ -608,8 +633,13 @@ const ja: Catalog = {
   "footer.license": "コードは Apache-2.0、文章の著作権は著者に帰属。",
   "home.intro": "vv は vvangh の個人サイト。技術・生活・趣味を残し、構築過程も公開します。",
   "home.latest": "最近の記事",
-  "home.viewAll": "すべての記事",
-  "home.eyebrow": "個人サイト",
+  "home.viewAll": "すべて見る",
+  "home.eyebrow": "vvangh",
+  "home.lead": "技術メモ、生活の断片、公開の構築ログを、余白とともに。",
+  "home.scrollCue": "続きを見る",
+  "bg.prev": "前の背景",
+  "bg.next": "次の背景",
+  "bg.switcher": "背景を切り替える",
   "about.prefs": "サイト設定",
   "about.prefsHint": "テーマ・言語・読み補助は右下の設定ボタンから。",
   "prefs.open": "設定を開く",
@@ -724,6 +754,10 @@ const ko: Catalog = {
   "nav.archive": "아카이브",
   "nav.friends": "친구",
   "nav.tags": "태그",
+  "home.lead": "기술 메모, 삶의 조각, 공개 구축 로그를 여백과 함께.",
+  "home.scrollCue": "계속 보기",
+  "home.eyebrow": "vvangh",
+  "home.viewAll": "전체 보기",
   "skip.toMain": "본문으로 건너뛰기",
   "search.open": "검색 열기",
   "search.title": "사이트 검색",
@@ -762,6 +796,10 @@ const fr: Catalog = {
   "footer.license": "Code Apache-2.0 ; articles © l’auteur.",
   "home.intro":
     "vv est le site personnel de vvangh : notes tech, vie, un peu de fun—et un journal de construction ouvert.",
+  "home.lead": "Notes tech, fragments de vie et journal de construction—avec de l’air.",
+  "home.scrollCue": "Continuer",
+  "home.eyebrow": "vvangh",
+  "home.viewAll": "Tout voir",
   "blog.title": "Tech",
   "build.title": "De zéro",
   "life.title": "Vie",
@@ -810,6 +848,10 @@ const es: Catalog = {
   "footer.license": "Código Apache-2.0; artículos © el autor.",
   "home.intro":
     "vv es el sitio personal de vvangh: notas técnicas, vida, un poco de ocio—y un diario de construcción abierto.",
+  "home.lead": "Notas técnicas, fragmentos de vida y un diario abierto—con aire.",
+  "home.scrollCue": "Continuar",
+  "home.eyebrow": "vvangh",
+  "home.viewAll": "Ver todo",
   "blog.title": "Tech",
   "build.title": "Desde cero",
   "life.title": "Vida",
@@ -858,6 +900,10 @@ const ru: Catalog = {
   "footer.license": "Код Apache-2.0; статьи © автор.",
   "home.intro":
     "vv — личный сайт vvangh: техника, жизнь, немного досуга и открытый дневник сборки.",
+  "home.lead": "Технические заметки, фрагменты жизни и открытый дневник сборки — с воздухом.",
+  "home.scrollCue": "Дальше",
+  "home.eyebrow": "vvangh",
+  "home.viewAll": "Смотреть всё",
   "blog.title": "Техника",
   "build.title": "С нуля",
   "life.title": "Жизнь",

@@ -24,6 +24,10 @@ interface Props {
   locale?: Locale;
   /** OG 卡片 slug，对应 /og/<slug>.png */
   ogSlug?: string;
+  /** 首页：顶栏透明双态 + 允许全出血 Hero 槽 */
+  transparentHeader?: boolean;
+  /** 是否首页（配合 BACKGROUND_CONFIG.scope） */
+  isHome?: boolean;
 }
 
 const {
@@ -31,6 +35,8 @@ const {
   description = SITE_DESCRIPTION,
   locale = DEFAULT_LOCALE,
   ogSlug = "home",
+  transparentHeader = false,
+  isHome = false,
 } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE_NAME_ZH}` : `${SITE_NAME_ZH} · ${SITE_TAGLINE}`;
 const base = import.meta.env.BASE_URL;
@@ -63,13 +69,14 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
     <meta name="twitter:image" content={ogImageAbs} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="apple-touch-icon" href={`${base}og-default.png`} />
-    <meta name="theme-color" content="#0a0b0e" />
+    <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Noto+Sans+SC:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Syne:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script is:inline set:html={themeBoot} />
@@ -77,60 +84,77 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
     <Analytics />
   </head>
   <body class="min-h-screen font-sans antialiased">
-    <BackgroundLayer client:load />
-    <SplashScreen
+    <!-- 壁纸必须用非负 z-index；负值会被 html 底色盖住（见 docs/background.md） -->
+    <BackgroundLayer
       client:load
-      brand={translate(locale, "splash.brand")}
-      skipLabel={translate(locale, "splash.skip")}
-      tagline={SITE_TAGLINE}
+      isHome={isHome}
+      prevLabel={translate(locale, "bg.prev")}
+      nextLabel={translate(locale, "bg.next")}
+      switcherLabel={translate(locale, "bg.switcher")}
     />
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-hl-bg focus:px-3 focus:py-2 focus:text-hl-fg focus:shadow"
-    >
-      {translate(locale, "skip.toMain")}
-    </a>
-    <SiteHeader locale={locale} />
-    <main id="main" class="page-shell py-10 md:py-14" data-pagefind-body data-pagefind-meta={`title:${pageTitle}`}>
-      <slot />
-    </main>
-    <footer class="page-shell pt-2 pb-16 text-sm text-hl-muted" data-pagefind-ignore>
-      <div class="border-t border-hl-border pt-10">
-        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p class="brand-mark text-3xl text-hl-fg">{SITE_NAME_ZH}</p>
-            <p class="mt-2 text-hl-muted">{SITE_TAGLINE}</p>
-          </div>
-          <NowPlaying locale={locale} />
+    <div class="site-chrome relative z-10">
+      <SplashScreen
+        client:load
+        brand={translate(locale, "splash.brand")}
+        skipLabel={translate(locale, "splash.skip")}
+        tagline={SITE_TAGLINE}
+      />
+      <a
+        href="#main"
+        class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-hl-bg focus:px-3 focus:py-2 focus:text-hl-fg focus:shadow"
+      >
+        {translate(locale, "skip.toMain")}
+      </a>
+      <SiteHeader locale={locale} transparent={transparentHeader} />
+      <main id="main" data-pagefind-body data-pagefind-meta={`title:${pageTitle}`}>
+        <slot name="hero" />
+        <div
+          class:list={[
+            "page-shell",
+            transparentHeader ? "pt-4 pb-10 md:pt-6 md:pb-14" : "py-10 md:py-14",
+          ]}
+        >
+          <slot />
         </div>
-        <p>{translate(locale, "footer.rights", { year })}</p>
-        <p class="mt-1 opacity-80">{translate(locale, "footer.license")}</p>
-      </div>
-    </footer>
-    <SiteFab
-      client:load
-      locale={locale}
-      prefsTitle={translate(locale, "about.prefs")}
-      prefsHint={translate(locale, "about.prefsHint")}
-      prefsOpenLabel={translate(locale, "prefs.open")}
-      prefsCloseLabel={translate(locale, "prefs.close")}
-      topLabel={translate(locale, "top.label")}
-      helpTitle={translate(locale, "a11y.helpTitle")}
-      helpOpenLabel={translate(locale, "a11y.helpOpen")}
-      helpCloseLabel={translate(locale, "a11y.helpClose")}
-      helpBody={translate(locale, "a11y.helpBody")}
-      themeHeading={translate(locale, "theme.heading")}
-      themeHint={translate(locale, "theme.hint")}
-      langHeading={translate(locale, "lang.heading")}
-      langHint={translate(locale, "lang.hint")}
-      langSwitched={translate(locale, "lang.switched")}
-      densityHeading={translate(locale, "a11y.density")}
-      densityHint={translate(locale, "a11y.densityHint")}
-      comfortableLabel={translate(locale, "a11y.comfortable")}
-      defaultLabel={translate(locale, "a11y.default")}
-      contrastHeading={translate(locale, "a11y.contrast")}
-      contrastOn={translate(locale, "a11y.contrastOn")}
-      contrastOff={translate(locale, "a11y.contrastOff")}
-    />
+      </main>
+      <footer class="page-shell pt-2 pb-16 text-sm text-hl-muted" data-pagefind-ignore>
+        <div class="border-t border-hl-border pt-10">
+          <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p class="brand-mark text-3xl text-hl-fg">{SITE_NAME_ZH}</p>
+              <p class="mt-2 text-hl-muted">{SITE_TAGLINE}</p>
+            </div>
+            <NowPlaying locale={locale} />
+          </div>
+          <p>{translate(locale, "footer.rights", { year })}</p>
+          <p class="mt-1 opacity-80">{translate(locale, "footer.license")}</p>
+        </div>
+      </footer>
+      <SiteFab
+        client:load
+        locale={locale}
+        prefsTitle={translate(locale, "about.prefs")}
+        prefsHint={translate(locale, "about.prefsHint")}
+        prefsOpenLabel={translate(locale, "prefs.open")}
+        prefsCloseLabel={translate(locale, "prefs.close")}
+        topLabel={translate(locale, "top.label")}
+        helpTitle={translate(locale, "a11y.helpTitle")}
+        helpOpenLabel={translate(locale, "a11y.helpOpen")}
+        helpCloseLabel={translate(locale, "a11y.helpClose")}
+        helpBody={translate(locale, "a11y.helpBody")}
+        themeHeading={translate(locale, "theme.heading")}
+        themeHint={translate(locale, "theme.hint")}
+        langHeading={translate(locale, "lang.heading")}
+        langHint={translate(locale, "lang.hint")}
+        langSwitched={translate(locale, "lang.switched")}
+        densityHeading={translate(locale, "a11y.density")}
+        densityHint={translate(locale, "a11y.densityHint")}
+        comfortableLabel={translate(locale, "a11y.comfortable")}
+        defaultLabel={translate(locale, "a11y.default")}
+        contrastHeading={translate(locale, "a11y.contrast")}
+        contrastOn={translate(locale, "a11y.contrastOn")}
+        contrastOff={translate(locale, "a11y.contrastOff")}
+      />
+    </div>
   </body>
 </html>

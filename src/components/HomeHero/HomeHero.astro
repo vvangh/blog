@@ -1,0 +1,72 @@
+---
+/**
+ * 首页全出血 Hero（vv Air）：苹果式大字与留白；与正文衔接靠滚动淡出壁纸，不再用波浪白条。
+ */
+import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
+import { localePath, translate, type Locale } from "@/lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<section class="home-hero" aria-labelledby="hero-brand">
+  <div class="home-hero__stage">
+    <div class="home-hero__glow home-hero__glow--a motion-safe-glow" aria-hidden="true"></div>
+    <div class="home-hero__glow home-hero__glow--b" aria-hidden="true"></div>
+
+    <div class="page-shell home-hero__content">
+      <p
+        class="motion-safe-rise text-sm font-medium tracking-[0.08em] text-hl-muted"
+        style="animation-delay: 0.05s"
+      >
+        {translate(locale, "home.eyebrow")}
+      </p>
+
+      <h1
+        id="hero-brand"
+        class="brand-mark motion-safe-rise mt-6 text-[clamp(4.25rem,15vw,8.5rem)] text-hl-fg"
+        style="animation-delay: 0.12s"
+      >
+        {SITE_NAME_ZH}
+      </h1>
+
+      <p
+        class="motion-safe-rise mt-8 max-w-lg text-[1.65rem] leading-snug font-medium tracking-tight text-hl-fg md:text-[2rem]"
+        style="animation-delay: 0.22s"
+      >
+        {SITE_TAGLINE}
+        <span class="home-hero__cursor" aria-hidden="true"></span>
+      </p>
+
+      <p
+        class="motion-safe-rise mt-5 max-w-md text-lg leading-relaxed text-hl-muted"
+        style="animation-delay: 0.3s"
+      >
+        {translate(locale, "home.lead")}
+      </p>
+
+      <div class="motion-safe-rise mt-10 flex flex-wrap gap-3" style="animation-delay: 0.38s">
+        <a class="btn-cta" href={localePath(locale, "blog")}>
+          {translate(locale, "nav.blog")}
+        </a>
+        <a class="btn-ghost" href={localePath(locale, "build")}>
+          {translate(locale, "nav.build")}
+        </a>
+      </div>
+
+      <a
+        class="home-hero__scroll motion-safe-rise motion-safe-scroll-cue mt-16 inline-flex flex-col items-center gap-2 no-underline"
+        style="animation-delay: 0.48s"
+        href="#home-main"
+      >
+        <span class="text-xs tracking-[0.18em]">
+          {translate(locale, "home.scrollCue")}
+        </span>
+        <span class="home-hero__scroll-icon" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+</section>
