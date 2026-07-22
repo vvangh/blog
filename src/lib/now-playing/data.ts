@@ -10,15 +10,10 @@ export type NowPlayingItem = {
   url?: string;
 };
 
-/** 页脚展示条；清空数组则不渲染 */
-export const NOW_PLAYING: NowPlayingItem[] = [
-  {
-    kind: "listening",
-    title: "Night Trails",
-    artistOrCreator: "示例曲目",
-  },
-  {
-    kind: "watching",
-    title: "从零到一 · 建站纪录片（占位）",
-  },
-];
+/**
+ * 页脚展示条。
+ * 空数组 = 不渲染（没有在听/在看就不要占位糊弄）。
+ * 有真实条目时再往里加，例如：
+ * `{ kind: "listening", title: "曲名", artistOrCreator: "艺人" }`
+ */
+export const NOW_PLAYING: NowPlayingItem[] = [];

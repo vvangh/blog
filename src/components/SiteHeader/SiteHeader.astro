@@ -1,6 +1,7 @@
 ---
 /**
- * 站点顶栏（vv Air）：轻字标 + 灰链导航 + 磨砂双态。
+ * 站点顶栏：首页透明 + 滚动悬浮玻璃；其它页默认悬浮玻璃。
+ * 玻璃层与文字并列，避免 backdrop-filter 切断 ink-invert。
  */
 import { SITE_NAME_ZH } from "@/lib/site";
 import { localePath, translate, type Locale } from "@/lib/i18n";
@@ -13,13 +14,14 @@ interface Props {
 }
 
 const { locale, transparent = false } = Astro.props;
+/** 主导航：频道入口；「从零到一」是系列，放更多里不单拎 */
 const primary = [
   { href: localePath(locale, "blog"), label: translate(locale, "nav.blog") },
-  { href: localePath(locale, "build"), label: translate(locale, "nav.build") },
   { href: localePath(locale, "life"), label: translate(locale, "nav.life") },
   { href: localePath(locale, "about"), label: translate(locale, "nav.about") },
 ];
 const more = [
+  { href: localePath(locale, "build"), label: translate(locale, "nav.build") },
   { href: localePath(locale, "lab"), label: translate(locale, "nav.lab") },
   { href: localePath(locale, "archive"), label: translate(locale, "nav.archive") },
   { href: localePath(locale, "friends"), label: translate(locale, "nav.friends") },
@@ -28,91 +30,98 @@ const more = [
 ---
 
 <header
-  class:list={["site-header sticky top-0 z-40", transparent && "site-header--transparent"]}
+  class:list={["site-header sticky top-0", transparent && "site-header--transparent"]}
   data-site-header
   data-transparent={transparent ? "true" : "false"}
+  style={!transparent ? "--header-lift: 1" : "--header-lift: 0"}
   data-pagefind-ignore
 >
-  {transparent ? <HeaderScrollState client:load /> : null}
+  <HeaderScrollState client:load transparent={transparent} />
 
-  <div class="page-shell flex items-center justify-between gap-4 py-3">
-    <a
-      href={localePath(locale)}
-      class="brand-mark text-[1.35rem] text-hl-fg no-underline transition-opacity hover:opacity-70"
-      aria-label={SITE_NAME_ZH}
-    >
-      {SITE_NAME_ZH}
-    </a>
+  <div class="page-shell py-2 md:py-3">
+    <div class="site-header__frame">
+      <div class="site-header__glass" aria-hidden="true"></div>
+      <div class="site-header__bar">
+        <a
+          href={localePath(locale)}
+          class="brand-mark site-header__brand text-[1.35rem] no-underline transition-opacity hover:opacity-70"
+          aria-label={SITE_NAME_ZH}
+        >
+          {SITE_NAME_ZH}
+        </a>
 
-    <div class="flex items-center gap-1 sm:gap-2">
-      <nav aria-label={translate(locale, "nav.main")} class="hidden md:block">
-        <ul class="flex items-center gap-0.5 text-[0.9375rem] font-normal">
-          {
-            primary.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="motion-safe-nav-link site-header__link inline-flex min-h-10 items-center rounded-full px-3 no-underline"
-                >
-                  {link.label}
-                </a>
+        <div class="flex min-w-0 items-center gap-1 sm:gap-2">
+          <nav aria-label={translate(locale, "nav.main")} class="hidden md:block">
+            <ul class="flex items-center gap-0.5 text-[0.9375rem] font-normal">
+              {
+                primary.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="motion-safe-nav-link site-header__link inline-flex min-h-10 items-center rounded-full px-3 no-underline"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))
+              }
+              <li class="relative">
+                <details class="group/more">
+                  <summary
+                    class="motion-safe-nav-link site-header__link inline-flex min-h-10 cursor-pointer list-none items-center rounded-full px-3 no-underline marker:content-none [&::-webkit-details-marker]:hidden"
+                  >
+                    {translate(locale, "nav.more")}
+                  </summary>
+                  <ul class="glass-panel absolute right-0 z-50 mt-2 min-w-36 rounded-2xl p-1.5">
+                    {
+                      more.map((link) => (
+                        <li>
+                          <a
+                            href={link.href}
+                            class="block rounded-xl px-3 py-2 text-hl-fg no-underline hover:bg-hl-soft hover:text-hl-accent"
+                          >
+                            {link.label}
+                          </a>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </details>
               </li>
-            ))
-          }
-          <li class="relative">
-            <details class="group/more">
-              <summary
-                class="motion-safe-nav-link site-header__link inline-flex min-h-10 cursor-pointer list-none items-center rounded-full px-3 no-underline marker:content-none [&::-webkit-details-marker]:hidden"
-              >
-                {translate(locale, "nav.more")}
-              </summary>
-              <ul
-                class="glass-panel absolute right-0 z-50 mt-2 min-w-36 rounded-2xl p-1.5"
-              >
-                {
-                  more.map((link) => (
-                    <li>
-                      <a
-                        href={link.href}
-                        class="block rounded-xl px-3 py-2 text-hl-fg no-underline hover:bg-hl-soft hover:text-hl-accent"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))
-                }
-              </ul>
-            </details>
-          </li>
-        </ul>
-      </nav>
+            </ul>
+          </nav>
 
-      <nav aria-label={translate(locale, "nav.main")} class="max-w-[52vw] overflow-x-auto md:hidden">
-        <ul class="flex items-center gap-0.5 text-sm font-normal whitespace-nowrap">
-          {
-            [...primary, ...more].map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="site-header__link inline-flex min-h-10 items-center rounded-full px-2.5 no-underline"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
+          <nav
+            aria-label={translate(locale, "nav.main")}
+            class="max-w-[48vw] overflow-x-auto md:hidden"
+          >
+            <ul class="flex items-center gap-0.5 text-sm font-normal whitespace-nowrap">
+              {
+                [...primary, ...more].map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="site-header__link inline-flex min-h-10 items-center rounded-full px-2.5 no-underline"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
 
-      <SiteSearch
-        client:load
-        openLabel={translate(locale, "search.open")}
-        title={translate(locale, "search.title")}
-        placeholder={translate(locale, "search.placeholder")}
-        empty={translate(locale, "search.empty")}
-        noIndex={translate(locale, "search.noIndex")}
-        closeLabel={translate(locale, "search.close")}
-      />
+          <SiteSearch
+            client:load
+            openLabel={translate(locale, "search.open")}
+            title={translate(locale, "search.title")}
+            placeholder={translate(locale, "search.placeholder")}
+            empty={translate(locale, "search.empty")}
+            noIndex={translate(locale, "search.noIndex")}
+            closeLabel={translate(locale, "search.close")}
+          />
+        </div>
+      </div>
     </div>
   </div>
 </header>

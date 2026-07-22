@@ -1,6 +1,7 @@
 ---
 /**
- * 首页全出血 Hero（vv Air）：苹果式大字与留白；与正文衔接靠滚动淡出壁纸，不再用波浪白条。
+ * 首页全出血 Hero：壁纸全露；文案 ink-invert（difference 自动反色）。
+ * 入场动效包在外层，避免 transform 留在 ink-invert 上干扰混色。
  */
 import { SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 import { localePath, translate, type Locale } from "@/lib/i18n";
@@ -14,59 +15,45 @@ const { locale } = Astro.props;
 
 <section class="home-hero" aria-labelledby="hero-brand">
   <div class="home-hero__stage">
-    <div class="home-hero__glow home-hero__glow--a motion-safe-glow" aria-hidden="true"></div>
-    <div class="home-hero__glow home-hero__glow--b" aria-hidden="true"></div>
-
     <div class="page-shell home-hero__content">
-      <p
-        class="motion-safe-rise text-sm font-medium tracking-[0.08em] text-hl-muted"
-        style="animation-delay: 0.05s"
-      >
-        {translate(locale, "home.eyebrow")}
-      </p>
+      <div class="motion-safe-rise" style="animation-delay: 0.05s">
+        <p class="home-hero__eyebrow ink-invert">
+          {translate(locale, "home.eyebrow")}
+        </p>
+      </div>
 
-      <h1
-        id="hero-brand"
-        class="brand-mark motion-safe-rise mt-6 text-[clamp(4.25rem,15vw,8.5rem)] text-hl-fg"
-        style="animation-delay: 0.12s"
-      >
-        {SITE_NAME_ZH}
-      </h1>
+      <div class="motion-safe-rise mt-5" style="animation-delay: 0.12s">
+        <h1
+          id="hero-brand"
+          class="ink-invert brand-mark text-[clamp(4.25rem,15vw,8.5rem)]"
+        >
+          {SITE_NAME_ZH}
+        </h1>
+      </div>
 
-      <p
-        class="motion-safe-rise mt-8 max-w-lg text-[1.65rem] leading-snug font-medium tracking-tight text-hl-fg md:text-[2rem]"
-        style="animation-delay: 0.22s"
-      >
-        {SITE_TAGLINE}
-        <span class="home-hero__cursor" aria-hidden="true"></span>
-      </p>
+      <div class="motion-safe-rise mt-7" style="animation-delay: 0.2s">
+        <p
+          class="max-w-lg text-[1.65rem] leading-snug font-medium tracking-tight md:text-[2rem]"
+        >
+          <span class="ink-invert">{SITE_TAGLINE}</span>
+          <span class="home-hero__cursor" aria-hidden="true"></span>
+        </p>
+      </div>
 
-      <p
-        class="motion-safe-rise mt-5 max-w-md text-lg leading-relaxed text-hl-muted"
-        style="animation-delay: 0.3s"
-      >
-        {translate(locale, "home.lead")}
-      </p>
+      <div class="motion-safe-rise mt-4" style="animation-delay: 0.28s">
+        <p class="home-hero__lead ink-invert">
+          {translate(locale, "home.lead")}
+        </p>
+      </div>
 
-      <div class="motion-safe-rise mt-10 flex flex-wrap gap-3" style="animation-delay: 0.38s">
+      <div class="motion-safe-rise mt-10 flex flex-wrap gap-3" style="animation-delay: 0.36s">
         <a class="btn-cta" href={localePath(locale, "blog")}>
           {translate(locale, "nav.blog")}
         </a>
-        <a class="btn-ghost" href={localePath(locale, "build")}>
-          {translate(locale, "nav.build")}
+        <a class="btn-ghost btn-ghost--on-media" href={localePath(locale, "life")}>
+          {translate(locale, "nav.life")}
         </a>
       </div>
-
-      <a
-        class="home-hero__scroll motion-safe-rise motion-safe-scroll-cue mt-16 inline-flex flex-col items-center gap-2 no-underline"
-        style="animation-delay: 0.48s"
-        href="#home-main"
-      >
-        <span class="text-xs tracking-[0.18em]">
-          {translate(locale, "home.scrollCue")}
-        </span>
-        <span class="home-hero__scroll-icon" aria-hidden="true"></span>
-      </a>
     </div>
   </div>
 </section>

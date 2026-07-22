@@ -1,21 +1,24 @@
 ---
 /**
- * 页脚「在听 / 在看」条。
+ * 页脚「在听 / 在看」条：仅有真实条目时渲染，空配置整块不出现。
  */
 import { NOW_PLAYING } from "@/lib/now-playing";
 import { translate, type Locale } from "@/lib/i18n";
 
 interface Props {
   locale: Locale;
+  /** 叠在壁纸上时走自动反色 */
+  onMedia?: boolean;
 }
 
-const { locale } = Astro.props;
+const { locale, onMedia = false } = Astro.props;
 const items = NOW_PLAYING;
+const ink = onMedia ? "ink-invert" : "";
 ---
 
 {
   items.length > 0 ? (
-    <div class="mb-4 space-y-1 text-sm" data-pagefind-ignore>
+    <div class:list={["site-footer__now", ink]} data-pagefind-ignore>
       {items.map((item) => {
         const kindLabel =
           item.kind === "listening"
@@ -23,20 +26,18 @@ const items = NOW_PLAYING;
             : translate(locale, "nowPlaying.watching");
         const text = item.artistOrCreator ? `${item.title} · ${item.artistOrCreator}` : item.title;
         return (
-          <p class="m-0">
-            <span class="text-hl-muted">{kindLabel}：</span>
+          <p class="site-footer__now-line">
+            <span class="site-footer__now-k">{kindLabel}</span>
             {item.url ? (
-              <a class="text-hl-accent no-underline hover:underline" href={item.url} rel="noopener noreferrer">
+              <a class="site-footer__now-v" href={item.url} rel="noopener noreferrer">
                 {text}
               </a>
             ) : (
-              <span>{text}</span>
+              <span class="site-footer__now-v">{text}</span>
             )}
           </p>
         );
       })}
     </div>
-  ) : (
-    <p class="mb-4 text-sm text-hl-muted">{translate(locale, "nowPlaying.empty")}</p>
-  )
+  ) : null
 }

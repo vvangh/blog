@@ -1,16 +1,10 @@
 ---
 /**
- * 首页：全出血品牌 Hero + 最近写作 + 频道入口。
- * 设置类控件迁至「关于」，避免首屏像后台模板。
+ * 首页：仅全出血 Hero + 布局页脚，中间不挂列表/频道/订阅。
  */
-import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
 import { HomeHero } from "@/components/HomeHero";
-import { PostCard } from "@/components/PostCard";
-import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { publishedSorted } from "@/content/_helpers";
-import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
-import { SITE_TAGLINE } from "@/lib/site";
+import { LOCALES, isLocale, type Locale } from "@/lib/i18n";
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -21,84 +15,8 @@ if (!isLocale(raw)) {
   throw new Error(`Unsupported locale: ${raw}`);
 }
 const locale: Locale = raw;
-const latest = publishedSorted(await getCollection("blog")).slice(0, 3);
 ---
 
 <SiteLayout locale={locale} ogSlug="home" transparentHeader isHome>
   <HomeHero slot="hero" locale={locale} />
-
-  <div id="home-main" class="scroll-mt-24">
-    <p class="max-w-xl text-base leading-relaxed text-hl-muted">
-      {translate(locale, "home.intro")}
-    </p>
-
-    {
-      latest.length > 0 ? (
-        <section class="border-t border-hl-border pt-14 mt-12" aria-labelledby="latest-heading">
-          <div class="mb-8 flex flex-wrap items-end justify-between gap-3">
-            <h2
-              id="latest-heading"
-              class="font-display text-2xl font-bold tracking-tight md:text-3xl"
-            >
-              {translate(locale, "home.latest")}
-            </h2>
-            <a
-              class="text-sm font-medium tracking-wide text-hl-accent no-underline hover:underline"
-              href={localePath(locale, "blog")}
-            >
-              {translate(locale, "home.viewAll")} »
-            </a>
-          </div>
-          <div>
-            {latest.map((entry) => (
-              <PostCard
-                href={localePath(locale, `blog/${entry.id}`)}
-                title={entry.data.title}
-                description={entry.data.description}
-                date={entry.data.pubDate}
-                locale={locale}
-                meta={entry.data.tags?.[0]}
-              />
-            ))}
-          </div>
-        </section>
-      ) : null
-    }
-
-    <section
-      class="mt-16 grid gap-4 border-t border-hl-border/60 pt-16 md:grid-cols-3 md:gap-5"
-      aria-label={SITE_TAGLINE}
-    >
-      <a
-        class="glass-panel motion-safe-panel group block rounded-[1.75rem] p-7 no-underline"
-        href={localePath(locale, "blog")}
-      >
-        <p class="font-display text-2xl font-semibold tracking-tight text-hl-fg">
-          {translate(locale, "blog.title")}
-        </p>
-        <p class="mt-3 text-sm text-hl-muted">{translate(locale, "home.viewAll")} →</p>
-      </a>
-      <a
-        class="glass-panel motion-safe-panel group block rounded-[1.75rem] p-7 no-underline"
-        href={localePath(locale, "life")}
-      >
-        <p class="font-display text-2xl font-semibold tracking-tight text-hl-fg">
-          {translate(locale, "life.title")}
-        </p>
-        <p class="mt-3 text-sm leading-relaxed text-hl-muted">{translate(locale, "life.intro")}</p>
-      </a>
-      <a
-        class="glass-panel motion-safe-panel group block rounded-[1.75rem] p-7 no-underline"
-        href={localePath(locale, "fun")}
-      >
-        <p class="font-display text-2xl font-semibold tracking-tight text-hl-fg">
-          {translate(locale, "fun.title")}
-        </p>
-      </a>
-    </section>
-
-    <section class="mt-16 max-w-md border-t border-hl-border pt-14">
-      <NewsletterSignup locale={locale} />
-    </section>
-  </div>
 </SiteLayout>

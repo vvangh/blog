@@ -16,14 +16,10 @@ const locale: Locale = raw;
 ---
 
 <SiteLayout title={translate(locale, "about.title")} locale={locale} ogSlug="home">
-  <header class="mb-10 max-w-2xl space-y-4">
-    <p class="font-mono text-xs tracking-[0.35em] text-hl-accent uppercase">
-      {translate(locale, "home.eyebrow")}
-    </p>
-    <h1 class="font-display text-4xl font-bold tracking-tight md:text-5xl">
-      {translate(locale, "about.title")}
-    </h1>
-    <p class="text-lg leading-relaxed text-hl-muted">{translate(locale, "about.body")}</p>
+  <header class="page-mast mb-10">
+    <p class="section-kicker">{translate(locale, "home.eyebrow")}</p>
+    <h1 class="section-title section-title--lg">{translate(locale, "about.title")}</h1>
+    <p class="mt-5 text-lg leading-relaxed text-hl-muted">{translate(locale, "about.body")}</p>
   </header>
 
   <section class="mt-12 max-w-lg border-t border-hl-border pt-10" aria-label={translate(locale, "stack.title")}>

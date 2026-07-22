@@ -84,15 +84,18 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
     <Analytics />
   </head>
   <body class="min-h-screen font-sans antialiased">
-    <!-- 壁纸必须用非负 z-index；负值会被 html 底色盖住（见 docs/background.md） -->
-    <BackgroundLayer
-      client:load
-      isHome={isHome}
-      prevLabel={translate(locale, "bg.prev")}
-      nextLabel={translate(locale, "bg.next")}
-      switcherLabel={translate(locale, "bg.switcher")}
-    />
-    <div class="site-chrome relative z-10">
+    <!--
+      壁纸放进 .site-chrome，与文案同层，ink-invert（difference）才能混到壁纸。
+      壁纸须非负 z-index（见 docs/background.md）。
+    -->
+    <div class:list={["site-chrome relative z-10", isHome && "site-chrome--home"]}>
+      <BackgroundLayer
+        client:load
+        isHome={isHome}
+        prevLabel={translate(locale, "bg.prev")}
+        nextLabel={translate(locale, "bg.next")}
+        switcherLabel={translate(locale, "bg.switcher")}
+      />
       <SplashScreen
         client:load
         brand={translate(locale, "splash.brand")}
@@ -108,26 +111,41 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
       <SiteHeader locale={locale} transparent={transparentHeader} />
       <main id="main" data-pagefind-body data-pagefind-meta={`title:${pageTitle}`}>
         <slot name="hero" />
-        <div
-          class:list={[
-            "page-shell",
-            transparentHeader ? "pt-4 pb-10 md:pt-6 md:pb-14" : "py-10 md:py-14",
-          ]}
-        >
-          <slot />
-        </div>
-      </main>
-      <footer class="page-shell pt-2 pb-16 text-sm text-hl-muted" data-pagefind-ignore>
-        <div class="border-t border-hl-border pt-10">
-          <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p class="brand-mark text-3xl text-hl-fg">{SITE_NAME_ZH}</p>
-              <p class="mt-2 text-hl-muted">{SITE_TAGLINE}</p>
+        {
+          Astro.slots.has("default") ? (
+            <div
+              class:list={[
+                "page-shell",
+                transparentHeader ? "pt-0 pb-12 md:pb-16" : "py-10 md:py-14",
+              ]}
+            >
+              <slot />
             </div>
-            <NowPlaying locale={locale} />
+          ) : null
+        }
+      </main>
+      <footer
+        id="site-footer"
+        class:list={[
+          "site-footer page-shell scroll-mt-24",
+          isHome && "site-footer--on-media",
+        ]}
+        data-pagefind-ignore
+      >
+        <div class="site-footer__inner">
+          <div class="site-footer__row">
+            <p class:list={["site-footer__mark", isHome && "ink-invert"]}>
+              {SITE_NAME_ZH}
+            </p>
+            <div class="site-footer__end">
+              <NowPlaying locale={locale} onMedia={isHome} />
+              <p class:list={["site-footer__meta", isHome && "ink-invert"]}>
+                <span>{translate(locale, "footer.rights", { year })}</span>
+                <span class="site-footer__dot" aria-hidden="true">·</span>
+                <span>{translate(locale, "footer.license")}</span>
+              </p>
+            </div>
           </div>
-          <p>{translate(locale, "footer.rights", { year })}</p>
-          <p class="mt-1 opacity-80">{translate(locale, "footer.license")}</p>
         </div>
       </footer>
       <SiteFab
