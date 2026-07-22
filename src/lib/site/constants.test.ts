@@ -2,7 +2,14 @@
  * 站点常量冒烟单测：保证品牌文案与 base 不被误改。
  */
 import { describe, expect, it } from "vite-plus/test";
-import { SITE_BASE, SITE_NAME_EN, SITE_NAME_ZH, SITE_TAGLINE } from "./constants";
+import {
+  SITE_BASE,
+  SITE_NAME_EN,
+  SITE_NAME_ZH,
+  SITE_STORAGE_PREFIX,
+  SITE_TAGLINE,
+  siteStorageKey,
+} from "./constants";
 
 describe("site constants", () => {
   it("exposes vv brand strings", () => {
@@ -13,5 +20,11 @@ describe("site constants", () => {
 
   it("uses GitHub Pages project base", () => {
     expect(SITE_BASE).toBe("/blog/");
+  });
+
+  it("builds storage keys from shared brand prefix", () => {
+    expect(SITE_STORAGE_PREFIX).toBe("vv");
+    expect(siteStorageKey("theme")).toBe("vv-theme");
+    expect(siteStorageKey("locale")).toBe("vv-locale");
   });
 });

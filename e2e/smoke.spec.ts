@@ -8,7 +8,7 @@ import { clickMoreNavLink, mainNav, openPrefsPanel } from "./helpers";
 test.describe("vv 关键路径", () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
-      sessionStorage.setItem("henglu-splash-seen", "1");
+      sessionStorage.setItem("vv-splash-seen", "1");
     });
   });
 

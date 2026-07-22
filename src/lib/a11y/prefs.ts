@@ -2,10 +2,12 @@
  * 阅读密度与高对比偏好（与主题分开存）。
  * 目录外请经 `@/lib/a11y` 导入。
  */
+import { siteStorageKey } from "@/lib/site";
 
 export type ReadingDensity = "default" | "comfortable";
 
-export const A11Y_STORAGE_KEY = "henglu-a11y";
+/** localStorage 键 */
+export const A11Y_STORAGE_KEY = siteStorageKey("a11y");
 
 export type A11yPreference = {
   density: ReadingDensity;

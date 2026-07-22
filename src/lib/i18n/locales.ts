@@ -2,6 +2,7 @@
  * 支持的语言与默认语言。
  * 目录外请经 `@/lib/i18n` 导入。
  */
+import { siteStorageKey } from "@/lib/site";
 
 /** 界面语种（BCP 47）；缺文案时回退 zh-Hans */
 export const LOCALES = ["zh-Hans", "zh-Hant", "en", "de", "ja", "ko", "fr", "es", "ru"] as const;
@@ -12,7 +13,7 @@ export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "zh-Hans";
 
 /** localStorage 键：用户手动选择的语言 */
-export const LOCALE_STORAGE_KEY = "henglu-locale";
+export const LOCALE_STORAGE_KEY = siteStorageKey("locale");
 
 /** 语言展示名（用于切换器，自身用该语言书写） */
 export const LOCALE_LABELS: Record<Locale, string> = {

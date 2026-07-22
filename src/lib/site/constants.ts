@@ -9,6 +9,14 @@ export const SITE_NAME_ZH = "vv";
 /** 英文标识（与展示名一致） */
 export const SITE_NAME_EN = "vv";
 
+/** localStorage / sessionStorage 键前缀（与品牌标识一致，勿再写死散落字符串） */
+export const SITE_STORAGE_PREFIX = SITE_NAME_EN;
+
+/** 拼出站点存储键：`vv-theme` / `vv-locale` 等 */
+export function siteStorageKey(suffix: string): string {
+  return `${SITE_STORAGE_PREFIX}-${suffix}`;
+}
+
 /** 副标题：苹果式短句，避免「栏目枚举」观感 */
 export const SITE_TAGLINE = "记录值得留下的事";
 

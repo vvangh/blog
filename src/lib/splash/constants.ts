@@ -1,4 +1,7 @@
 /**
- * Splash 会话标记：与 SplashScreen.vue 共用，改键名时两边一起改。
+ * Splash 会话标记键。
  */
-export const SPLASH_STORAGE_KEY = "henglu-splash-seen";
+import { siteStorageKey } from "@/lib/site";
+
+/** sessionStorage：本会话已看过开屏 */
+export const SPLASH_STORAGE_KEY = siteStorageKey("splash-seen");

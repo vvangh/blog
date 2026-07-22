@@ -6,7 +6,7 @@ import { test, expect } from "@playwright/test";
 test.describe("站点搜索", () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
-      sessionStorage.setItem("henglu-splash-seen", "1");
+      sessionStorage.setItem("vv-splash-seen", "1");
     });
   });
 
