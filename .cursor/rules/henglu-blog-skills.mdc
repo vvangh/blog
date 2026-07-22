@@ -29,7 +29,7 @@ alwaysApply: true
 | Playwright / e2e / axe | `jeffallan-claude-skills-playwright-expert` 或 `playwright-testing` |
 | `.cursor/rules` 落盘 | `create-rule` |
 | 本仓技能落盘 | `create-skill` |
-| UI 原子/分子 | 规则 `henglu-blog-ui-kit` + `docs/ui-kit.md` |
+| UI 原子/分子 | 规则 `henglu-blog-ui-kit` + `docs/设计/UI组件约定.md` |
 | 差分挑错 | `review-bugbot` |
 | 安全相关 | `review-security` |
 
@@ -55,5 +55,6 @@ alwaysApply: true
 | `henglu-blog-brand` | 否 | vv Air 视觉（不含 UI 控件细则） |
 | `henglu-blog-astro-islands` | 否 | Astro vs 岛、boot、BASE_URL |
 | `henglu-blog-testing` | 否 | Vitest / Playwright / axe |
+| `henglu-blog-docs` | 否 | docs 中文命名与分区 |
 
 面向人的文本用简体中文。细节以各规则正文为准。

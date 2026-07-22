@@ -1,0 +1,25 @@
+---
+description: vv：docs 分区与正文文件名用简体中文；入口保留 README.md
+globs: docs/**/*
+alwaysApply: false
+---
+
+# vv · 文档命名
+
+## 硬约定
+
+- `docs/` 下**分区目录名与正文文件名**一律简体中文
+- 专有名词可保留拉丁写法（如 `Giscus`、`UI`），但整体文件名仍以中文为主（例：`Giscus评论.md`）
+- **唯一例外**：入口索引固定为 `docs/README.md`（GitHub / 工具链惯例）
+- 现有分区：`产品/`、`设计/`、`接入/`
+
+## 禁止
+
+- 新增英文正文名（如 `BACKLOG.md`、`ui-kit.md`）
+- 在 `docs/` 根目录随意堆平铺正文（先归入现有分区或新建中文分区）
+
+```text
+❌ docs/design/ui-kit.md
+✅ docs/设计/UI组件约定.md
+✅ docs/README.md（入口例外）
+```
