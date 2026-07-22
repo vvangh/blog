@@ -304,9 +304,9 @@
   }
 
   .prefs-panel {
-    border: 1px solid var(--hl-border);
-    border-radius: 1.25rem;
-    background: var(--hl-panel);
-    padding: 1.35rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
   }
 }

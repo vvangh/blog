@@ -402,6 +402,33 @@ html[data-splash="pending"] .motion-safe-rise--after-splash {
     0 20px 50px -28px color-mix(in oklab, var(--hl-fg) 28%, transparent);
 }
 
+/*
+ * 关闭 / 清除类图标：挂在按钮上，悬停时内部 svg 旋转 90°。
+ * 全站统一用此类，禁止各组件私写一套 rotate。
+ * 时长与缓动偏软，避免「啪一下」转过去。
+ */
+.motion-safe-icon-spin svg {
+  transform-origin: 50% 50%;
+  transition: transform 0.48s cubic-bezier(0.22, 1.15, 0.36, 1);
+  will-change: transform;
+}
+
+.motion-safe-icon-spin:hover svg {
+  transform: rotate(90deg);
+}
+
+.motion-safe-icon-spin:not(:hover) svg {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.38s;
+}
+
+/* 设置 FAB：齿轮常转 */
+@keyframes site-fab-gear-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .motion-safe-rise,
   .motion-safe-glow,
@@ -411,8 +438,13 @@ html[data-splash="pending"] .motion-safe-rise--after-splash {
   .site-header__brand-shell::after,
   .site-header__v--a,
   .site-header__v--b,
-  .home-hero__cursor {
+  .home-hero__cursor,
+  .site-fab__gear {
     animation: none !important;
+  }
+
+  .motion-safe-icon-spin:hover svg {
+    transform: none !important;
   }
 
   .motion-safe-border-sheen::before,

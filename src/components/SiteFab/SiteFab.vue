@@ -1,13 +1,13 @@
 <script setup lang="ts">
 /**
- * 全站悬浮坞：返回顶部、站点设置抽屉、快捷键帮助。
- * 偏好不再占用独立页面，避免「博客像后台」的观感。
+ * 全站悬浮坞：返回顶部、站点设置抽屉。
+ * 偏好不占用独立页面，避免「博客像后台」的观感。
+ * vue API 由 unplugin-auto-import 注入，勿手写 import。
  */
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useStore } from "@nanostores/vue";
+import { X } from "@lucide/vue";
 import { ThemeSettings } from "@/components/ThemeSettings";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { A11ySettings } from "@/components/A11ySettings";
 import type { Locale } from "@/lib/i18n";
 import { closePrefs, openPrefs as openPrefsStore, prefsOpenStore } from "@/lib/stores";
 
@@ -17,36 +17,32 @@ const props = withDefaults(
     /** 首页等短屏：不展示回顶（首屏即品牌区，无需「回到顶部」） */
     hideTop?: boolean;
     prefsTitle: string;
-    prefsHint: string;
     prefsOpenLabel: string;
     prefsCloseLabel: string;
     topLabel: string;
-    helpTitle: string;
-    helpOpenLabel: string;
-    helpCloseLabel: string;
-    helpBody: string;
     themeHeading: string;
-    themeHint: string;
+    themeScheduleTitle: string;
+    themeBackLabel: string;
+    themeConfirmLabel: string;
+    themeLightStartLabel: string;
+    themeLightEndLabel: string;
     langHeading: string;
-    langHint: string;
     langSwitched: string;
-    densityHeading: string;
-    densityHint: string;
-    comfortableLabel: string;
-    defaultLabel: string;
-    contrastHeading: string;
-    contrastOn: string;
-    contrastOff: string;
+    langFilterPlaceholder: string;
+    langFilterEmpty: string;
   }>(),
   { hideTop: false },
 );
 
 /** 跨岛共享：其它岛也可 openPrefsStore() 打开设置 */
 const prefsOpen = useStore(prefsOpenStore);
-const helpOpen = ref(false);
 const showTop = ref(false);
-
-const anyPanelOpen = computed(() => prefsOpen.value || helpOpen.value);
+const prefsBtnRef = ref<HTMLButtonElement | null>(null);
+const prefsCloseRef = ref<HTMLButtonElement | null>(null);
+/** Escape 等键盘关闭时归还焦点；鼠标点遮罩/关闭则不归还，避免蓝圈 */
+const restorePrefsFocus = ref(true);
+/** 打开瞬间忽略遮罩点击，避免「同一次 click」穿透把抽屉立刻关掉 */
+const ignoreScrimClickUntil = ref(0);
 
 function isTypingTarget(el: EventTarget | null): boolean {
   if (!(el instanceof HTMLElement)) return false;
@@ -59,7 +55,6 @@ function onScroll(): void {
     showTop.value = false;
     return;
   }
-  // 页面几乎不可滚时也不露回顶，避免短页误显
   const room = document.documentElement.scrollHeight - window.innerHeight;
   showTop.value = room > 240 && window.scrollY > 480;
 }
@@ -70,39 +65,40 @@ function scrollTop(): void {
 }
 
 function openPrefs(): void {
-  helpOpen.value = false;
+  ignoreScrimClickUntil.value = Date.now() + 320;
   openPrefsStore();
 }
 
-function openHelp(): void {
+function closePrefsByPointer(): void {
+  restorePrefsFocus.value = false;
   closePrefs();
-  helpOpen.value = true;
 }
 
-function closeAll(): void {
-  closePrefs();
-  helpOpen.value = false;
+function onScrimClick(): void {
+  if (Date.now() < ignoreScrimClickUntil.value) return;
+  closePrefsByPointer();
 }
 
 function onKey(e: KeyboardEvent): void {
   if (isTypingTarget(e.target)) return;
-  if (e.key === "Escape" && anyPanelOpen.value) {
+  if (e.key === "Escape" && prefsOpen.value) {
     e.preventDefault();
-    closeAll();
-    return;
-  }
-  if (e.key === "?" || (e.key === "/" && e.shiftKey)) {
-    e.preventDefault();
-    if (helpOpen.value) helpOpen.value = false;
-    else openHelp();
+    restorePrefsFocus.value = true;
+    closePrefs();
   }
 }
 
-watch(prefsOpen, (open) => {
-  document.body.style.overflow = open || helpOpen.value ? "hidden" : "";
-});
-watch(helpOpen, (open) => {
-  document.body.style.overflow = open || prefsOpen.value ? "hidden" : "";
+watch(prefsOpen, async (open) => {
+  document.body.style.overflow = open ? "hidden" : "";
+  await nextTick();
+  if (open) {
+    prefsCloseRef.value?.focus();
+    return;
+  }
+  if (restorePrefsFocus.value) {
+    prefsBtnRef.value?.focus({ preventScroll: true });
+  }
+  restorePrefsFocus.value = true;
 });
 
 onMounted(() => {
@@ -120,25 +116,21 @@ onUnmounted(() => {
 
 <template>
   <div class="site-fab" data-pagefind-ignore>
-    <!-- 右下角按钮柱：回顶 / 设置 / 帮助 -->
-    <div class="fixed right-4 bottom-4 z-50 flex flex-col-reverse items-center gap-2">
+    <div
+      v-show="!prefsOpen"
+      class="fixed right-4 bottom-4 z-50 flex flex-col-reverse items-center gap-2"
+    >
       <button
+        ref="prefsBtnRef"
         type="button"
-        class="glass-chip inline-flex min-h-11 min-w-11 items-center justify-center text-sm font-semibold text-hl-fg transition hover:text-hl-accent"
-        :aria-label="props.helpOpenLabel"
-        :aria-expanded="helpOpen"
-        @click="openHelp"
-      >
-        ?
-      </button>
-      <button
-        type="button"
-        class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-transparent bg-[var(--hl-cta-bg)] text-sm font-semibold text-[var(--hl-cta-fg)] shadow-lg transition hover:opacity-90"
+        class="site-fab__prefs inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-transparent bg-[var(--hl-cta-bg)] text-sm font-semibold text-[var(--hl-cta-fg)] shadow-lg"
         :aria-label="props.prefsOpenLabel"
         :aria-expanded="prefsOpen"
         @click="openPrefs"
       >
-        <span aria-hidden="true" class="text-base leading-none">⚙</span>
+        <span aria-hidden="true" class="site-fab__gear-wrap">
+          <span class="site-fab__gear text-base leading-none">⚙</span>
+        </span>
       </button>
       <button
         v-show="!props.hideTop && showTop"
@@ -151,79 +143,52 @@ onUnmounted(() => {
       </button>
     </div>
 
-    <!-- 设置抽屉 -->
     <div
       v-if="prefsOpen"
-      class="fixed inset-0 z-[60] flex justify-end bg-black/40"
+      class="prefs-drawer-scrim fixed inset-0 z-[60] flex justify-end"
       role="presentation"
-      @click.self="closePrefs"
+      @click.self="onScrimClick"
     >
       <aside
         role="dialog"
         aria-modal="true"
         :aria-label="props.prefsTitle"
-        class="flex h-full w-full max-w-md flex-col border-l border-hl-border bg-hl-bg shadow-2xl"
+        class="prefs-drawer flex h-full w-full max-w-md flex-col"
       >
         <header
-          class="flex shrink-0 items-start justify-between gap-3 border-b border-hl-border px-5 py-4"
+          class="prefs-drawer__header flex shrink-0 items-center justify-between gap-3 px-6 py-4"
         >
-          <div>
-            <h2 class="m-0 font-display text-xl font-bold tracking-tight">
-              {{ props.prefsTitle }}
-            </h2>
-            <p class="mt-1 text-sm text-hl-muted">{{ props.prefsHint }}</p>
-          </div>
+          <h2 class="m-0 font-display text-lg font-semibold tracking-tight text-hl-fg">
+            {{ props.prefsTitle }}
+          </h2>
           <button
+            ref="prefsCloseRef"
             type="button"
-            class="inline-flex min-h-10 shrink-0 items-center rounded-full border border-hl-border px-3 text-sm hover:border-hl-accent hover:text-hl-accent"
-            @click="closePrefs"
+            class="prefs-drawer__close motion-safe-icon-spin"
+            :aria-label="props.prefsCloseLabel"
+            @click="closePrefsByPointer"
           >
-            {{ props.prefsCloseLabel }}
+            <X :size="18" :stroke-width="1.75" aria-hidden="true" />
           </button>
         </header>
-        <div class="flex-1 space-y-4 overflow-y-auto px-5 py-5">
-          <ThemeSettings :heading="props.themeHeading" :hint="props.themeHint" />
+        <div class="flex-1 overflow-y-auto px-6 py-3 pb-8">
+          <ThemeSettings
+            :heading="props.themeHeading"
+            :schedule-title="props.themeScheduleTitle"
+            :back-label="props.themeBackLabel"
+            :confirm-label="props.themeConfirmLabel"
+            :light-start-label="props.themeLightStartLabel"
+            :light-end-label="props.themeLightEndLabel"
+          />
           <LanguageSwitcher
             :locale="props.locale"
             :heading="props.langHeading"
-            :hint="props.langHint"
             :switched-template="props.langSwitched"
-          />
-          <A11ySettings
-            :density-heading="props.densityHeading"
-            :density-hint="props.densityHint"
-            :comfortable-label="props.comfortableLabel"
-            :default-label="props.defaultLabel"
-            :contrast-heading="props.contrastHeading"
-            :contrast-on="props.contrastOn"
-            :contrast-off="props.contrastOff"
+            :filter-placeholder="props.langFilterPlaceholder"
+            :filter-empty="props.langFilterEmpty"
           />
         </div>
       </aside>
-    </div>
-
-    <!-- 快捷键帮助 -->
-    <div
-      v-if="helpOpen"
-      class="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 p-4 sm:items-center"
-      role="dialog"
-      aria-modal="true"
-      :aria-label="props.helpTitle"
-      @click.self="helpOpen = false"
-    >
-      <div class="w-full max-w-md rounded-2xl border border-hl-border bg-hl-bg p-5 shadow-lg">
-        <div class="flex items-start justify-between gap-3">
-          <h2 class="m-0 text-lg font-semibold">{{ props.helpTitle }}</h2>
-          <button
-            type="button"
-            class="min-h-9 rounded-full border border-hl-border px-3 text-sm"
-            @click="helpOpen = false"
-          >
-            {{ props.helpCloseLabel }}
-          </button>
-        </div>
-        <p class="mt-3 text-sm leading-relaxed text-hl-muted">{{ props.helpBody }}</p>
-      </div>
     </div>
   </div>
 </template>

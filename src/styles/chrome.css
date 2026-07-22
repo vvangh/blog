@@ -434,6 +434,454 @@
     opacity: 0.62;
   }
 
+  /* 右下角设置：齿轮常转；悬停只放大图标（外层缩放，不抢旋转 transform） */
+  .site-fab button {
+    cursor: pointer;
+  }
+
+  .site-fab__prefs {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .site-fab__prefs:focus,
+  .site-fab__prefs:focus-visible {
+    outline: none;
+  }
+
+  .site-fab__gear-wrap {
+    display: inline-flex;
+    transform-origin: 50% 50%;
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .site-fab__prefs:hover .site-fab__gear-wrap {
+    transform: scale(1.28);
+  }
+
+  .site-fab__gear {
+    display: inline-block;
+    transform-origin: 50% 50%;
+    animation: site-fab-gear-spin 5s linear infinite;
+    will-change: transform;
+  }
+
+  /* 悬停只放大，暂停自转 */
+  .site-fab__prefs:hover .site-fab__gear {
+    animation-play-state: paused;
+  }
+
+  /*
+   * 站点偏好抽屉：干净实色（纯白/纯墨），禁止半透明叠壁纸、禁止蓝灰脏色混色。
+   */
+  .prefs-drawer-scrim {
+    background: color-mix(in oklab, #000 42%, transparent);
+  }
+
+  .prefs-drawer {
+    border-left: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    border-radius: 1.75rem 0 0 1.75rem;
+    background: #ffffff;
+    box-shadow: -20px 0 48px -28px color-mix(in oklab, #000 28%, transparent);
+  }
+
+  html[data-theme="dark"] .prefs-drawer {
+    background: #1d1d1f;
+  }
+
+  .prefs-drawer__header {
+    border-bottom: 1px solid color-mix(in oklab, var(--hl-fg) 8%, transparent);
+  }
+
+  .prefs-drawer__close {
+    display: inline-flex;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    background: #ffffff;
+    color: var(--hl-fg);
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  html[data-theme="dark"] .prefs-drawer__close {
+    background: #1d1d1f;
+  }
+
+  .prefs-drawer__close:hover {
+    border-color: color-mix(in oklab, var(--hl-fg) 28%, transparent);
+    background: #f5f5f7;
+  }
+
+  html[data-theme="dark"] .prefs-drawer__close:hover {
+    background: #2c2c2e;
+  }
+
+  /* 设置壳层焦点用墨色，勿用链接蓝 --hl-focus */
+  .prefs-drawer__close:focus-visible {
+    outline: 2px solid var(--hl-fg);
+    outline-offset: 2px;
+  }
+
+  .prefs-section {
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--hl-rule);
+  }
+
+  .prefs-section:first-child {
+    padding-top: 0.15rem;
+  }
+
+  .prefs-section:last-child {
+    border-bottom: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .prefs-section--spaced {
+    margin-top: 0.35rem;
+    padding-top: 1.55rem;
+  }
+
+  .prefs-section__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--hl-fg);
+  }
+
+  .prefs-subhead {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .prefs-back {
+    display: inline-flex;
+    min-height: 2.25rem;
+    min-width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--hl-border);
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--hl-fg);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .prefs-back:hover {
+    background: color-mix(in oklab, var(--hl-fg) 6%, transparent);
+  }
+
+  .prefs-tiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-top: 0.95rem;
+  }
+
+  .prefs-tile {
+    display: flex;
+    min-height: 4.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.65rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    border-radius: 1.1rem;
+    background: #ffffff;
+    color: var(--hl-fg);
+    text-align: left;
+    cursor: pointer;
+    box-shadow: none;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  html[data-theme="dark"] .prefs-tile {
+    background: #1d1d1f;
+  }
+
+  .prefs-tile:hover {
+    border-color: color-mix(in oklab, var(--hl-fg) 28%, transparent);
+    background: #f5f5f7;
+  }
+
+  html[data-theme="dark"] .prefs-tile:hover {
+    background: #2c2c2e;
+  }
+
+  .prefs-tile[aria-checked="true"] {
+    border-color: transparent;
+    background: #1d1d1f;
+    color: #ffffff;
+  }
+
+  html[data-theme="dark"] .prefs-tile[aria-checked="true"] {
+    background: #f5f5f7;
+    color: #1d1d1f;
+  }
+
+  .prefs-tile:focus-visible {
+    outline: 2px solid var(--hl-fg);
+    outline-offset: 2px;
+  }
+
+  .prefs-tile__icon {
+    opacity: 0.72;
+  }
+
+  .prefs-tile[aria-checked="true"] .prefs-tile__icon {
+    opacity: 1;
+  }
+
+  .prefs-tile__label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .prefs-tile__hint {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.7rem;
+    line-height: 1.35;
+    font-weight: 400;
+    opacity: 0.68;
+  }
+
+  .prefs-schedule {
+    display: grid;
+    gap: 0.65rem;
+    margin-top: 0.95rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    border-radius: 1rem;
+    background: #ffffff;
+  }
+
+  html[data-theme="dark"] .prefs-schedule {
+    background: #1d1d1f;
+  }
+
+  .prefs-schedule label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .prefs-schedule input[type="time"] {
+    min-height: 2.25rem;
+    border: 1px solid var(--hl-border);
+    border-radius: 0.65rem;
+    background: var(--hl-bg);
+    padding: 0 0.65rem;
+    color: var(--hl-fg);
+  }
+
+  .prefs-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .prefs-action {
+    display: inline-flex;
+    min-height: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0 1.05rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .prefs-action--ghost {
+    border: 1px solid var(--hl-border);
+    background: transparent;
+    color: var(--hl-fg);
+  }
+
+  .prefs-action--ghost:hover {
+    background: color-mix(in oklab, var(--hl-fg) 5%, transparent);
+  }
+
+  .prefs-action--solid {
+    border: 1px solid transparent;
+    background: var(--hl-cta-bg);
+    color: var(--hl-cta-fg);
+  }
+
+  .prefs-action--solid:hover {
+    opacity: 0.9;
+  }
+
+  .filterable-select {
+    position: relative;
+  }
+
+  .filterable-select__trigger {
+    display: flex;
+    width: 100%;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    border-radius: 0.9rem;
+    background: #ffffff;
+    padding: 0 0.35rem 0 0.95rem;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  html[data-theme="dark"] .filterable-select__trigger {
+    background: #1d1d1f;
+  }
+
+  .filterable-select__trigger:hover,
+  .filterable-select__trigger--open {
+    border-color: color-mix(in oklab, var(--hl-fg) 28%, transparent);
+  }
+
+  /* 聚焦/展开：墨色描边，禁止链接蓝焦点环 */
+  .filterable-select__trigger:focus-within,
+  .filterable-select__trigger--open {
+    border-color: color-mix(in oklab, var(--hl-fg) 42%, transparent);
+    outline: none;
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--hl-fg) 18%, transparent);
+  }
+
+  .filterable-select__input {
+    width: 100%;
+    min-height: 2.5rem;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--hl-fg);
+    cursor: text;
+    outline: none;
+  }
+
+  .filterable-select__input::placeholder {
+    color: var(--hl-muted);
+    font-weight: 400;
+  }
+
+  .filterable-select__chevron-btn {
+    display: inline-flex;
+    min-height: 2.25rem;
+    min-width: 2.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--hl-muted);
+    cursor: pointer;
+  }
+
+  .filterable-select__chevron-btn:hover {
+    background: color-mix(in oklab, var(--hl-fg) 5%, transparent);
+  }
+
+  .filterable-select__chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .filterable-select__chevron--open {
+    transform: rotate(180deg);
+  }
+
+  .filterable-select__panel {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + 0.4rem);
+    right: 0;
+    left: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in oklab, var(--hl-fg) 12%, transparent);
+    border-radius: 1rem;
+    background: #ffffff;
+    box-shadow: 0 16px 36px -18px color-mix(in oklab, #000 28%, transparent);
+  }
+
+  html[data-theme="dark"] .filterable-select__panel {
+    background: #1d1d1f;
+  }
+
+  .filterable-select__list {
+    margin: 0;
+    max-height: 14rem;
+    overflow: auto;
+    list-style: none;
+    padding: 0.35rem;
+  }
+
+  .filterable-select__empty {
+    padding: 0.85rem 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--hl-muted);
+    text-align: center;
+  }
+
+  .filterable-select__option {
+    display: flex;
+    width: 100%;
+    min-height: 2.4rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: 0;
+    border-radius: 0.7rem;
+    background: transparent;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    color: var(--hl-fg);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .filterable-select__option:hover {
+    background: color-mix(in oklab, var(--hl-fg) 6%, transparent);
+  }
+
+  .filterable-select__option[aria-selected="true"] {
+    font-weight: 600;
+  }
+
+  .filterable-select__check {
+    flex-shrink: 0;
+    color: var(--hl-fg);
+  }
+
   /* 首页页脚叠壁纸：细线淡反差，勿铺白底 */
   .site-footer--on-media .site-footer__inner {
     border-top-color: color-mix(in oklab, #fff 22%, transparent);

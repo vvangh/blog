@@ -1,8 +1,8 @@
 <script setup lang="ts">
 /**
  * 阅读密度 + 高对比设置岛。
+ * vue API 由 unplugin-auto-import 注入，勿手写 import。
  */
-import { onMounted, ref, watch } from "vue";
 import {
   applyA11yPreference,
   readA11yPreference,
@@ -55,17 +55,14 @@ watch(
 </script>
 
 <template>
-  <section class="prefs-panel grid w-full gap-4" aria-label="a11y">
-    <div>
-      <h2 class="m-0 text-lg font-semibold">{{ props.densityHeading }}</h2>
-      <p class="mt-1 text-sm text-hl-muted">{{ props.densityHint }}</p>
-      <div class="mt-3 flex flex-wrap gap-2">
+  <div class="prefs-panel" aria-label="a11y">
+    <section class="prefs-section" aria-labelledby="a11y-density-heading">
+      <h2 id="a11y-density-heading" class="prefs-section__title">{{ props.densityHeading }}</h2>
+      <p class="prefs-section__hint">{{ props.densityHint }}</p>
+      <div class="prefs-chips" role="group" :aria-label="props.densityHeading">
         <button
           type="button"
-          class="min-h-9 rounded-md border px-3 text-sm"
-          :class="
-            pref.density === 'default' ? 'border-hl-accent text-hl-accent' : 'border-hl-border'
-          "
+          class="prefs-chip"
           :aria-pressed="pref.density === 'default'"
           @click="setDensity('default')"
         >
@@ -73,30 +70,30 @@ watch(
         </button>
         <button
           type="button"
-          class="min-h-9 rounded-md border px-3 text-sm"
-          :class="
-            pref.density === 'comfortable' ? 'border-hl-accent text-hl-accent' : 'border-hl-border'
-          "
+          class="prefs-chip"
           :aria-pressed="pref.density === 'comfortable'"
           @click="setDensity('comfortable')"
         >
           {{ props.comfortableLabel }}
         </button>
       </div>
-    </div>
+    </section>
 
-    <div>
-      <h2 class="m-0 text-lg font-semibold">{{ props.contrastHeading }}</h2>
+    <section class="prefs-section" aria-labelledby="a11y-contrast-heading">
+      <h2 id="a11y-contrast-heading" class="prefs-section__title">{{ props.contrastHeading }}</h2>
       <button
         type="button"
-        class="mt-3 min-h-9 rounded-md border border-hl-border px-3 text-sm"
+        class="prefs-toggle"
         :aria-pressed="pref.highContrast"
         @click="toggleContrast"
       >
-        {{ pref.highContrast ? props.contrastOff : props.contrastOn }}
+        <span class="text-sm font-medium">
+          {{ pref.highContrast ? props.contrastOff : props.contrastOn }}
+        </span>
+        <span class="prefs-toggle__track" aria-hidden="true" />
       </button>
-    </div>
+    </section>
 
     <p class="sr-only" aria-live="polite">{{ live }}</p>
-  </section>
+  </div>
 </template>

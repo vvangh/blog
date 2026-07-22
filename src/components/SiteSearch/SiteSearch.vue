@@ -79,7 +79,7 @@ defineExpose({ openDialog });
           <button
             v-else-if="query.trim()"
             type="button"
-            class="site-search-clear site-search-muted inline-flex size-9 shrink-0 items-center justify-center rounded-full transition"
+            class="site-search-clear motion-safe-icon-spin site-search-muted inline-flex size-9 shrink-0 items-center justify-center rounded-full transition"
             :aria-label="clearLabel"
             @click="query = ''"
           >

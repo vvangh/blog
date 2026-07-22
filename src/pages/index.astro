@@ -29,9 +29,9 @@ const boot = `(function(){try{var K=${JSON.stringify(LOCALE_STORAGE_KEY)};var st
     <p>{SITE_TAGLINE}</p>
     <ul>
       {
-        links.map((link) => (
+        links.map((item) => (
           <li>
-            <a href={link.href}>{link.label}</a>
+            <a href={item.href}>{item.label}</a>
           </li>
         ))
       }
