@@ -1,14 +1,14 @@
 name: CI
 
 # 质量门禁（不部署 Pages）。
-# - push：main / develop 均可跑检查（develop 推送不会触发 Deploy）
-# - pull_request：针对 main / develop 的 PR
+# - 仅 main：push / 指向 main 的 PR / 手动跑
+# - develop 推送不跑任何 Actions（避免失败邮件刷屏；发版前再合入 main 过门禁）
 # - 部署见 deploy-pages.yml（仅 main，且须本 workflow 成功后才发版）
 on:
   pull_request:
-    branches: [main, develop]
+    branches: [main]
   push:
-    branches: [main, develop]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
