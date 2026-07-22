@@ -1,7 +1,7 @@
 /**
  * 站点搜索逻辑：Pagefind 优先，开发态目录兜底；快捷键与结果键盘导航。
  */
-import { computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref } from "vue";
+import type { Ref } from "vue";
 import { filterDevCatalog, type DevSearchEntry } from "@/lib/search/filter";
 
 export type SearchHit = {

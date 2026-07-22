@@ -3,7 +3,6 @@
  * Ctrl/Cmd+K 搜索岛。
  * 面板跟随外观主题（.site-search-panel → --hl-*）；全站共用。
  */
-import { toRef } from "vue";
 import { LoaderCircle, Search, X } from "@lucide/vue";
 import type { DevSearchEntry } from "@/lib/search/filter";
 import { useSiteSearch } from "./useSiteSearch";

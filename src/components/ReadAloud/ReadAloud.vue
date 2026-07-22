@@ -2,8 +2,6 @@
 /**
  * 听读岛：展示阅读时长估算，并用浏览器 Speech Synthesis 朗读正文。
  */
-import { onBeforeUnmount, onMounted, ref } from "vue";
-
 const props = withDefaults(
   defineProps<{
     minutes: number;

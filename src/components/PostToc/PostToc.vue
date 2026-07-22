@@ -2,8 +2,6 @@
 /**
  * 文内 TOC：侧栏跳章节，滚动时高亮当前标题。
  */
-import { onMounted, onUnmounted, ref } from "vue";
-
 export type TocItem = {
   depth: number;
   slug: string;

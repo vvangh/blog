@@ -2,8 +2,6 @@
 /**
  * 阅读进度条：跟踪 [data-reading-root] 区域内的滚动比例。
  */
-import { onMounted, onUnmounted, ref } from "vue";
-
 const props = withDefaults(
   defineProps<{
     label?: string;

@@ -2,8 +2,6 @@
 /**
  * 胶片相册：键盘左右切换，读屏读 caption。
  */
-import { computed, onMounted, onUnmounted, ref } from "vue";
-
 export type FilmFrame = {
   src: string;
   caption: string;

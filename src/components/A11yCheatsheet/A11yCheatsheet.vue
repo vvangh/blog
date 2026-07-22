@@ -2,8 +2,6 @@
 /**
  * 快捷键帮助：按 ? 打开（输入框内不拦截）。
  */
-import { onMounted, onUnmounted, ref } from "vue";
-
 const props = defineProps<{
   title: string;
   openLabel: string;

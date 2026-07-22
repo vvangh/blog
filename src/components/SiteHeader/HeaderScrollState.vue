@@ -3,8 +3,6 @@
  * 顶栏滚动态：首页从透明渐变到悬浮玻璃；其它页保持悬浮玻璃。
  * 写入 --header-lift（0–1）供 CSS 插值。
  */
-import { onMounted, onUnmounted } from "vue";
-
 const props = withDefaults(
   defineProps<{
     /** 首页透明模式：顶部 lift=0，滚入内容后抬升 */

@@ -3,7 +3,6 @@
  * 可配置背景层：图/视频、静态/轮播、手动切换；支持仅首页或全站。
  * 首页现为 Hero+页脚，壁纸常驻，不随滚动淡成白底。
  */
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import {
   advanceIndex,
   BACKGROUND_CONFIG,

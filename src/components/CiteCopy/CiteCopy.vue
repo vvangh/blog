@@ -2,8 +2,6 @@
 /**
  * 一键复制署名引用块。
  */
-import { ref } from "vue";
-
 const props = defineProps<{
   label: string;
   copyLabel: string;
