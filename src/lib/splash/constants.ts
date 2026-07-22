@@ -12,5 +12,11 @@ export const SPLASH_CHOREO_MS = 4000;
 /** 揭幕退场（ms）：略长于视觉揭幕，等 Hero/页脚接棒入场播完再卸岛 */
 export const SPLASH_EXIT_MS = 1500;
 
-/** 岛失败兜底：须大于序曲 + 揭幕 */
-export const SPLASH_FAILSAFE_MS = SPLASH_CHOREO_MS + SPLASH_EXIT_MS + 1500;
+/**
+ * 岛水合余量（ms）：failsafe 从首屏 boot 起算，而序曲从 `client:load` 挂载后才起。
+ * 须覆盖慢网/慢设备上的水合延迟，避免仍 pending 时被抢写成 done。
+ */
+export const SPLASH_HYDRATE_SLACK_MS = 5000;
+
+/** 岛失败兜底：序曲 + 揭幕 + 水合余量（均从 boot 起算的上限） */
+export const SPLASH_FAILSAFE_MS = SPLASH_CHOREO_MS + SPLASH_EXIT_MS + SPLASH_HYDRATE_SLACK_MS;
