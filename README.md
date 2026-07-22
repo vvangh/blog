@@ -13,7 +13,7 @@ vv 是 vvangh 的个人站点：写技术、记生活、收藏一点娱乐；并
 | 站点框架 | Astro（SSG）                                                 |
 | 交互岛   | Vue 3.5.x（`@astrojs/vue`）                                  |
 | 工具链   | Vite+（`vp`）：install / check / test / staged / run         |
-| 样式     | Tailwind 优先；局部复杂样式 SCSS 降级                        |
+| 样式     | Tailwind 优先；复杂壳层/动效用原生 CSS（`styles/`）          |
 | 内容     | Content Collections（`blog` / `build-log`，预留 life / fun） |
 | 部署     | GitHub Pages 项目站（`base: '/blog/'`）                      |
 

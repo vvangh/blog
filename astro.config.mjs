@@ -163,11 +163,6 @@ export default defineConfig({
       }),
       ...(isDev ? [vueDevTools()] : []),
     ],
-    css: {
-      preprocessorOptions: {
-        scss: {},
-      },
-    },
     resolve: {
       alias: {
         "@": srcDir,

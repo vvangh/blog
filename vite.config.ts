@@ -25,7 +25,7 @@ export default defineConfig({
   },
   check: {},
   staged: {
-    "*.{ts,tsx,js,mjs,astro,vue,css,scss,md,mdx,json}": "vp check --fix",
+    "*.{ts,tsx,js,mjs,astro,vue,css,md,mdx,json}": "vp check --fix",
   },
   test: {
     // Vitest 经 `vp test`；先覆盖纯函数，业务 e2e 留到 M4
