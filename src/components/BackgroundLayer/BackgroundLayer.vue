@@ -112,14 +112,14 @@ watch(
       :key="current.src"
       :src="assetUrl(current.src)"
       :alt="current.alt ?? ''"
-      class="bg-layer__media h-full w-full object-cover"
+      class="bg-layer__media motion-safe-media-drift h-full w-full object-cover"
       :style="{ opacity }"
     />
     <video
       v-else
       :key="current.src"
       ref="videoRef"
-      class="bg-layer__media h-full w-full object-cover"
+      class="bg-layer__media motion-safe-media-drift h-full w-full object-cover"
       :style="{ opacity }"
       autoplay
       muted
@@ -189,7 +189,6 @@ watch(
   }
 
   .bg-layer__media {
-    transform: scale(1.04);
     transition: opacity 1.2s ease;
   }
 }

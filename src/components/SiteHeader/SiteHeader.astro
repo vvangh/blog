@@ -44,6 +44,8 @@ const more = [
   <div class="page-shell py-2 md:py-3">
     <div class="site-header__frame">
       <div class="site-header__glass" aria-hidden="true"></div>
+      <!-- 边框柔光：正方形 conic 旋转；透明度跟 --header-lift，透明顶栏不露硬边 -->
+      <div class="site-header__sheen motion-safe-border-sheen" aria-hidden="true"></div>
       <div class="site-header__bar">
         <a
           href={localePath(locale)}

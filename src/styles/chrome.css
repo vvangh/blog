@@ -123,6 +123,12 @@
 
   .site-header__frame {
     position: relative;
+    border-radius: 9999px;
+  }
+
+  /* 流光叠在描边上、文字之下（不跟 lift 消隐，否则首页透明顶永远看不见） */
+  .site-header__sheen {
+    z-index: 1;
   }
 
   /*
@@ -217,7 +223,7 @@
 
   .site-header__bar {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: space-between;

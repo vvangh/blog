@@ -82,12 +82,22 @@
 
 @keyframes rise {
   from {
-    transform: translateY(1.25rem);
+    transform: translateY(1.75rem);
     opacity: 0.001;
   }
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+/* 首页壁纸极慢漂移：有呼吸感，不做强缩放 */
+@keyframes media-drift {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(-1.2%, -0.6%, 0);
   }
 }
 
@@ -124,7 +134,117 @@
 }
 
 .motion-safe-rise {
-  animation: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motion-safe-media-drift {
+  /* 首帧前先落到 from 缩放，避免 1.0 → 1.04 跳一下 */
+  transform: scale(1.04);
+  animation: media-drift 22s ease-in-out infinite alternate both;
+  will-change: transform;
+}
+
+/*
+ * 边框偶发柔光：正方形 conic 持续匀速转 + 透明度单独呼吸。
+ * 旋转与显隐拆开，避免「总在上边中点亮灭」（生硬感来源）。
+ */
+@keyframes border-sheen-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes border-sheen-fade {
+  /* 显隐相位错开整圈，亮起/熄灭不落在同一角度 */
+  0%,
+  42% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  68% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 0.75;
+  }
+  90%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.motion-safe-border-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.motion-safe-border-sheen::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(260%, 18rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 78%,
+    color-mix(in oklab, #fff 20%, transparent) 84%,
+    color-mix(in oklab, #fff 75%, transparent) 89%,
+    #fff 92%,
+    color-mix(in oklab, #fff 45%, transparent) 95%,
+    transparent 98% 100%
+  );
+  filter: drop-shadow(0 0 5px color-mix(in oklab, #fff 40%, transparent));
+  /* 转一圈 ~2.8s；显隐 ~7s，公约数小 → 每次亮起位置不同 */
+  animation:
+    border-sheen-spin 2.8s linear infinite,
+    border-sheen-fade 7s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 首屏绘制即可盖住：不依赖 Vue 岛 hydration */
+.splash-cover {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--hl-bg);
+  pointer-events: none;
+}
+
+html[data-splash="pending"] .splash-cover:not([hidden]) {
+  display: flex;
+}
+
+/*
+ * Splash 盖住首屏时，Hero/页脚入场先按住；data-splash=done 后再播，
+ * 避免「动画在遮罩后跑完、揭开后全是静帧」。
+ */
+html[data-splash="pending"] .home-hero .motion-safe-rise,
+html[data-splash="pending"] .motion-safe-rise--after-splash {
+  animation: none;
+  opacity: 0;
+  transform: translateY(1.75rem);
 }
 
 .motion-safe-glow {
@@ -190,8 +310,20 @@
   .motion-safe-rise,
   .motion-safe-glow,
   .motion-safe-underline,
+  .motion-safe-media-drift,
+  .motion-safe-border-sheen::before,
   .home-hero__cursor {
     animation: none !important;
+  }
+
+  .motion-safe-border-sheen::before {
+    opacity: 0 !important;
+  }
+
+  html[data-splash="pending"] .home-hero .motion-safe-rise,
+  html[data-splash="pending"] .motion-safe-rise--after-splash {
+    opacity: 1;
+    transform: none;
   }
 
   .motion-safe-nav-link,
@@ -202,7 +334,9 @@
   .motion-safe-panel:hover,
   .site-header,
   .site-header__frame,
-  .site-header__glass {
+  .site-header__glass,
+  .btn-cta,
+  .btn-ghost {
     transition: none !important;
     transform: none !important;
   }

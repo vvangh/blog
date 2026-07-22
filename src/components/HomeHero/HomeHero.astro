@@ -16,13 +16,13 @@ const { locale } = Astro.props;
 <section class="home-hero" aria-labelledby="hero-brand">
   <div class="home-hero__stage">
     <div class="page-shell home-hero__content">
-      <div class="motion-safe-rise" style="animation-delay: 0.05s">
+      <div class="motion-safe-rise" style="animation-delay: 0.08s">
         <p class="home-hero__eyebrow ink-invert">
           {translate(locale, "home.eyebrow")}
         </p>
       </div>
 
-      <div class="motion-safe-rise mt-5" style="animation-delay: 0.12s">
+      <div class="motion-safe-rise mt-5" style="animation-delay: 0.18s">
         <h1
           id="hero-brand"
           class="ink-invert brand-mark text-[clamp(4.25rem,15vw,8.5rem)]"
@@ -31,7 +31,7 @@ const { locale } = Astro.props;
         </h1>
       </div>
 
-      <div class="motion-safe-rise mt-7" style="animation-delay: 0.2s">
+      <div class="motion-safe-rise mt-7" style="animation-delay: 0.3s">
         <p
           class="max-w-lg text-[1.65rem] leading-snug font-medium tracking-tight md:text-[2rem]"
         >
@@ -40,13 +40,13 @@ const { locale } = Astro.props;
         </p>
       </div>
 
-      <div class="motion-safe-rise mt-4" style="animation-delay: 0.28s">
+      <div class="motion-safe-rise mt-4" style="animation-delay: 0.42s">
         <p class="home-hero__lead ink-invert">
           {translate(locale, "home.lead")}
         </p>
       </div>
 
-      <div class="motion-safe-rise mt-10 flex flex-wrap gap-3" style="animation-delay: 0.36s">
+      <div class="motion-safe-rise mt-10 flex flex-wrap gap-3" style="animation-delay: 0.54s">
         <a class="btn-cta" href={localePath(locale, "blog")}>
           {translate(locale, "nav.blog")}
         </a>

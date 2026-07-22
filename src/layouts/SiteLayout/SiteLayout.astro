@@ -7,6 +7,7 @@ import "@/styles/global.css";
 import { SITE_DESCRIPTION, SITE_NAME_ZH, SITE_TAGLINE } from "@/lib/site";
 import { getThemeBootScript } from "@/lib/theme";
 import { getA11yBootScript } from "@/lib/a11y";
+import { getSplashBootScript } from "@/lib/splash";
 import { DEFAULT_LOCALE, translate, type Locale } from "@/lib/i18n";
 import { absolutePageUrl, ogImagePath } from "@/lib/og";
 import { resolveCanonicalOrigin } from "@/lib/domains";
@@ -42,6 +43,7 @@ const pageTitle = title ? `${title} · ${SITE_NAME_ZH}` : `${SITE_NAME_ZH} · ${
 const base = import.meta.env.BASE_URL;
 const themeBoot = getThemeBootScript();
 const a11yBoot = getA11yBootScript();
+const splashBoot = getSplashBootScript();
 const year = new Date().getFullYear();
 const canonical = absolutePageUrl(Astro.url.pathname);
 const ogImageAbs = new URL(ogImagePath(ogSlug), resolveCanonicalOrigin()).href;
@@ -81,6 +83,7 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
     />
     <script is:inline set:html={themeBoot} />
     <script is:inline set:html={a11yBoot} />
+    <script is:inline set:html={splashBoot} />
     <Analytics />
   </head>
   <body class="min-h-screen font-sans antialiased">
@@ -96,6 +99,12 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
         nextLabel={translate(locale, "bg.next")}
         switcherLabel={translate(locale, "bg.switcher")}
       />
+      <!-- 静态遮罩：pending 时首屏即盖住，避免岛未挂载时 Hero 被压成空白 -->
+      <div class="splash-cover" data-splash-cover aria-hidden="true">
+        <p class="brand-mark text-6xl font-semibold text-hl-fg md:text-7xl">
+          {translate(locale, "splash.brand")}
+        </p>
+      </div>
       <SplashScreen
         client:load
         brand={translate(locale, "splash.brand")}
@@ -128,8 +137,9 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
         id="site-footer"
         class:list={[
           "site-footer page-shell scroll-mt-24",
-          isHome && "site-footer--on-media",
+          isHome && "site-footer--on-media motion-safe-rise motion-safe-rise--after-splash",
         ]}
+        style={isHome ? "animation-delay: 0.55s" : undefined}
         data-pagefind-ignore
       >
         <div class="site-footer__inner">
