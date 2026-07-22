@@ -144,9 +144,6 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
       >
         <div class="site-footer__inner">
           <div class="site-footer__row">
-            <p class:list={["site-footer__mark", isHome && "ink-invert"]}>
-              {SITE_NAME_ZH}
-            </p>
             <div class="site-footer__end">
               <NowPlaying locale={locale} onMedia={isHome} />
               <p class:list={["site-footer__meta", isHome && "ink-invert"]}>
@@ -161,6 +158,7 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
       <SiteFab
         client:load
         locale={locale}
+        hideTop={isHome}
         prefsTitle={translate(locale, "about.prefs")}
         prefsHint={translate(locale, "about.prefsHint")}
         prefsOpenLabel={translate(locale, "prefs.open")}

@@ -25,9 +25,11 @@ function sync() {
 
   let lift = 1;
   if (props.transparent) {
-    const hero = document.querySelector<HTMLElement>(".home-hero");
-    const span = Math.max(160, (hero?.offsetHeight ?? window.innerHeight) * 0.45);
-    lift = reduceMotion ? (window.scrollY > 24 ? 1 : 0) : clamp01(window.scrollY / span);
+    // 首页可滚距离≈页脚高度：按「露出页脚」的行程算 lift，轻滚即可起玻璃
+    const footer = document.querySelector<HTMLElement>("#site-footer");
+    const room = Math.max(0, (footer?.offsetTop ?? window.innerHeight) - window.innerHeight);
+    const span = Math.max(56, room + (footer?.offsetHeight ?? 48) * 0.65);
+    lift = reduceMotion ? (window.scrollY > 20 ? 1 : 0) : clamp01(window.scrollY / span);
   }
 
   header.style.setProperty("--header-lift", String(lift));

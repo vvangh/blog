@@ -124,6 +124,8 @@
   .site-header__frame {
     position: relative;
     border-radius: 9999px;
+    /* 裁切边框流光伪元素，否则大正方形会撑出横/纵滚动条 */
+    overflow: hidden;
   }
 
   /* 流光叠在描边上、文字之下（不跟 lift 消隐，否则首页透明顶永远看不见） */
@@ -280,7 +282,8 @@
   }
 
   .site-footer--on-media {
-    padding-block: 2rem 3rem;
+    /* 首页页脚只做轻收束，勿再堆大块留白 */
+    padding-block: 0.85rem 1.25rem;
   }
 
   .site-footer__inner {
@@ -296,18 +299,9 @@
     gap: 0.85rem 1.75rem;
   }
 
-  /* 页脚字标克制，不与 Hero 巨型 vv 抢戏 */
-  .site-footer__mark {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    color: var(--hl-fg);
-  }
-
   .site-footer__end {
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
     align-items: flex-start;
     gap: 0.55rem;
@@ -384,9 +378,5 @@
   /* 首页页脚叠壁纸：细线淡反差，勿铺白底 */
   .site-footer--on-media .site-footer__inner {
     border-top-color: color-mix(in oklab, #fff 22%, transparent);
-  }
-
-  .site-footer--on-media .site-footer__mark {
-    color: inherit;
   }
 }

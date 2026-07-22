@@ -120,6 +120,37 @@
     }
   }
 
+  /*
+   * 首页：首屏 = 纯 Hero（100dvh）；顶栏绝对定位不占流；
+   * 页脚在折线下方且很矮。轻滚即可抬玻璃，不会出现半屏空带。
+   */
+  .site-chrome--home .site-header {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .site-chrome--home .home-hero__stage {
+    min-height: 100dvh;
+    min-height: 100svh;
+    padding-block: 6.5rem 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .site-chrome--home .home-hero__stage {
+      padding-block: 7.5rem 2.25rem;
+    }
+  }
+
+  .site-chrome--home .site-footer--on-media {
+    padding-block: 0.65rem 1rem;
+  }
+
+  .site-chrome--home .site-footer__inner {
+    padding-top: 0.7rem;
+  }
+
   .home-hero__content {
     position: relative;
     z-index: 1;

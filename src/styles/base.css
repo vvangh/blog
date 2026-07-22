@@ -183,7 +183,9 @@
   inset: 0;
   border-radius: inherit;
   padding: 1.5px;
+  overflow: hidden;
   pointer-events: none;
+  contain: paint;
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);

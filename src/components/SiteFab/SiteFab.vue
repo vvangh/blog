@@ -11,30 +11,35 @@ import { A11ySettings } from "@/components/A11ySettings";
 import type { Locale } from "@/lib/i18n";
 import { closePrefs, openPrefs as openPrefsStore, prefsOpenStore } from "@/lib/stores";
 
-const props = defineProps<{
-  locale: Locale;
-  prefsTitle: string;
-  prefsHint: string;
-  prefsOpenLabel: string;
-  prefsCloseLabel: string;
-  topLabel: string;
-  helpTitle: string;
-  helpOpenLabel: string;
-  helpCloseLabel: string;
-  helpBody: string;
-  themeHeading: string;
-  themeHint: string;
-  langHeading: string;
-  langHint: string;
-  langSwitched: string;
-  densityHeading: string;
-  densityHint: string;
-  comfortableLabel: string;
-  defaultLabel: string;
-  contrastHeading: string;
-  contrastOn: string;
-  contrastOff: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    locale: Locale;
+    /** 首页等短屏：不展示回顶（首屏即品牌区，无需「回到顶部」） */
+    hideTop?: boolean;
+    prefsTitle: string;
+    prefsHint: string;
+    prefsOpenLabel: string;
+    prefsCloseLabel: string;
+    topLabel: string;
+    helpTitle: string;
+    helpOpenLabel: string;
+    helpCloseLabel: string;
+    helpBody: string;
+    themeHeading: string;
+    themeHint: string;
+    langHeading: string;
+    langHint: string;
+    langSwitched: string;
+    densityHeading: string;
+    densityHint: string;
+    comfortableLabel: string;
+    defaultLabel: string;
+    contrastHeading: string;
+    contrastOn: string;
+    contrastOff: string;
+  }>(),
+  { hideTop: false },
+);
 
 /** 跨岛共享：其它岛也可 openPrefsStore() 打开设置 */
 const prefsOpen = useStore(prefsOpenStore);
@@ -50,7 +55,13 @@ function isTypingTarget(el: EventTarget | null): boolean {
 }
 
 function onScroll(): void {
-  showTop.value = window.scrollY > 480;
+  if (props.hideTop) {
+    showTop.value = false;
+    return;
+  }
+  // 页面几乎不可滚时也不露回顶，避免短页误显
+  const room = document.documentElement.scrollHeight - window.innerHeight;
+  showTop.value = room > 240 && window.scrollY > 480;
 }
 
 function scrollTop(): void {
@@ -130,7 +141,7 @@ onUnmounted(() => {
         <span aria-hidden="true" class="text-base leading-none">⚙</span>
       </button>
       <button
-        v-show="showTop"
+        v-show="!props.hideTop && showTop"
         type="button"
         class="glass-chip inline-flex min-h-11 min-w-11 items-center justify-center text-sm font-semibold text-hl-fg transition hover:text-hl-accent"
         :aria-label="props.topLabel"
