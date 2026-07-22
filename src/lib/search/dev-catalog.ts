@@ -4,7 +4,6 @@
  * 本文件含 astro:content，禁止被 Vue 岛直接 import。
  */
 import { getCollection } from "astro:content";
-import { publishedSorted } from "@/content/_helpers";
 import { localePath, translate, type Locale, type MessageKey } from "@/lib/i18n";
 import type { DevSearchEntry } from "./types";
 
@@ -40,32 +39,70 @@ function staticPages(locale: Locale): DevSearchEntry[] {
   }));
 }
 
-function pushEntries(
-  out: DevSearchEntry[],
-  locale: Locale,
-  collection: keyof typeof COLLECTION_PATH,
-  entries: Array<{ id: string; data: { title: string; description?: string } }>,
-): void {
-  const segment = COLLECTION_PATH[collection];
-  for (const entry of entries) {
-    out.push({
-      id: `${collection}:${locale}:${entry.id}`,
-      url: localePath(locale, `${segment}/${entry.id}`),
-      title: entry.data.title,
-      excerpt: entry.data.description ?? "",
-    });
-  }
-}
-
 /** @param locale 只编当前语言目录，减轻噪音与体积 */
 export async function buildDevSearchCatalog(locale: Locale): Promise<DevSearchEntry[]> {
   const out: DevSearchEntry[] = [...staticPages(locale)];
 
-  // 字面量分别取集：避免 getCollection(变量) 被 tsgolint 收成无 title 的交叉类型
-  pushEntries(out, locale, "blog", publishedSorted(await getCollection("blog")));
-  pushEntries(out, locale, "build-log", publishedSorted(await getCollection("build-log")));
-  pushEntries(out, locale, "life", publishedSorted(await getCollection("life")));
-  pushEntries(out, locale, "fun", publishedSorted(await getCollection("fun")));
+  /*
+   * 不用 publishedSorted（CI tsgolint 会收成 DatedEntry[]），
+   * 也不在循环里 getCollection(变量)（交叉类型无 title）。四集合分开写。
+   */
+  {
+    const segment = COLLECTION_PATH.blog;
+    const entries = (await getCollection("blog"))
+      .filter((entry) => entry.data.draft !== true)
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    for (const entry of entries) {
+      out.push({
+        id: `blog:${locale}:${entry.id}`,
+        url: localePath(locale, `${segment}/${entry.id}`),
+        title: entry.data.title,
+        excerpt: entry.data.description ?? "",
+      });
+    }
+  }
+  {
+    const segment = COLLECTION_PATH["build-log"];
+    const entries = (await getCollection("build-log"))
+      .filter((entry) => entry.data.draft !== true)
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    for (const entry of entries) {
+      out.push({
+        id: `build-log:${locale}:${entry.id}`,
+        url: localePath(locale, `${segment}/${entry.id}`),
+        title: entry.data.title,
+        excerpt: entry.data.description ?? "",
+      });
+    }
+  }
+  {
+    const segment = COLLECTION_PATH.life;
+    const entries = (await getCollection("life"))
+      .filter((entry) => entry.data.draft !== true)
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    for (const entry of entries) {
+      out.push({
+        id: `life:${locale}:${entry.id}`,
+        url: localePath(locale, `${segment}/${entry.id}`),
+        title: entry.data.title,
+        excerpt: entry.data.description ?? "",
+      });
+    }
+  }
+  {
+    const segment = COLLECTION_PATH.fun;
+    const entries = (await getCollection("fun"))
+      .filter((entry) => entry.data.draft !== true)
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    for (const entry of entries) {
+      out.push({
+        id: `fun:${locale}:${entry.id}`,
+        url: localePath(locale, `${segment}/${entry.id}`),
+        title: entry.data.title,
+        excerpt: entry.data.description ?? "",
+      });
+    }
+  }
 
   return out;
 }
