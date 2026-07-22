@@ -141,12 +141,17 @@ export default defineConfig({
     plugins: [
       tailwindcss(),
       AutoImport({
-        imports: ["vue"],
+        imports: ["vue", "@vueuse/core"],
+        dirs: [path.resolve(srcDir, "composables")],
         dts: path.resolve(srcDir, "auto-imports.d.ts"),
         vueTemplate: true,
       }),
       Components({
-        dirs: [path.resolve(srcDir, "components")],
+        dirs: [
+          path.resolve(srcDir, "components"),
+          path.resolve(srcDir, "components/ui"),
+          path.resolve(srcDir, "components/molecules"),
+        ],
         extensions: ["vue"],
         dts: path.resolve(srcDir, "components.d.ts"),
         include: [/\.vue$/, /\.vue\?vue/],

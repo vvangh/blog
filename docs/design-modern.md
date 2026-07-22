@@ -19,15 +19,16 @@
 
 ## 关键词
 
-| 要                                         | 不要                                       |
-| ------------------------------------------ | ------------------------------------------ |
-| 近白 `#fbfbfd` / 纯黑画布 + 链接蓝强调     | 信号橙、石墨网格纸                         |
-| Instrument Sans + Noto Sans SC             | Syne 厚重展示 / Inter                      |
-| 全出血壁纸 + `ink-invert` 自动反色字       | 整页白蒙 / 大块琉璃卡片挡壁纸 / 海岸线波浪 |
-| 顶栏透明→磨砂双态；导航 hover 细线         | emoji 导航墙、热度火苗堆叠                 |
-| 首页仅 Hero + 页脚；列表页再用 `home-deck` | Element Plus 等重型后台 UI 库挡品牌        |
-| Lucide（`@lucide/vue`）作图标源            | emoji / 字符凑合当图标；全站粒子特效库     |
-| `prefers-reduced-motion` 降级              | 全站粒子与入场轰炸                         |
+| 要                                                            | 不要                                        |
+| ------------------------------------------------------------- | ------------------------------------------- |
+| 近白 `#fbfbfd` / 纯黑画布 + 链接蓝强调                        | 信号橙、石墨网格纸                          |
+| Instrument Sans + Noto Sans SC                                | Syne 厚重展示 / Inter                       |
+| 全出血壁纸 + `ink-invert` 自动反色字                          | 整页白蒙 / 大块琉璃卡片挡壁纸 / 海岸线波浪  |
+| 顶栏透明→磨砂双态；导航 hover 细线                            | emoji 导航墙、热度火苗堆叠                  |
+| 首页仅 Hero + 页脚；列表页再用 `home-deck`                    | Element Plus 等重型后台 UI 库挡品牌         |
+| Lucide（`@lucide/vue`）作图标源                               | emoji / 字符凑合当图标；全站粒子特效库      |
+| 其它页 UI：shadcn-vue 原子 + molecules（见 `docs/ui-kit.md`） | Element Plus / 未对齐 `--hl-*` 的第二套色板 |
+| `prefers-reduced-motion` 降级                                 | 全站粒子与入场轰炸                          |
 
 ## 色板（CSS 令牌）
 

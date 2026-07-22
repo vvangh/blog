@@ -1,0 +1,76 @@
+/*
+ * shadcn-vue（reka-nova）语义色 → 映射到 vv Air 的 --hl-*，避免第二套色板。
+ * 组件类名用 bg-primary / text-muted-foreground 等；视觉真相源仍是 tokens.css。
+ */
+
+@import "tw-animate-css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root,
+[data-theme="light"] {
+  --radius: 0.75rem;
+  --background: var(--hl-bg);
+  --foreground: var(--hl-fg);
+  --card: var(--hl-panel);
+  --card-foreground: var(--hl-fg);
+  --popover: var(--hl-panel);
+  --popover-foreground: var(--hl-fg);
+  /* 主按钮对齐墨色 CTA，链接蓝仍用 text-hl-accent */
+  --primary: var(--hl-cta-bg);
+  --primary-foreground: var(--hl-cta-fg);
+  --secondary: var(--hl-soft);
+  --secondary-foreground: var(--hl-fg);
+  --muted: var(--hl-soft);
+  --muted-foreground: var(--hl-muted);
+  --accent: var(--hl-soft);
+  --accent-foreground: var(--hl-fg);
+  --destructive: #c43b3b;
+  --border: var(--hl-border);
+  --input: var(--hl-border);
+  --ring: var(--hl-focus);
+}
+
+[data-theme="dark"] {
+  --background: var(--hl-bg);
+  --foreground: var(--hl-fg);
+  --card: var(--hl-panel);
+  --card-foreground: var(--hl-fg);
+  --popover: var(--hl-panel);
+  --popover-foreground: var(--hl-fg);
+  --primary: var(--hl-cta-bg);
+  --primary-foreground: var(--hl-cta-fg);
+  --secondary: var(--hl-soft);
+  --secondary-foreground: var(--hl-fg);
+  --muted: var(--hl-soft);
+  --muted-foreground: var(--hl-muted);
+  --accent: var(--hl-soft);
+  --accent-foreground: var(--hl-fg);
+  --destructive: #ff6b6b;
+  --border: var(--hl-border);
+  --input: var(--hl-border);
+  --ring: var(--hl-focus);
+}

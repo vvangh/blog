@@ -4,10 +4,12 @@
  * 偏好不再占用独立页面，避免「博客像后台」的观感。
  */
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { useStore } from "@nanostores/vue";
 import { ThemeSettings } from "@/components/ThemeSettings";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { A11ySettings } from "@/components/A11ySettings";
 import type { Locale } from "@/lib/i18n";
+import { closePrefs, openPrefs as openPrefsStore, prefsOpenStore } from "@/lib/stores";
 
 const props = defineProps<{
   locale: Locale;
@@ -34,7 +36,8 @@ const props = defineProps<{
   contrastOff: string;
 }>();
 
-const prefsOpen = ref(false);
+/** 跨岛共享：其它岛也可 openPrefsStore() 打开设置 */
+const prefsOpen = useStore(prefsOpenStore);
 const helpOpen = ref(false);
 const showTop = ref(false);
 
@@ -57,16 +60,16 @@ function scrollTop(): void {
 
 function openPrefs(): void {
   helpOpen.value = false;
-  prefsOpen.value = true;
+  openPrefsStore();
 }
 
 function openHelp(): void {
-  prefsOpen.value = false;
+  closePrefs();
   helpOpen.value = true;
 }
 
 function closeAll(): void {
-  prefsOpen.value = false;
+  closePrefs();
   helpOpen.value = false;
 }
 
@@ -142,7 +145,7 @@ onUnmounted(() => {
       v-if="prefsOpen"
       class="fixed inset-0 z-[60] flex justify-end bg-black/40"
       role="presentation"
-      @click.self="prefsOpen = false"
+      @click.self="closePrefs"
     >
       <aside
         role="dialog"
@@ -162,7 +165,7 @@ onUnmounted(() => {
           <button
             type="button"
             class="inline-flex min-h-10 shrink-0 items-center rounded-full border border-hl-border px-3 text-sm hover:border-hl-accent hover:text-hl-accent"
-            @click="prefsOpen = false"
+            @click="closePrefs"
           >
             {{ props.prefsCloseLabel }}
           </button>

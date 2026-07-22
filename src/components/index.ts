@@ -1,6 +1,9 @@
 /**
  * `@/components` 顶层 barrel。
+ * UI 原子 / 分子请优先从 `@/components/ui`、`@/components/molecules` 导入。
  */
+export * from "./ui";
+export * from "./molecules";
 export * from "./Analytics";
 export * from "./A11yCheatsheet";
 export * from "./A11ySettings";
