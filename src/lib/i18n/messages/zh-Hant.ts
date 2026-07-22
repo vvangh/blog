@@ -132,5 +132,5 @@ export const zhHant: Catalog = {
   "newsletter.email": "電子郵件",
   "newsletter.submit": "訂閱",
   "newsletter.privacy": "僅用於發送更新，可隨時退訂。",
-  "newsletter.disabled": "訂閱端點未設定，請先看 docs/newsletter.md。",
+  "newsletter.disabled": "訂閱端點未設定，請先看 docs/接入/邮件订阅.md。",
 };

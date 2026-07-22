@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## BACKLOG
 
-- 想法真相源：`docs/BACKLOG.md`
+- 想法真相源：`docs/产品/想法清单.md`
 - **未**改为 `planned`（并写入里程碑）前 **不实现**
 - 骨架能力（webmentions / newsletter / 独立域名）缺外部账号时只维护文档与开关，勿假装已接通
 

@@ -1,12 +1,12 @@
 ---
 description: vv UI 原子化分层：shadcn-vue / molecules / 业务岛、令牌与状态约定
-globs: src/components/**/*,src/composables/**/*,docs/ui-kit.md,components.json
+globs: src/components/**/*,src/composables/**/*,docs/设计/UI组件约定.md,components.json
 alwaysApply: false
 ---
 
 # vv · UI 原子化与组件底座
 
-详细说明见 `docs/ui-kit.md`。改 UI / 新增组件时必须遵守。
+详细说明见 `docs/设计/UI组件约定.md`。改 UI / 新增组件时必须遵守。
 
 ## 分层（禁止反向依赖）
 
@@ -42,7 +42,7 @@ alwaysApply: false
 - **禁止**在 `.vue` / 岛内 composable 手写：`import { ref, computed, onMounted, … } from "vue"`
 - **禁止**手写：`import { onClickOutside, useX, … } from "@vueuse/core"`（已在 presets 内的一律直接用）
 - **允许**：`import type { … } from "vue"`（仅类型）；业务 `@/`、图标 `@lucide/vue`、`@nanostores/vue` 等非 presets 依赖仍显式导入
-- 生成类型：`src/auto-imports.d.ts`（gitignore；`vp run dev` / `build` 会写出）
+- 生成类型：`src/types/auto-imports.d.ts`（gitignore；`vp run dev` / `build` 会写出）
 
 ## 封装习惯
 

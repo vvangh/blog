@@ -11,7 +11,7 @@ export type DomainConfig = {
 };
 
 /**
- * 静态配置：填好后配合 docs/custom-domains.md 与 CI/DNS。
+ * 静态配置：填好后配合 docs/接入/自定义域名.md 与 CI/DNS。
  * 未配置时 absolute URL 仍用 GitHub Pages 源。
  */
 export const DOMAIN_CONFIG: DomainConfig = {

@@ -10,7 +10,7 @@ description: >-
 
 ## 开工前
 
-1. 确认 `docs/BACKLOG.md` 已 `planned`（或用户明确授权例外）
+1. 确认 `docs/产品/想法清单.md` 已 `planned`（或用户明确授权例外）
 2. 读规则：`henglu-blog-ui-kit`、`henglu-blog-astro-islands`、`henglu-blog-i18n-routing`
 3. Vue 岛改动前可读外部 `jeffallan-claude-skills-vue-expert`（若环境有）
 

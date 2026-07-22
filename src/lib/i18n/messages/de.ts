@@ -132,5 +132,5 @@ export const de: Catalog = {
   "newsletter.email": "Email",
   "newsletter.submit": "Subscribe",
   "newsletter.privacy": "Used only for updates; unsubscribe anytime.",
-  "newsletter.disabled": "Subscribe endpoint missing — see docs/newsletter.md.",
+  "newsletter.disabled": "Subscribe endpoint missing — see docs/接入/邮件订阅.md.",
 };

@@ -22,7 +22,7 @@ vv 是 vvangh 的个人站点：写技术、记生活、收藏一点娱乐；并
 - **Node：** 当前最新 LTS，由 `vp env pin lts --target dev-engines` 写入 `package.json#devEngines.runtime`（现为 **24.18.0**）；可选 `engines.node` 作消费者下限。**不使用** `.node-version`。
 - **依赖：** 安装/升级取当前最新稳定版；Vue 固定 **3.5.x** 稳定线（`~3.5`），不上 3.6 RC。
 - **导入：** 优先 `@/`（→ `src/`）与 `~/`（→ 项目根）；目录外经 barrel，禁止 `../../../` 深层相对路径。
-- **生成类型：** `src/auto-imports.d.ts` / `src/components.d.ts` 由 unplugin 在 `vp run dev` / `vp run build` 时写出，已 gitignore，勿提交。
+- **生成类型：** `src/types/auto-imports.d.ts` / `src/types/components.d.ts` 由 unplugin 在 `vp run dev` / `vp run build` 时写出，已 gitignore，勿提交。
 
 ## 本地开发
 
@@ -49,7 +49,7 @@ Astro 业务命令一律用 `vp run <script>`，不要对 Astro 使用裸 `vp de
 
 约定：日常在 `develop` 推代码只会跑 CI；合入 / 推到 `main` 才部署。仓库 Settings → Pages → Source 需选 **GitHub Actions**。
 
-换行：仓库统一 **LF**（见 `.gitattributes`）；Windows 请避免把 CRLF 提交进仓，否则 CI 上 `vp check` 会因格式检查失败。
+换行：仓库统一 **LF**（见 `.gitattributes` + `.editorconfig`）；Windows 请避免把 CRLF 提交进仓，否则 CI 上 `vp check` 会因格式检查失败。
 
 ## 分支与里程碑
 
@@ -60,7 +60,7 @@ Astro 业务命令一律用 `vp run <script>`，不要对 Astro 使用裸 `vp de
 
 ## 想法清单
 
-尚未排期的想法见 [`docs/BACKLOG.md`](docs/BACKLOG.md)。未升格为 `planned` 前不实现。
+尚未排期的想法见 [`docs/产品/想法清单.md`](docs/产品/想法清单.md)。未升格为 `planned` 前不实现。
 
 ## 许可
 

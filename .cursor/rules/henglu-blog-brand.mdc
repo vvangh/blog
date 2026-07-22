@@ -1,12 +1,12 @@
 ---
 description: vv Air 品牌与视觉硬约束（首屏、字体例外、动效克制）
-globs: src/styles/**/*,src/layouts/**/*,src/components/HomeHero/**/*,src/components/BackgroundLayer/**/*,src/components/SiteHeader/**/*,docs/design-modern.md
+globs: src/styles/**/*,src/layouts/**/*,src/components/HomeHero/**/*,src/components/BackgroundLayer/**/*,src/components/SiteHeader/**/*,docs/设计/现代视觉.md
 alwaysApply: false
 ---
 
 # vv · vv Air 视觉
 
-真相源：`docs/design-modern.md` + `src/styles/tokens.css`。  
+真相源：`docs/设计/现代视觉.md` + `src/styles/tokens.css`。  
 组件分层与交互控件约定 → 见 `henglu-blog-ui-kit`，此处不重复。
 
 ## 品牌信号

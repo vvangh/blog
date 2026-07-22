@@ -89,7 +89,7 @@ const webmentionEndpoint = resolveWebmentionEndpoint(readWebmentionEnvFromImport
   <body class="min-h-screen font-sans antialiased">
     <!--
       壁纸放进 .site-chrome，与文案同层，ink-invert（difference）才能混到壁纸。
-      壁纸须非负 z-index（见 docs/background.md）。
+      壁纸须非负 z-index（见 docs/设计/壁纸背景.md）。
     -->
     <div class:list={["site-chrome relative z-10", isHome && "site-chrome--home"]}>
       <BackgroundLayer

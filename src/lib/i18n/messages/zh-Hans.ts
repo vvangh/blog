@@ -130,5 +130,5 @@ export const zhHans: Catalog = {
   "newsletter.email": "邮箱",
   "newsletter.submit": "订阅",
   "newsletter.privacy": "仅用于发送更新，可随时退订。",
-  "newsletter.disabled": "订阅端点未配置，请先看 docs/newsletter.md。",
+  "newsletter.disabled": "订阅端点未配置，请先看 docs/接入/邮件订阅.md。",
 };
