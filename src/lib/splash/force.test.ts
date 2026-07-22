@@ -2,7 +2,7 @@
  * Splash 强制展示规则单测。
  */
 import { describe, expect, it } from "vite-plus/test";
-import { parseSplashQuery, shouldForceSplashShow } from "./force";
+import { parseSplashQuery, shouldForceSplashShow, shouldSkipSplashShow } from "./force";
 
 describe("parseSplashQuery", () => {
   it("识别强制与关闭", () => {
@@ -26,5 +26,14 @@ describe("shouldForceSplashShow", () => {
   it("?splash=0 不强制", () => {
     expect(shouldForceSplashShow(true, "?splash=0")).toBe(false);
     expect(shouldForceSplashShow(false, "?splash=0")).toBe(false);
+  });
+});
+
+describe("shouldSkipSplashShow", () => {
+  it("仅 ?splash=0 / off 跳过", () => {
+    expect(shouldSkipSplashShow("")).toBe(false);
+    expect(shouldSkipSplashShow("?splash=1")).toBe(false);
+    expect(shouldSkipSplashShow("?splash=0")).toBe(true);
+    expect(shouldSkipSplashShow("?splash=off")).toBe(true);
   });
 });

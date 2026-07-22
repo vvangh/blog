@@ -11,6 +11,7 @@ import {
   SPLASH_EXIT_MS,
   SPLASH_STORAGE_KEY,
   shouldForceSplashShow,
+  shouldSkipSplashShow,
 } from "@/lib/splash";
 
 const props = defineProps<{
@@ -24,9 +25,9 @@ const exiting = ref(false);
 let choreoTimer: ReturnType<typeof setTimeout> | undefined;
 let exitTimer: ReturnType<typeof setTimeout> | undefined;
 
-const forceShow = import.meta.env.SSR
-  ? false
-  : shouldForceSplashShow(import.meta.env.DEV, window.location.search);
+const search = import.meta.env.SSR ? "" : window.location.search;
+const forceShow = import.meta.env.SSR ? false : shouldForceSplashShow(import.meta.env.DEV, search);
+const skipShow = import.meta.env.SSR ? false : shouldSkipSplashShow(search);
 
 /** 拆成单字，便于双翼合拢；品牌一般为 vv */
 const glyphs = computed(() => Array.from(props.brand));
@@ -76,6 +77,16 @@ function dismiss() {
 }
 
 onMounted(() => {
+  if (skipShow) {
+    try {
+      sessionStorage.setItem(SPLASH_STORAGE_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+    markSplashDone();
+    return;
+  }
+
   if (!forceShow) {
     try {
       if (sessionStorage.getItem(SPLASH_STORAGE_KEY) === "1") {
