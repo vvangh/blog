@@ -133,6 +133,17 @@
   }
 }
 
+/* 页脚顶部分隔线：透明度轻起伏，像缓慢呼吸 */
+@keyframes footer-rule-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .motion-safe-rise {
   animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -439,7 +450,8 @@ html[data-splash="pending"] .motion-safe-rise--after-splash {
   .site-header__v--a,
   .site-header__v--b,
   .home-hero__cursor,
-  .site-fab__gear {
+  .site-fab__gear,
+  .site-footer__inner::before {
     animation: none !important;
   }
 

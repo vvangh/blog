@@ -420,8 +420,21 @@
   }
 
   .site-footer__inner {
-    border-top: 1px solid color-mix(in oklab, var(--hl-fg) 8%, transparent);
+    position: relative;
+    /* 分隔线改走 ::before，便于做透明度呼吸；勿再用 border-top */
+    border-top: none;
     padding-top: 1.35rem;
+  }
+
+  .site-footer__inner::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    pointer-events: none;
+    background: color-mix(in oklab, var(--hl-fg) 22%, transparent);
+    animation: footer-rule-breathe 5.2s ease-in-out infinite;
   }
 
   .site-footer__row {
@@ -939,7 +952,7 @@
   }
 
   /* 首页页脚叠壁纸：细线淡反差，勿铺白底 */
-  .site-footer--on-media .site-footer__inner {
-    border-top-color: color-mix(in oklab, #fff 22%, transparent);
+  .site-footer--on-media .site-footer__inner::before {
+    background: color-mix(in oklab, #fff 42%, transparent);
   }
 }
