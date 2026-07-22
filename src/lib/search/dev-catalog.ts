@@ -4,17 +4,11 @@
  * 本文件含 astro:content，禁止被 Vue 岛直接 import。
  */
 import { getCollection } from "astro:content";
+import { publishedSorted } from "@/content/_helpers";
 import { localePath, translate, type Locale, type MessageKey } from "@/lib/i18n";
 import type { DevSearchEntry } from "./types";
 
 export type { DevSearchEntry };
-
-const COLLECTION_PATH: Record<"blog" | "build-log" | "life" | "fun", string> = {
-  blog: "blog",
-  "build-log": "build",
-  life: "life",
-  fun: "fun",
-};
 
 /** 静态频道页（仅当前语言，避免结果里刷出 zh-Hans 等噪音） */
 function staticPages(locale: Locale): DevSearchEntry[] {
@@ -43,65 +37,37 @@ function staticPages(locale: Locale): DevSearchEntry[] {
 export async function buildDevSearchCatalog(locale: Locale): Promise<DevSearchEntry[]> {
   const out: DevSearchEntry[] = [...staticPages(locale)];
 
-  /*
-   * 不用 publishedSorted（CI tsgolint 会收成 DatedEntry[]），
-   * 也不在循环里 getCollection(变量)（交叉类型无 title）。四集合分开写。
-   */
-  {
-    const segment = COLLECTION_PATH.blog;
-    const entries = (await getCollection("blog"))
-      .filter((entry) => entry.data.draft !== true)
-      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-    for (const entry of entries) {
-      out.push({
-        id: `blog:${locale}:${entry.id}`,
-        url: localePath(locale, `${segment}/${entry.id}`),
-        title: entry.data.title,
-        excerpt: entry.data.description ?? "",
-      });
-    }
+  for (const entry of publishedSorted(await getCollection("blog"))) {
+    out.push({
+      id: `blog:${locale}:${entry.id}`,
+      url: localePath(locale, `blog/${entry.id}`),
+      title: entry.data.title,
+      excerpt: entry.data.description ?? "",
+    });
   }
-  {
-    const segment = COLLECTION_PATH["build-log"];
-    const entries = (await getCollection("build-log"))
-      .filter((entry) => entry.data.draft !== true)
-      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-    for (const entry of entries) {
-      out.push({
-        id: `build-log:${locale}:${entry.id}`,
-        url: localePath(locale, `${segment}/${entry.id}`),
-        title: entry.data.title,
-        excerpt: entry.data.description ?? "",
-      });
-    }
+  for (const entry of publishedSorted(await getCollection("build-log"))) {
+    out.push({
+      id: `build-log:${locale}:${entry.id}`,
+      url: localePath(locale, `build/${entry.id}`),
+      title: entry.data.title,
+      excerpt: entry.data.description ?? "",
+    });
   }
-  {
-    const segment = COLLECTION_PATH.life;
-    const entries = (await getCollection("life"))
-      .filter((entry) => entry.data.draft !== true)
-      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-    for (const entry of entries) {
-      out.push({
-        id: `life:${locale}:${entry.id}`,
-        url: localePath(locale, `${segment}/${entry.id}`),
-        title: entry.data.title,
-        excerpt: entry.data.description ?? "",
-      });
-    }
+  for (const entry of publishedSorted(await getCollection("life"))) {
+    out.push({
+      id: `life:${locale}:${entry.id}`,
+      url: localePath(locale, `life/${entry.id}`),
+      title: entry.data.title,
+      excerpt: entry.data.description ?? "",
+    });
   }
-  {
-    const segment = COLLECTION_PATH.fun;
-    const entries = (await getCollection("fun"))
-      .filter((entry) => entry.data.draft !== true)
-      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-    for (const entry of entries) {
-      out.push({
-        id: `fun:${locale}:${entry.id}`,
-        url: localePath(locale, `${segment}/${entry.id}`),
-        title: entry.data.title,
-        excerpt: entry.data.description ?? "",
-      });
-    }
+  for (const entry of publishedSorted(await getCollection("fun"))) {
+    out.push({
+      id: `fun:${locale}:${entry.id}`,
+      url: localePath(locale, `fun/${entry.id}`),
+      title: entry.data.title,
+      excerpt: entry.data.description ?? "",
+    });
   }
 
   return out;

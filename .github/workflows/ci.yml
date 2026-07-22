@@ -34,6 +34,10 @@ jobs:
           cache: true
           run-install: true
 
+      # CI 干净仓无 .astro 生成物；先 sync 再 check，否则 getCollection 类型缺失
+      - name: Sync Astro types
+        run: vp exec astro sync
+
       - name: Check
         run: |
           set -euo pipefail
