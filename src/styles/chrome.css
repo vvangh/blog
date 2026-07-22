@@ -53,6 +53,7 @@
   /* 顶栏外壳透明；玻璃在并列层 .site-header__glass，勿包住文字冒泡 backdrop-filter */
   .site-header {
     --header-lift: 0;
+    /* 须始终高于 main/Hero：透明态若 z-index:auto，后续同层 Hero 会吞掉顶栏点击 */
     z-index: 40;
     border: none;
     background: transparent;
@@ -61,16 +62,7 @@
     -webkit-backdrop-filter: none;
   }
 
-  /*
-   * 首屏透明时勿抬 z-index，避免 ink-invert 混不到壁纸。
-   * 开搜 / 展开「更多」时必须抬层，否则 main/Hero 会盖住下拉并吞掉点击。
-   */
-  .site-header.site-header--transparent:not(.is-scrolled):not(.is-search-open):not(
-    :has(details[open])
-  ) {
-    z-index: auto;
-  }
-
+  /* 开搜 / 展开「更多」再抬一层，盖住页面其它浮层 */
   .site-header.is-search-open,
   .site-header:has(details[open]) {
     z-index: 80;
