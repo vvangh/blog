@@ -25,3 +25,6 @@ export * from "./newsletter";
 export * from "./domains";
 export * from "./utils";
 export * from "./stores";
+export type { DevSearchEntry } from "./search/types";
+export { filterDevCatalog } from "./search/filter";
+/** buildDevSearchCatalog 含 astro:content，请从 `@/lib/search` 或 `@/lib/search/dev-catalog` 在 .astro 中导入 */

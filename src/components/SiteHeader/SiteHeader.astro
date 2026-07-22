@@ -5,6 +5,7 @@
  */
 import { SITE_NAME_ZH } from "@/lib/site";
 import { localePath, translate, type Locale } from "@/lib/i18n";
+import { buildDevSearchCatalog } from "@/lib/search";
 import { SiteSearch } from "@/components/SiteSearch";
 import HeaderScrollState from "./HeaderScrollState.vue";
 
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const { locale, transparent = false } = Astro.props;
+/** 开发态所见即所得：仅当前语言目录，避免多语言噪音 */
+const devCatalog = import.meta.env.DEV ? await buildDevSearchCatalog(locale) : [];
 /** 主导航：频道入口；「从零到一」是系列，放更多里不单拎 */
 const primary = [
   { href: localePath(locale, "blog"), label: translate(locale, "nav.blog") },
@@ -118,7 +121,8 @@ const more = [
             placeholder={translate(locale, "search.placeholder")}
             empty={translate(locale, "search.empty")}
             noIndex={translate(locale, "search.noIndex")}
-            closeLabel={translate(locale, "search.close")}
+            clearLabel={translate(locale, "search.clear")}
+            devCatalog={devCatalog}
           />
         </div>
       </div>

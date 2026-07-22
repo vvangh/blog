@@ -41,6 +41,59 @@
   }
 
   /*
+   * 搜索弹层：墨色 Spotlight（叠壁纸不「粉笔白」）。
+   * 字色/边框用面板内变量；强调用暗色主题链接蓝 #2997ff。
+   * 遮罩不模糊（组件里只铺半透明黑）。
+   */
+  .site-search-panel {
+    --search-fg: #f5f5f7;
+    --search-muted: color-mix(in oklab, #f5f5f7 52%, transparent);
+    --search-line: color-mix(in oklab, #fff 10%, transparent);
+    --search-accent: #2997ff;
+    border: 1px solid var(--search-line);
+    background: color-mix(in oklab, #1d1d1f 94%, #000 6%);
+    color: var(--search-fg);
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, #fff 8%, transparent),
+      0 28px 72px -24px color-mix(in oklab, #000 65%, transparent);
+  }
+
+  .site-search-panel input {
+    color: var(--search-fg);
+    caret-color: var(--search-accent);
+  }
+
+  .site-search-panel input::placeholder {
+    color: var(--search-muted);
+  }
+
+  .site-search-panel .site-search-muted {
+    color: var(--search-muted);
+  }
+
+  .site-search-panel .site-search-clear:hover {
+    background: color-mix(in oklab, #fff 10%, transparent);
+    color: var(--search-fg);
+  }
+
+  /* 选中/悬停：中性浅铺，不用链接蓝淡铺（叠墨色面板发飘） */
+  .site-search-hit.is-active,
+  .site-search-hit:hover {
+    background: color-mix(in oklab, #fff 9%, transparent);
+  }
+
+  .site-search-excerpt {
+    color: var(--search-muted);
+  }
+
+  .site-search-excerpt mark {
+    border-radius: 0.2rem;
+    background: color-mix(in oklab, #fff 16%, transparent);
+    color: inherit;
+    padding: 0 0.15em;
+  }
+
+  /*
    * 自动反色：源色固定为白，由 mix-blend-mode: difference 与背后像素做差值。
    * 亮底→深字、暗底→浅字；不是写死的 #fff/#000 展示色。
    * 父级勿 isolation: isolate，且壁纸须与文字同属 .site-chrome。

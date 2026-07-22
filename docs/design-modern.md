@@ -49,6 +49,8 @@
 
 `.ink-invert` = 源色 `#fff` + `mix-blend-mode: difference`：与背后像素做差值，亮底变深、暗底变浅——**不是**固定展示成白色。壁纸须与文字同属 `.site-chrome`。
 
+搜索弹层（Ctrl+K）：墨色 Spotlight（`.site-search-panel`）+ 半透明黑遮罩（**不** blur）；选中行用中性浅铺（白 9%），不用链接蓝淡铺。
+
 ## Figma
 
 - 文件：[vv Air · Brand Redesign](https://www.figma.com/design/TPrsAJ7W3qDTz4N0AN0i5O)

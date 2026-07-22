@@ -50,6 +50,7 @@ export type MessageKey =
   | "search.title"
   | "search.placeholder"
   | "search.empty"
+  | "search.clear"
   | "search.noIndex"
   | "search.close"
   | "about.title"
@@ -172,7 +173,8 @@ const zhHans: Catalog = {
   "search.title": "搜索站点",
   "search.placeholder": "搜索文章与页面…",
   "search.empty": "没有匹配结果",
-  "search.noIndex": "开发环境暂无搜索索引，构建站点后可用",
+  "search.clear": "清除",
+  "search.noIndex": "搜索暂不可用，请刷新页面后重试",
   "search.close": "关闭",
   "about.title": "关于",
   "about.body": "vv 是 vvangh 的个人站点：写技术、记生活、收藏一点娱乐；并从零公开搭建过程。",
@@ -295,7 +297,8 @@ const zhHant: Catalog = {
   "search.title": "搜尋站點",
   "search.placeholder": "搜尋文章與頁面…",
   "search.empty": "沒有符合的結果",
-  "search.noIndex": "搜尋索引尚未就緒（請先 vp run build）",
+  "search.clear": "清除",
+  "search.noIndex": "搜尋暫不可用，請重新整理後再試",
   "search.close": "關閉",
   "about.title": "關於",
   "about.body": "vv 是 vvangh 的個人站點：寫技術、記生活、收藏一點娛樂；並從零公開搭建過程。",
@@ -419,7 +422,8 @@ const en: Catalog = {
   "search.title": "Search the site",
   "search.placeholder": "Search posts and pages…",
   "search.empty": "No matches",
-  "search.noIndex": "Search index isn’t available in dev — run a production build first",
+  "search.clear": "Clear",
+  "search.noIndex": "Search unavailable — refresh and try again",
   "search.close": "Close",
   "about.title": "About",
   "about.body":
@@ -543,6 +547,7 @@ const de: Catalog = {
   "search.title": "Website durchsuchen",
   "search.placeholder": "Beiträge und Seiten suchen…",
   "search.empty": "Keine Treffer",
+  "search.clear": "Löschen",
   "search.noIndex": "Suchindex fehlt (zuerst vp run build)",
   "search.close": "Schließen",
   "about.title": "Über",
@@ -666,6 +671,7 @@ const ja: Catalog = {
   "search.title": "サイト内検索",
   "search.placeholder": "記事やページを検索…",
   "search.empty": "一致する結果がありません",
+  "search.clear": "クリア",
   "search.noIndex": "検索インデックス未準備（先に vp run build）",
   "search.close": "閉じる",
   "about.title": "について",
@@ -763,6 +769,7 @@ const ko: Catalog = {
   "search.title": "사이트 검색",
   "search.placeholder": "글과 페이지 검색…",
   "search.empty": "결과 없음",
+  "search.clear": "지우기",
   "search.noIndex": "검색 인덱스가 없습니다 (vp run build)",
   "search.close": "닫기",
   "about.title": "소개",
@@ -808,6 +815,7 @@ const fr: Catalog = {
   "search.title": "Rechercher sur le site",
   "search.placeholder": "Rechercher articles et pages…",
   "search.empty": "Aucun résultat",
+  "search.clear": "Effacer",
   "search.noIndex": "Index de recherche absent (lancez vp run build)",
   "search.close": "Fermer",
   "about.title": "À propos",
@@ -860,6 +868,7 @@ const es: Catalog = {
   "search.title": "Buscar en el sitio",
   "search.placeholder": "Buscar artículos y páginas…",
   "search.empty": "Sin resultados",
+  "search.clear": "Borrar",
   "search.noIndex": "Índice de búsqueda no listo (ejecuta vp run build)",
   "search.close": "Cerrar",
   "about.title": "Acerca de",
@@ -912,6 +921,7 @@ const ru: Catalog = {
   "search.title": "Поиск по сайту",
   "search.placeholder": "Искать статьи и страницы…",
   "search.empty": "Нет совпадений",
+  "search.clear": "Очистить",
   "search.noIndex": "Индекс поиска не готов (сначала vp run build)",
   "search.close": "Закрыть",
   "about.title": "О сайте",
