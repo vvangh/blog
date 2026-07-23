@@ -89,6 +89,7 @@ export const zhHant: Catalog = {
   "series.label": "系列",
   "series.prev": "上一篇",
   "series.next": "下一篇",
+  "related.title": "相關文章",
   "life.intro": "日記、膠片與足跡。",
   "life.kindDiary": "日記",
   "life.kindPhoto": "膠片",

@@ -87,6 +87,7 @@ export const ja: Catalog = {
   "series.label": "Series",
   "series.prev": "Previous",
   "series.next": "Next",
+  "related.title": "関連記事",
   "life.intro": "Diaries, film frames, and places.",
   "life.kindDiary": "Diary",
   "life.kindPhoto": "Film",

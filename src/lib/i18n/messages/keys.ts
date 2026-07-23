@@ -86,6 +86,7 @@ export type MessageKey =
   | "series.label"
   | "series.prev"
   | "series.next"
+  | "related.title"
   | "life.intro"
   | "life.kindDiary"
   | "life.kindPhoto"

@@ -87,6 +87,7 @@ export const zhHans: Catalog = {
   "series.label": "系列",
   "series.prev": "上一篇",
   "series.next": "下一篇",
+  "related.title": "相关文章",
   "life.intro": "日记、胶片与足迹。",
   "life.kindDiary": "日记",
   "life.kindPhoto": "胶片",

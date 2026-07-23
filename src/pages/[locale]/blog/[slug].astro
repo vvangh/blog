@@ -8,12 +8,14 @@ import { publishedSorted } from "@/content/_helpers";
 import { formatDate } from "@/lib/date";
 import { estimateReadingMinutes } from "@/lib/reading";
 import { resolveSeriesNav } from "@/lib/series";
+import { getRelatedPosts } from "@/lib/related";
 import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 import { filterTocHeadings } from "@/lib/toc";
 import { PostToc } from "@/components/PostToc";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { GiscusComments } from "@/components/GiscusComments";
 import { ReadAloud } from "@/components/ReadAloud";
+import { RelatedPosts } from "@/components/RelatedPosts";
 import { RevisionTimeline } from "@/components/RevisionTimeline";
 import { SeriesNav } from "@/components/SeriesNav";
 import { CiteCopy } from "@/components/CiteCopy";
@@ -46,6 +48,17 @@ const seriesNav = resolveSeriesNav(
     title: e.data.title,
     series: e.data.series,
     seriesOrder: e.data.seriesOrder,
+  })),
+);
+
+const related = getRelatedPosts(
+  entry.id,
+  allBlog.map((e) => ({
+    id: e.id,
+    title: e.data.title,
+    description: e.data.description,
+    tags: e.data.tags,
+    pubDate: e.data.pubDate,
   })),
 );
 
@@ -140,6 +153,14 @@ const citation = `《${entry.data.title}》· ${SITE_NAME_ZH} · ${pageUrl}`;
             />
           ) : null
         }
+        <RelatedPosts
+          title={translate(locale, "related.title")}
+          items={related.map((p) => ({
+            href: localePath(locale, `blog/${p.id}`),
+            title: p.title,
+            description: p.description,
+          }))}
+        />
         <CiteCopy
           client:load
           label={translate(locale, "cite.label")}

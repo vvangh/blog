@@ -1,0 +1,42 @@
+---
+/**
+ * 文末相关文章列表（按标签匹配）。
+ */
+interface RelatedItem {
+  href: string;
+  title: string;
+  description?: string;
+}
+
+interface Props {
+  title: string;
+  items: RelatedItem[];
+}
+
+const { title, items } = Astro.props;
+---
+
+{
+  items.length > 0 ? (
+    <section class="mt-10 border-t border-hl-border pt-8" aria-labelledby="related-posts-heading" data-pagefind-ignore>
+      <h2 id="related-posts-heading" class="mb-4 text-xl font-semibold tracking-tight">
+        {title}
+      </h2>
+      <ul class="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
+        {items.map((item) => (
+          <li>
+            <a
+              class="block rounded-xl border border-hl-border bg-hl-panel/40 p-4 no-underline transition hover:border-hl-accent"
+              href={item.href}
+            >
+              <span class="block font-medium text-hl-accent">{item.title}</span>
+              {item.description ? (
+                <span class="mt-1 block text-sm text-hl-muted">{item.description}</span>
+              ) : null}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ) : null
+}

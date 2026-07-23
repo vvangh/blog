@@ -89,6 +89,7 @@ export const en: Catalog = {
   "series.label": "Series",
   "series.prev": "Previous",
   "series.next": "Next",
+  "related.title": "Related posts",
   "life.intro": "Diaries, film frames, and places.",
   "life.kindDiary": "Diary",
   "life.kindPhoto": "Film",

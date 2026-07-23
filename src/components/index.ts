@@ -20,6 +20,7 @@ export * from "./PostCard";
 export * from "./PostToc";
 export * from "./ReadingProgress";
 export * from "./ReadAloud";
+export * from "./RelatedPosts";
 export * from "./RevisionTimeline";
 export * from "./SeriesNav";
 export * from "./SiteFab";
