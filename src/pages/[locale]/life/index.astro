@@ -1,11 +1,13 @@
 ---
 /**
- * 生活分区：日记列表 + 胶片/地图入口。
+ * 生活分区：快捷入口 + 日记/胶片列表（复用 PostCard 编辑式排版）。
  */
 import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
+import { PageMast } from "@/components/PageMast";
+import { PostCard } from "@/components/PostCard";
 import { publishedSorted } from "@/content/_helpers";
-import { formatDate } from "@/lib/date";
+import { Calendar, Clapperboard, MapPin } from "@lucide/vue";
 import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 
 export function getStaticPaths() {
@@ -17,42 +19,56 @@ if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
 
 const entries = publishedSorted(await getCollection("life"));
+
+const quickLinks = [
+  { icon: Calendar, label: translate(locale, "onThisDay.title"), href: localePath(locale, "on-this-day") },
+  { icon: Clapperboard, label: translate(locale, "film.title"), href: localePath(locale, "life/film") },
+  { icon: MapPin, label: translate(locale, "travel.title"), href: localePath(locale, "life/map") },
+];
 ---
 
 <SiteLayout title={translate(locale, "life.title")} locale={locale} ogSlug="life">
-  <header class="mb-8 space-y-3">
-    <h1 class="text-3xl font-semibold">{translate(locale, "life.title")}</h1>
-    <p class="text-hl-muted">{translate(locale, "life.intro")}</p>
-    <div class="flex flex-wrap gap-3 text-sm">
-      <a class="text-hl-accent no-underline hover:underline" href={localePath(locale, "on-this-day")}>
-        {translate(locale, "onThisDay.title")}
-      </a>
-      <a class="text-hl-accent no-underline hover:underline" href={localePath(locale, "life/film")}>
-        {translate(locale, "film.title")}
-      </a>
-      <a class="text-hl-accent no-underline hover:underline" href={localePath(locale, "life/map")}>
-        {translate(locale, "travel.title")}
-      </a>
-    </div>
-  </header>
+  <PageMast
+    kicker="Life"
+    title={translate(locale, "life.title")}
+    description={translate(locale, "life.intro")}
+  >
+    <ul class="mt-6 flex flex-wrap gap-3">
+      {
+        quickLinks.map((link) => {
+          const Icon = link.icon;
+          return (
+            <li>
+              <a
+                class="glass-chip-soft inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-hl-fg no-underline transition-colors hover:text-hl-accent"
+                href={link.href}
+              >
+                <Icon class="size-3.5 text-hl-accent" aria-hidden="true" />
+                {link.label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </PageMast>
+
   {
     entries.length === 0 ? (
       <p class="text-hl-muted">{translate(locale, "life.empty")}</p>
     ) : (
-      <ul class="space-y-3">
+      <div class="home-deck__list">
         {entries.map((entry) => (
-          <li class="border-b border-hl-border py-3">
-            <a class="font-medium text-hl-accent no-underline hover:underline" href={localePath(locale, `life/${entry.id}`)}>
-              {entry.data.title}
-            </a>
-            <p class="mt-1 text-sm text-hl-muted">
-              <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate, locale)}</time>
-              <span aria-hidden="true"> · </span>
-              <span>{entry.data.kind === "photo" ? translate(locale, "life.kindPhoto") : translate(locale, "life.kindDiary")}</span>
-            </p>
-          </li>
+          <PostCard
+            href={localePath(locale, `life/${entry.id}`)}
+            title={entry.data.title}
+            description={entry.data.description}
+            date={entry.data.pubDate}
+            locale={locale}
+            meta={entry.data.kind === "photo" ? translate(locale, "life.kindPhoto") : translate(locale, "life.kindDiary")}
+          />
         ))}
-      </ul>
+      </div>
     )
   }
 </SiteLayout>

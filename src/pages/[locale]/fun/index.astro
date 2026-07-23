@@ -1,7 +1,11 @@
 ---
-/** 趣味分区占位（三期）。 */
+/**
+ * 趣味分区：娱乐收藏卡 + 今日一句。
+ */
 import SiteLayout from "@/layouts/SiteLayout";
-import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
+import { PageMast } from "@/components/PageMast";
+import { ArrowUpRight, Bookmark, Clapperboard, Gamepad2, Music, Quote } from "@lucide/vue";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -10,9 +14,65 @@ export function getStaticPaths() {
 const raw = Astro.params.locale ?? "zh-Hans";
 if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
+
+const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
+
+const cards = [
+  { icon: Gamepad2, title: t("fun.gameTitle"), desc: t("fun.gameDesc") },
+  { icon: Music, title: t("fun.musicTitle"), desc: t("fun.musicDesc") },
+  { icon: Clapperboard, title: t("fun.filmTitle"), desc: t("fun.filmDesc"), href: localePath(locale, "life/film") },
+  { icon: Bookmark, title: t("fun.collectTitle"), desc: t("fun.collectDesc") },
+];
 ---
 
 <SiteLayout title={translate(locale, "fun.title")} locale={locale} ogSlug="fun">
-  <h1 class="text-3xl font-semibold">{translate(locale, "fun.title")}</h1>
-  <p class="mt-4 text-hl-muted">{translate(locale, "fun.empty")}</p>
+  <PageMast
+    kicker="Fun"
+    title={translate(locale, "fun.title")}
+    description={translate(locale, "fun.intro")}
+  />
+
+  <ul class="grid gap-4 sm:grid-cols-2">
+    {
+      cards.map((card) => {
+        const Icon = card.icon;
+        const inner = (
+          <>
+            <span class="flex size-11 items-center justify-center rounded-2xl bg-hl-soft">
+              <Icon class="size-5 text-hl-accent" aria-hidden="true" />
+            </span>
+            <span class="mt-4 flex items-center gap-1.5 font-display text-lg font-semibold text-hl-fg">
+              {card.title}
+              {card.href ? (
+                <ArrowUpRight class="size-4 text-hl-muted transition-colors group-hover:text-hl-accent" aria-hidden="true" />
+              ) : null}
+            </span>
+            <span class="mt-2 block text-sm leading-relaxed text-hl-muted">{card.desc}</span>
+          </>
+        );
+        return (
+          <li>
+            {card.href ? (
+              <a
+                class="glass-panel group block h-full rounded-3xl p-6 no-underline motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5"
+                href={card.href}
+              >
+                {inner}
+              </a>
+            ) : (
+              <div class="glass-panel h-full rounded-3xl p-6">{inner}</div>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  <figure class="glass-legible mt-14 rounded-[2rem] p-8 md:p-10">
+    <Quote class="size-6 text-hl-accent-2" aria-hidden="true" />
+    <p class="section-kicker mt-4">{translate(locale, "fun.quoteTitle")}</p>
+    <blockquote class="mt-3 max-w-prose font-display text-2xl leading-relaxed font-semibold tracking-tight text-hl-fg">
+      {translate(locale, "fun.quoteText")}
+    </blockquote>
+  </figure>
 </SiteLayout>

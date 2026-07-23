@@ -1,12 +1,14 @@
 ---
 /**
- * 建站日志列表：按语言前缀展示已发布 build-log。
+ * 从零到一：里程碑进度 + 建站日志列表 + Lighthouse 摘要 + ADR 图。
  */
 import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
+import { PageMast } from "@/components/PageMast";
 import { PostCard } from "@/components/PostCard";
 import { AdrGraph } from "@/components/AdrGraph";
 import { publishedSorted } from "@/content/_helpers";
+import { formatDate } from "@/lib/date";
 import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 import { LIGHTHOUSE_SCORES } from "@/lib/lighthouse";
 
@@ -19,36 +21,97 @@ if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
 
 const entries = publishedSorted(await getCollection("build-log"));
+
+/** 里程碑形如 M3 / M4b，取数字部分；路线图目标 M8 */
+const MILESTONE_TOTAL = 8;
+const milestoneNums = entries
+  .map((e) => e.data.milestone)
+  .filter((m): m is string => Boolean(m))
+  .map((m) => Number.parseInt(m.replace(/\D/g, ""), 10))
+  .filter((n) => Number.isFinite(n));
+const milestoneNow = milestoneNums.length ? Math.max(...milestoneNums) : 0;
+const segments = Array.from({ length: MILESTONE_TOTAL }, (_, i) => i < milestoneNow);
+const latest = entries[0];
 ---
 
 <SiteLayout title={translate(locale, "build.title")} locale={locale} ogSlug="build">
-  <header class="mb-8 space-y-2">
-    <h1 class="text-3xl font-semibold">{translate(locale, "build.title")}</h1>
-    <p class="text-hl-muted">公开记录 vv 从 0 到 1 的搭建过程。</p>
-  </header>
+  <PageMast
+    kicker="Build in Public"
+    title={translate(locale, "build.title")}
+    description={translate(locale, "build.progressHint")}
+  />
+
   {
-    entries.length === 0 ? (
-      <p class="text-hl-muted">{translate(locale, "build.empty")}</p>
-    ) : (
-      <div>
-        {entries.map((entry) => (
-          <PostCard
-            href={localePath(locale, `build/${entry.id}`)}
-            title={entry.data.title}
-            description={entry.data.description}
-            date={entry.data.pubDate}
-            locale={locale}
-            meta={entry.data.milestone}
-          />
-        ))}
-      </div>
-    )
+    latest ? (
+      <section class="glass-legible rounded-[2rem] p-8 md:p-10" aria-labelledby="build-progress">
+        <div class="flex flex-wrap items-start justify-between gap-6">
+          <div>
+            <p class="section-kicker">Progress</p>
+            <h2 id="build-progress" class="section-title">
+              {translate(locale, "build.progressTitle")}
+            </h2>
+            <p class="mt-3 font-mono text-sm text-hl-muted">
+              M{milestoneNow} / M{MILESTONE_TOTAL}
+            </p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs tracking-wide text-hl-muted">
+              {translate(locale, "build.latestMilestone")}
+            </p>
+            <a
+              class="mt-2 inline-flex items-center gap-2 rounded-full bg-hl-soft px-3.5 py-1.5 font-mono text-xs font-medium text-hl-accent no-underline transition-opacity hover:opacity-75"
+              href={localePath(locale, `build/${latest.id}`)}
+            >
+              {latest.data.milestone}
+            </a>
+            <p class="mt-2 max-w-xs font-display text-base font-semibold text-hl-fg">
+              {latest.data.title}
+            </p>
+            <p class="mt-1 font-mono text-xs text-hl-muted">
+              <time datetime={latest.data.pubDate.toISOString()}>
+                {formatDate(latest.data.pubDate, locale)}
+              </time>
+            </p>
+          </div>
+        </div>
+        <div
+          class="mt-8 flex gap-1.5"
+          role="img"
+          aria-label={`M${milestoneNow} / M${MILESTONE_TOTAL}`}
+        >
+          {segments.map((filled) => (
+            <span class:list={["h-1.5 flex-1 rounded-full", filled ? "bg-hl-accent" : "bg-hl-border"]} />
+          ))}
+        </div>
+      </section>
+    ) : null
   }
 
-  <section class="mt-12" aria-labelledby="lh-build-heading">
-    <h2 id="lh-build-heading" class="text-lg font-semibold">{translate(locale, "lighthouse.title")}</h2>
-    <p class="mt-1 text-sm text-hl-muted">{translate(locale, "lighthouse.hint")}</p>
-    <ul class="mt-4 space-y-2 font-mono text-sm">
+  <section class="home-deck__section" aria-label={translate(locale, "build.title")}>
+    {
+      entries.length === 0 ? (
+        <p class="text-hl-muted">{translate(locale, "build.empty")}</p>
+      ) : (
+        <div class="home-deck__list">
+          {entries.map((entry) => (
+            <PostCard
+              href={localePath(locale, `build/${entry.id}`)}
+              title={entry.data.title}
+              description={entry.data.description}
+              date={entry.data.pubDate}
+              locale={locale}
+              meta={entry.data.milestone}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  <section class="home-deck__section" aria-labelledby="lh-build-heading">
+    <h2 id="lh-build-heading" class="section-title">{translate(locale, "lighthouse.title")}</h2>
+    <p class="mt-2 text-sm text-hl-muted">{translate(locale, "lighthouse.hint")}</p>
+    <ul class="glass-panel mt-5 space-y-2 rounded-3xl p-6 font-mono text-sm">
       {
         LIGHTHOUSE_SCORES.map((row) => (
           <li>
@@ -57,8 +120,10 @@ const entries = publishedSorted(await getCollection("build-log"));
         ))
       }
     </ul>
-    <p class="mt-3 text-sm">
-      <a class="text-hl-accent" href={localePath(locale, "lab")}>{translate(locale, "nav.lab")} →</a>
+    <p class="mt-4 text-sm">
+      <a class="font-medium text-hl-accent no-underline transition-opacity hover:opacity-70" href={localePath(locale, "lab")}>
+        {translate(locale, "nav.lab")} →
+      </a>
     </p>
   </section>
 

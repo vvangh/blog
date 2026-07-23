@@ -1,10 +1,12 @@
 ---
 /**
- * 标签云：聚合 blog / build-log 的 tags。
+ * 标签云：聚合 blog / build-log 的 tags，按频次排序；链到单标签页。
  */
 import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
+import { PageMast } from "@/components/PageMast";
 import { publishedSorted } from "@/content/_helpers";
+import { toTagParam } from "@/lib/tags";
 import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
 
 export async function getStaticPaths() {
@@ -27,23 +29,29 @@ const tags = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeComp
 ---
 
 <SiteLayout title={translate(locale, "tags.title")} locale={locale} ogSlug="blog">
-  <header class="mb-8 space-y-2">
-    <h1 class="text-3xl font-semibold">{translate(locale, "tags.title")}</h1>
-  </header>
+  <PageMast
+    kicker="Tags"
+    title={translate(locale, "tags.title")}
+    description={translate(locale, "tags.intro")}
+  />
+
   {
     tags.length === 0 ? (
       <p class="text-hl-muted">{translate(locale, "tags.empty")}</p>
     ) : (
-      <ul class="flex flex-wrap gap-2">
-        {tags.map(([tag, n]) => (
+      <ul class="flex flex-wrap items-center gap-3">
+        {tags.map(([tag, n], i) => (
           <li>
             <a
-              class="inline-flex min-h-10 items-center rounded-md bg-hl-soft px-3 text-sm text-hl-fg no-underline hover:text-hl-accent"
-              href={localePath(locale, "archive")}
+              class:list={[
+                "glass-chip-soft inline-flex items-baseline gap-2 px-4 py-2 text-hl-fg no-underline transition-colors hover:text-hl-accent",
+                i < 3 ? "text-base font-medium" : "text-sm",
+              ]}
+              href={localePath(locale, `tags/${toTagParam(tag)}`)}
               title={`${tag} (${n})`}
             >
               {tag}
-              <span class="ml-2 font-mono text-xs text-hl-muted">{n}</span>
+              <span class="font-mono text-xs text-hl-muted">{n}</span>
             </a>
           </li>
         ))}

@@ -1,9 +1,12 @@
 ---
 /**
- * 关于页：站介绍（偏好已迁入全站悬浮设置）。
+ * 关于页：个人卡 + 我现在 + 技术栈 + 本站。
  */
 import SiteLayout from "@/layouts/SiteLayout";
+import { PageMast } from "@/components/PageMast";
 import { StackBadge } from "@/components/StackBadge";
+import { SITE_GITHUB, SITE_TAGLINE } from "@/lib/site";
+import { ArrowUpRight, BookOpen, PenLine, Rss, Wrench } from "@lucide/vue";
 import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
 
 export function getStaticPaths() {
@@ -13,16 +16,92 @@ export function getStaticPaths() {
 const raw = Astro.params.locale ?? "zh-Hans";
 if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
+
+const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
+
+const nowItems = [
+  { icon: BookOpen, text: t("about.nowRead") },
+  { icon: PenLine, text: t("about.nowWrite") },
+  { icon: Wrench, text: t("about.nowBuild") },
+];
 ---
 
 <SiteLayout title={translate(locale, "about.title")} locale={locale} ogSlug="home">
-  <header class="page-mast mb-10">
-    <p class="section-kicker">{translate(locale, "home.eyebrow")}</p>
-    <h1 class="section-title section-title--lg">{translate(locale, "about.title")}</h1>
-    <p class="mt-5 text-lg leading-relaxed text-hl-muted">{translate(locale, "about.body")}</p>
-  </header>
+  <PageMast
+    kicker="About"
+    title={translate(locale, "about.title")}
+    description={translate(locale, "about.body")}
+  />
 
-  <section class="mt-12 max-w-lg border-t border-hl-border pt-10" aria-label={translate(locale, "stack.title")}>
-    <StackBadge locale={locale} />
+  <section class="glass-legible rounded-[2rem] p-8 md:p-10" aria-label="vvangh">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-center">
+      <span
+        class="flex size-20 shrink-0 items-center justify-center rounded-full font-display text-2xl font-bold text-white"
+        style="background: linear-gradient(135deg, var(--hl-accent), var(--hl-accent-2))"
+        aria-hidden="true"
+      >
+        vv
+      </span>
+      <div class="min-w-0">
+        <p class="font-display text-2xl font-semibold tracking-tight text-hl-fg">vvangh</p>
+        <p class="mt-1 text-hl-muted">{SITE_TAGLINE}</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a
+            class="glass-chip-soft inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-hl-fg no-underline transition-colors hover:text-hl-accent"
+            href={SITE_GITHUB}
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label={`GitHub${translate(locale, "a11y.newWindow")}`}
+          >
+            GitHub
+            <ArrowUpRight class="size-3.5" aria-hidden="true" />
+          </a>
+          <a
+            class="glass-chip-soft inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-hl-fg no-underline transition-colors hover:text-hl-accent"
+            href={`${import.meta.env.BASE_URL}${locale}/rss.xml`}
+          >
+            <Rss class="size-3.5" aria-hidden="true" />
+            RSS
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-14" aria-labelledby="about-now">
+    <p class="section-kicker">Now</p>
+    <h2 id="about-now" class="section-title">{translate(locale, "about.nowTitle")}</h2>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-3">
+      {
+        nowItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <li class="glass-panel rounded-3xl p-5">
+              <span class="flex size-10 items-center justify-center rounded-2xl bg-hl-soft">
+                <Icon class="size-5 text-hl-accent" aria-hidden="true" />
+              </span>
+              <p class="mt-3 text-sm leading-relaxed text-hl-fg">{item.text}</p>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+
+  <section
+    class="mt-14 border-t border-hl-border pt-10"
+    aria-label={translate(locale, "stack.title")}
+  >
+    <div class="max-w-lg">
+      <StackBadge locale={locale} />
+    </div>
+  </section>
+
+  <section class="mt-14" aria-labelledby="about-colophon">
+    <p class="section-kicker">Colophon</p>
+    <h2 id="about-colophon" class="section-title">{translate(locale, "about.colophonTitle")}</h2>
+    <p class="mt-4 max-w-prose leading-relaxed text-hl-muted">
+      {translate(locale, "about.colophonBody")}
+    </p>
   </section>
 </SiteLayout>

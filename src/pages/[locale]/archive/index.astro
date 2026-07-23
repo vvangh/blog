@@ -1,9 +1,11 @@
 ---
 /**
- * 归档：时间线 + 写作热力图。
+ * 归档：统计数字 + 写作热力图 + 按年份分组的时间线。
  */
 import { getCollection } from "astro:content";
 import SiteLayout from "@/layouts/SiteLayout";
+import { PageMast } from "@/components/PageMast";
+import { StatTile } from "@/components/StatTile";
 import { publishedSorted } from "@/content/_helpers";
 import { formatDate } from "@/lib/date";
 import { buildHeatmap } from "@/lib/heatmap";
@@ -39,14 +41,38 @@ const heatCells = buildHeatmap(
   new Date(),
   371,
 );
+
+const tagCount = new Set(
+  [...blogEntries, ...buildEntries].flatMap((e) => e.data.tags ?? []),
+).size;
+/** 有发文的日历日数（与热力图「绿格子」一致） */
+const writingDays = heatCells.filter((c) => c.count > 0).length;
+
+const byYear = new Map<number, typeof entries>();
+for (const e of entries) {
+  const y = e.date.getFullYear();
+  const list = byYear.get(y) ?? [];
+  list.push(e);
+  byYear.set(y, list);
+}
+const years = [...byYear.entries()].sort((a, b) => b[0] - a[0]);
 ---
 
 <SiteLayout title={translate(locale, "archive.title")} locale={locale} ogSlug="blog">
-  <header class="mb-8 space-y-2">
-    <h1 class="text-3xl font-semibold">{translate(locale, "archive.title")}</h1>
-  </header>
+  <PageMast
+    kicker="Archive"
+    title={translate(locale, "archive.title")}
+    description={translate(locale, "archive.intro")}
+  />
 
-  <div class="mb-10">
+  <div class="grid grid-cols-2 gap-6 lg:grid-cols-4">
+    <StatTile label={translate(locale, "archive.statsPosts")} value={blogEntries.length} />
+    <StatTile label={translate(locale, "archive.statsLogs")} value={buildEntries.length} />
+    <StatTile label={translate(locale, "archive.statsTags")} value={tagCount} />
+    <StatTile label={translate(locale, "archive.statsDays")} value={writingDays} />
+  </div>
+
+  <div class="mt-10">
     <WritingHeatmap
       title={translate(locale, "heatmap.title")}
       hint={translate(locale, "heatmap.hint")}
@@ -58,21 +84,42 @@ const heatCells = buildHeatmap(
 
   {
     entries.length === 0 ? (
-      <p class="text-hl-muted">{translate(locale, "archive.empty")}</p>
+      <p class="mt-10 text-hl-muted">{translate(locale, "archive.empty")}</p>
     ) : (
-      <ol class="space-y-3">
-        {entries.map((e) => (
-          <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-hl-border py-3">
-            <time class="shrink-0 font-mono text-sm text-hl-muted" datetime={e.date.toISOString()}>
-              {formatDate(e.date, locale)}
-            </time>
-            <span class="text-xs text-hl-muted">{e.section}</span>
-            <a class="text-hl-accent no-underline hover:underline" href={e.href}>
-              {e.title}
-            </a>
-          </li>
-        ))}
-      </ol>
+      years.map(([year, list]) => (
+        <section class="home-deck__section" aria-labelledby={`archive-${year}`}>
+          <h2
+            id={`archive-${year}`}
+            class="flex items-baseline gap-3 font-display text-xl font-semibold tracking-tight text-hl-fg"
+          >
+            {year}
+            <span class="text-sm font-normal text-hl-muted">
+              {translate(locale, "archive.yearCount", { count: list.length })}
+            </span>
+          </h2>
+          <ol class="mt-2">
+            {list.map((e) => (
+              <li class="group flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-hl-border py-3">
+                <time
+                  class="shrink-0 font-mono text-xs tracking-wide text-hl-muted"
+                  datetime={e.date.toISOString()}
+                >
+                  {formatDate(e.date, locale)}
+                </time>
+                <span class="rounded-md bg-hl-soft px-2 py-0.5 text-[0.7rem] font-medium text-hl-accent">
+                  {e.section}
+                </span>
+                <a
+                  class="text-hl-fg no-underline transition-colors group-hover:text-hl-accent"
+                  href={e.href}
+                >
+                  {e.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
     )
   }
 </SiteLayout>

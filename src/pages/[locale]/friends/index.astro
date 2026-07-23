@@ -1,9 +1,13 @@
 ---
 /**
- * 友链页。
+ * 友链页：玻璃友链卡 + 互换申请（GitHub Issue）。
  */
 import SiteLayout from "@/layouts/SiteLayout";
+import { PageMast } from "@/components/PageMast";
+import { FriendCard } from "@/components/FriendCard";
 import { FRIENDS } from "@/lib/friends";
+import { SITE_GITHUB_REPO } from "@/lib/site";
+import { ArrowUpRight } from "@lucide/vue";
 import { LOCALES, isLocale, translate, type Locale } from "@/lib/i18n";
 
 export function getStaticPaths() {
@@ -13,31 +17,53 @@ export function getStaticPaths() {
 const raw = Astro.params.locale ?? "zh-Hans";
 if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
 const locale: Locale = raw;
+const externalHint = translate(locale, "a11y.newWindow");
 ---
 
 <SiteLayout title={translate(locale, "friends.title")} locale={locale} ogSlug="home">
-  <header class="mb-8 space-y-2">
-    <h1 class="text-3xl font-semibold">{translate(locale, "friends.title")}</h1>
-  </header>
+  <PageMast
+    kicker="Links"
+    title={translate(locale, "friends.title")}
+    description={translate(locale, "friends.intro")}
+  />
+
   {
     FRIENDS.length === 0 ? (
       <p class="text-hl-muted">{translate(locale, "friends.empty")}</p>
     ) : (
       <ul class="grid gap-4 sm:grid-cols-2">
         {FRIENDS.map((f) => (
-          <li class="rounded-lg border border-hl-border bg-hl-panel/60 p-4">
-            <a
-              class="font-display text-lg font-semibold text-hl-accent no-underline hover:underline"
-              href={f.url}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {f.name}
-            </a>
-            {f.description ? <p class="mt-2 text-sm text-hl-muted">{f.description}</p> : null}
+          <li>
+            <FriendCard
+              name={f.name}
+              url={f.url}
+              description={f.description}
+              externalHint={externalHint}
+            />
           </li>
         ))}
       </ul>
     )
   }
+
+  <section
+    class="glass-legible mt-14 rounded-[2rem] p-8 md:p-10"
+    aria-labelledby="friends-apply"
+  >
+    <p class="section-kicker">Apply</p>
+    <h2 id="friends-apply" class="section-title">{translate(locale, "friends.applyTitle")}</h2>
+    <p class="mt-4 max-w-prose leading-relaxed text-hl-muted">
+      {translate(locale, "friends.applyBody")}
+    </p>
+    <a
+      class="mt-6 inline-flex items-center gap-2 rounded-xl bg-hl-cta px-6 py-3 text-sm font-medium text-hl-cta-fg no-underline motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5"
+      href={`${SITE_GITHUB_REPO}/issues`}
+      rel="noopener noreferrer"
+      target="_blank"
+      aria-label={`${translate(locale, "friends.applyCta")}${externalHint}`}
+    >
+      <ArrowUpRight class="size-4" aria-hidden="true" />
+      {translate(locale, "friends.applyCta")}
+    </a>
+  </section>
 </SiteLayout>
