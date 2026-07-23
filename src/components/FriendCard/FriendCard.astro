@@ -1,0 +1,54 @@
+---
+/**
+ * 友链卡：整卡外链；头像色相由名字派生（低饱和）。
+ * externalHint 用于读屏标明新窗口。
+ */
+import { ExternalLink } from "@lucide/vue";
+
+interface Props {
+  name: string;
+  url: string;
+  description?: string;
+  /** 如「（新窗口打开）」 */
+  externalHint: string;
+}
+
+const { name, url, description, externalHint } = Astro.props;
+const host = new URL(url).host;
+const hue = [...name].reduce((acc, ch) => acc + ch.charCodeAt(0), 0) % 360;
+const initial = [...name.trim()][0]?.toUpperCase() ?? "·";
+const accessibleName = description
+  ? `${name} · ${host} · ${description}${externalHint}`
+  : `${name} · ${host}${externalHint}`;
+---
+
+<a
+  class="glass-panel group flex items-center gap-4 rounded-2xl p-5 no-underline motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5"
+  href={url}
+  rel="noopener noreferrer"
+  target="_blank"
+  aria-label={accessibleName}
+>
+  <span
+    class="flex size-12 shrink-0 items-center justify-center rounded-2xl font-display text-lg font-semibold text-hl-fg"
+    style={`background: oklch(0.92 0.03 ${hue})`}
+    aria-hidden="true"
+  >
+    {initial}
+  </span>
+  <span class="min-w-0 flex-1" aria-hidden="true">
+    <span class="flex items-baseline gap-2">
+      <span class="truncate font-display text-base font-semibold text-hl-fg">{name}</span>
+      <span class="truncate font-mono text-xs text-hl-muted">{host}</span>
+    </span>
+    {
+      description ? (
+        <span class="mt-1 line-clamp-2 block text-sm leading-relaxed text-hl-muted">{description}</span>
+      ) : null
+    }
+  </span>
+  <ExternalLink
+    class="size-4 shrink-0 text-hl-muted transition-colors group-hover:text-hl-accent"
+    aria-hidden="true"
+  />
+</a>

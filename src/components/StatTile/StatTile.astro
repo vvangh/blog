@@ -1,0 +1,19 @@
+---
+/**
+ * 统计数字：无卡片壳，仅标签 + 大数字 + 可选副注（避免装饰性玻璃卡）。
+ */
+interface Props {
+  label: string;
+  value: string | number;
+  hint?: string;
+  class?: string;
+}
+
+const { label, value, hint, class: className } = Astro.props;
+---
+
+<div class:list={["min-w-0 border-b border-hl-border pb-4", className]}>
+  <p class="text-xs font-medium tracking-wide text-hl-muted">{label}</p>
+  <p class="mt-2 font-display text-3xl font-semibold tracking-tight text-hl-fg">{value}</p>
+  {hint ? <p class="mt-1 text-xs text-hl-muted">{hint}</p> : null}
+</div>
