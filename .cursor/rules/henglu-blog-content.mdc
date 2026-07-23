@@ -33,8 +33,9 @@ Schema：`src/content.config.ts`。列表/详情一律 `publishedSorted`（`@/co
 
 ## 文件名
 
-- 博客 / build-log：稳定 slug，如 `welcome.md`、`m6-blog-mvp.md`
+- 博客 / build-log：稳定 slug，如 `welcome.md` / `welcome.mdx`、`m6-blog-mvp.md`
 - 生活：`YYYY-MM-DD-kind.md`（例 `2025-07-21-diary.md`）
+- 需要 `astro-embed` 自动嵌入时用 **`.mdx`**；提示框 `:::tip` 等在 `.md` / `.mdx` 皆可
 
 ## 列表页
 
