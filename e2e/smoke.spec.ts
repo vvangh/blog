@@ -95,6 +95,10 @@ test.describe("vv 关键路径", () => {
     await expect(page.getByRole("button", { name: "朗读" })).toBeVisible();
     await expect(page.getByRole("navigation", { name: "系列" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "修订时间线" })).toBeVisible();
+    const related = page.getByRole("region", { name: "相关文章" });
+    await expect(related).toBeVisible();
+    await expect(related.getByRole("link", { name: /用 Vite\+ 管住个人站工具链/ })).toBeVisible();
+    await expect(page.locator(".callout")).toBeVisible();
     // 缺 Giscus env 时不渲染评论区（优雅降级）
     await expect(page.locator(".giscus")).toHaveCount(0);
   });
