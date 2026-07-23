@@ -15,6 +15,7 @@ export * from "./heatmap";
 export * from "./series";
 export * from "./related";
 export * from "./markdown";
+export * from "./tags";
 export * from "./on-this-day";
 export * from "./webmentions";
 export * from "./now-playing";

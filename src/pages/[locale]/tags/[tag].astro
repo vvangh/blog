@@ -1,0 +1,99 @@
+---
+/**
+ * 单标签归档：列出 blog / build-log 中带该标签的已发布文。
+ */
+import { getCollection } from "astro:content";
+import SiteLayout from "@/layouts/SiteLayout";
+import { PageMast } from "@/components/PageMast";
+import { publishedSorted } from "@/content/_helpers";
+import { formatDate } from "@/lib/date";
+import { fromTagParam } from "@/lib/tags";
+import { LOCALES, isLocale, localePath, translate, type Locale } from "@/lib/i18n";
+
+export async function getStaticPaths() {
+  const tags = new Set<string>();
+  for (const col of ["blog", "build-log"] as const) {
+    for (const e of publishedSorted(await getCollection(col))) {
+      for (const t of e.data.tags ?? []) tags.add(t);
+    }
+  }
+  // params.tag 用原文；Astro 生成 URL 时会自行编码。勿再 encode，否则中文等会双重编码 404。
+  return LOCALES.flatMap((locale) =>
+    [...tags].map((tag) => ({
+      params: { locale, tag },
+      props: { tag },
+    })),
+  );
+}
+
+const raw = Astro.params.locale ?? "zh-Hans";
+if (!isLocale(raw)) throw new Error(`Unsupported locale: ${raw}`);
+const locale: Locale = raw;
+/** props 优先；直达编码 URL 时 params 可能仍是百分号形式 */
+const tag = Astro.props.tag ?? fromTagParam(Astro.params.tag ?? "");
+
+type Hit = {
+  href: string;
+  title: string;
+  date: Date;
+  section: string;
+};
+
+const hits: Hit[] = [];
+for (const e of publishedSorted(await getCollection("blog"))) {
+  if (!(e.data.tags ?? []).includes(tag)) continue;
+  hits.push({
+    href: localePath(locale, `blog/${e.id}`),
+    title: e.data.title,
+    date: e.data.pubDate,
+    section: translate(locale, "nav.blog"),
+  });
+}
+for (const e of publishedSorted(await getCollection("build-log"))) {
+  if (!(e.data.tags ?? []).includes(tag)) continue;
+  hits.push({
+    href: localePath(locale, `build/${e.id}`),
+    title: e.data.title,
+    date: e.data.pubDate,
+    section: translate(locale, "nav.build"),
+  });
+}
+hits.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+const pageTitle = translate(locale, "tags.tagTitle", { tag });
+---
+
+<SiteLayout title={pageTitle} locale={locale} ogSlug="blog">
+  <PageMast kicker="Tag" title={tag} description={translate(locale, "tags.tagIntro", { tag })}>
+    <p class="mt-6">
+      <a
+        class="text-sm font-medium text-hl-muted no-underline transition-colors hover:text-hl-accent"
+        href={localePath(locale, "tags")}
+      >
+        ← {translate(locale, "tags.title")}
+      </a>
+    </p>
+  </PageMast>
+
+  {
+    hits.length === 0 ? (
+      <p class="text-hl-muted">{translate(locale, "tags.empty")}</p>
+    ) : (
+      <ol class="m-0 list-none p-0">
+        {hits.map((e) => (
+          <li class="group flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-hl-border py-3">
+            <time class="shrink-0 font-mono text-xs tracking-wide text-hl-muted" datetime={e.date.toISOString()}>
+              {formatDate(e.date, locale)}
+            </time>
+            <span class="rounded-md bg-hl-soft px-2 py-0.5 text-[0.7rem] font-medium text-hl-accent">
+              {e.section}
+            </span>
+            <a class="text-hl-fg no-underline transition-colors group-hover:text-hl-accent" href={e.href}>
+              {e.title}
+            </a>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</SiteLayout>
