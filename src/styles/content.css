@@ -344,6 +344,53 @@
     margin: 0;
   }
 
+  /* Markdown :::tip / :::note / :::warn / :::danger */
+  .content-body .callout {
+    margin: 1.5rem 0;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--hl-border);
+    border-radius: 0.9rem;
+    border-left-width: 3px;
+    background: color-mix(in oklab, var(--hl-fg) 3%, transparent);
+  }
+
+  .content-body .callout__title {
+    margin: 0 0 0.45rem;
+    font-size: 0.85rem;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+  }
+
+  .content-body .callout > :last-child {
+    margin-bottom: 0;
+  }
+
+  .content-body .callout--tip,
+  .content-body .callout--info {
+    border-left-color: color-mix(in oklab, var(--hl-accent) 75%, transparent);
+  }
+
+  .content-body .callout--note {
+    border-left-color: color-mix(in oklab, var(--hl-muted) 70%, transparent);
+  }
+
+  .content-body .callout--warn {
+    border-left-color: #d97706;
+  }
+
+  .content-body .callout--danger {
+    border-left-color: #dc2626;
+  }
+
+  .content-body .callout :is(iframe, .astro-embed) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 0.75rem;
+  }
+
   .prefs-panel {
     border: 0;
     border-radius: 0;

@@ -14,6 +14,7 @@ export * from "./reading";
 export * from "./heatmap";
 export * from "./series";
 export * from "./related";
+export * from "./markdown";
 export * from "./on-this-day";
 export * from "./webmentions";
 export * from "./now-playing";

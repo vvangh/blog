@@ -9,12 +9,19 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import vue from "@astrojs/vue";
 import sitemap from "@astrojs/sitemap";
+import mdx from "@astrojs/mdx";
+import { unified } from "@astrojs/markdown-remark";
 import AstroPWA from "@vite-pwa/astro";
 import expressiveCode from "astro-expressive-code";
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
+import embeds from "astro-embed/integration";
+import remarkDirective from "remark-directive";
 import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import vueDevTools from "vite-plugin-vue-devtools";
+import { remarkCallouts } from "./src/lib/markdown/remark-callouts.ts";
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 const srcDir = path.resolve(rootDir, "src");
@@ -26,6 +33,10 @@ export default defineConfig({
   markdown: {
     // 交给 Expressive Code，避免变成裸的 astro-code 默认块
     syntaxHighlight: false,
+    // Astro 7 默认 Sätteri；提示框 / 嵌入需 unified + remark
+    processor: unified({
+      remarkPlugins: [remarkDirective, remarkCallouts],
+    }),
   },
   integrations: [
     expressiveCode({
@@ -35,10 +46,12 @@ export default defineConfig({
         theme.type === "dark" ? "[data-theme='dark']" : "[data-theme='light']",
       useDarkModeMediaQuery: true,
       useThemedScrollbars: true,
+      plugins: [pluginLineNumbers(), pluginCollapsibleSections()],
       defaultProps: {
         wrap: true,
+        showLineNumbers: true,
         overridesByLang: {
-          "bash,sh,zsh,shell,powershell,ps1": { wrap: false },
+          "bash,sh,zsh,shell,powershell,ps1": { wrap: false, showLineNumbers: false },
         },
       },
       frames: {
@@ -49,32 +62,33 @@ export default defineConfig({
         borderRadius: "0.9rem",
         borderWidth: "1px",
         borderColor: ({ theme }) =>
-          theme.type === "dark" ? "rgba(244, 245, 247, 0.12)" : "rgba(18, 20, 26, 0.1)",
+          theme.type === "dark" ? "rgba(244, 245, 247, 0.12)" : "rgba(18, 20, 26, 0.16)",
         codeFontFamily: '"JetBrains Mono", "Cascadia Code", ui-monospace, monospace',
         codeFontSize: "0.9rem",
         codeLineHeight: "1.7",
         codePaddingBlock: "1.2rem",
         codePaddingInline: "1.35rem",
-        codeBackground: ({ theme }) => (theme.type === "dark" ? "#12151c" : "#fbfbfc"),
+        // 浅色画布上避免 #fbfbfc 与正文融成「像没样式」
+        codeBackground: ({ theme }) => (theme.type === "dark" ? "#12151c" : "#f0f1f4"),
         uiFontFamily: '"Source Sans 3", "Noto Sans SC", "Segoe UI", sans-serif',
         uiFontSize: "0.8rem",
         frames: {
           shadowColor: ({ theme }) =>
-            theme.type === "dark" ? "rgba(255, 106, 61, 0.22)" : "rgba(226, 65, 26, 0.14)",
+            theme.type === "dark" ? "rgba(255, 106, 61, 0.22)" : "rgba(18, 20, 26, 0.12)",
           frameBoxShadowCssValue: ({ resolveSetting }) =>
             `0 18px 48px -28px ${resolveSetting("frames.shadowColor")}`,
           editorActiveTabIndicatorTopColor: ({ theme }) =>
             theme.type === "dark" ? "#ff6a3d" : "#e2411a",
           editorActiveTabIndicatorBottomColor: "transparent",
-          editorTabBarBackground: ({ theme }) => (theme.type === "dark" ? "#0d1016" : "#f0f1f3"),
+          editorTabBarBackground: ({ theme }) => (theme.type === "dark" ? "#0d1016" : "#e5e6ea"),
           terminalTitlebarBackground: ({ theme }) =>
-            theme.type === "dark" ? "#0d1016" : "#f0f1f3",
+            theme.type === "dark" ? "#0d1016" : "#e5e6ea",
           terminalTitlebarBorderBottomColor: ({ theme }) =>
-            theme.type === "dark" ? "rgba(244, 245, 247, 0.08)" : "rgba(18, 20, 26, 0.08)",
+            theme.type === "dark" ? "rgba(244, 245, 247, 0.08)" : "rgba(18, 20, 26, 0.12)",
           terminalTitlebarDotsForeground: ({ theme }) =>
             theme.type === "dark" ? "#ff6a3d" : "#e2411a",
           terminalTitlebarDotsOpacity: "0.85",
-          terminalBackground: ({ theme }) => (theme.type === "dark" ? "#12151c" : "#fbfbfc"),
+          terminalBackground: ({ theme }) => (theme.type === "dark" ? "#12151c" : "#f0f1f4"),
           inlineButtonForeground: ({ theme }) => (theme.type === "dark" ? "#ff6a3d" : "#e2411a"),
           inlineButtonBorder: ({ theme }) => (theme.type === "dark" ? "#ff6a3d" : "#e2411a"),
           inlineButtonBorderOpacity: "0.35",
@@ -83,6 +97,13 @@ export default defineConfig({
         },
       },
     }),
+    // embeds 须在 mdx 之前；裸链接段落在 MDX 中自动换成嵌入组件
+    ...embeds({
+      services: {
+        LinkPreview: false,
+      },
+    }),
+    mdx(),
     vue(),
     sitemap({
       i18n: {
